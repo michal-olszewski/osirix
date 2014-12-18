@@ -383,7 +383,7 @@
 		if (part2) *part2 = [self substringFromIndex:i+1];
 	} else {
 		if (part1) *part1 = self;
-		if (separator) *separator = nil;
+		if (separator) *separator = NULL;
 		if (part2) *part2 = nil;
 	}
 }
