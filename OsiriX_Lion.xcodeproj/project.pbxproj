@@ -107,6 +107,9 @@
 		4FCBBD80162C685A00C9CBE3 /* OSIPathExtrusionROI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCBBD7A162C685A00C9CBE3 /* OSIPathExtrusionROI.m */; };
 		4FCBBD81162C685A00C9CBE3 /* OSIROIMaskRunStack.h in Headers */ = {isa = PBXBuildFile; fileRef = 4FCBBD7B162C685A00C9CBE3 /* OSIROIMaskRunStack.h */; };
 		4FCBBD82162C685A00C9CBE3 /* OSIROIMaskRunStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FCBBD7C162C685A00C9CBE3 /* OSIROIMaskRunStack.m */; };
+		55A7947F1A62E59F0039D87A /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A7947E1A62E59F0039D87A /* DiskArbitration.framework */; };
+		55A794811A62E5A80039D87A /* InstantMessage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A794801A62E5A70039D87A /* InstantMessage.framework */; };
+		55A794831A62E5AE0039D87A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55A794821A62E5AE0039D87A /* AddressBook.framework */; };
 		5909DF94130C3D1900788195 /* NSException+N2.mm in Sources */ = {isa = PBXBuildFile; fileRef = 592D333612F2C71A00C7C002 /* NSException+N2.mm */; };
 		590A3DCD12A92920004581C2 /* WebPortalDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = 590A3DCB12A92920004581C2 /* WebPortalDatabase.h */; };
 		590A3DCE12A92920004581C2 /* WebPortalDatabase.mm in Sources */ = {isa = PBXBuildFile; fileRef = 590A3DCC12A92920004581C2 /* WebPortalDatabase.mm */; };
@@ -4170,7 +4173,6 @@
 		CE5EABCF0935E702006D85DD /* HotGreen.plist in Resources */ = {isa = PBXBuildFile; fileRef = CE5EABC40935E702006D85DD /* HotGreen.plist */; };
 		CE5EEFC9182D249B009D2045 /* ThumbnailsListPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = CE5EEFC7182D249B009D2045 /* ThumbnailsListPanel.m */; };
 		CE5EEFCB182D249B009D2045 /* ThumbnailsListPanel.h in Headers */ = {isa = PBXBuildFile; fileRef = CE5EEFC8182D249B009D2045 /* ThumbnailsListPanel.h */; };
-		CE65D9F115C4843300E9D94C /* DiskArbitration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE65D9F015C4843300E9D94C /* DiskArbitration.framework */; };
 		CE6692DA0AF545F90073D923 /* printView.h in Headers */ = {isa = PBXBuildFile; fileRef = CE6692D80AF545F90073D923 /* printView.h */; };
 		CE6692DB0AF545F90073D923 /* printView.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6692D90AF545F90073D923 /* printView.m */; };
 		CE6C77ED09739B3100F951C2 /* Rotate3DCursor.tif in Resources */ = {isa = PBXBuildFile; fileRef = CE6C77EB09739B3100F951C2 /* Rotate3DCursor.tif */; };
@@ -4262,8 +4264,6 @@
 		CEA4F07915AEA5FE009584C7 /* OSIPACSOnDemandPreferencePane.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA4F07415AEA5FE009584C7 /* OSIPACSOnDemandPreferencePane.h */; };
 		CEA4F07D15AEA606009584C7 /* OSIPACSOnDemand.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEA4F07B15AEA606009584C7 /* OSIPACSOnDemand.xib */; };
 		CEA6CC7318068CE900F5A748 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = CEA6CC7218068CE900F5A748 /* Growl Registration Ticket.growlRegDict */; };
-		CEA9237215CE3F7C00D3385F /* InstantMessage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9237115CE3F7C00D3385F /* InstantMessage.framework */; };
-		CEA9237515CE436E00D3385F /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA9237415CE436E00D3385F /* AddressBook.framework */; };
 		CEAA6F420E50C084008802D2 /* OsiriXSCPDataHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = BF9201E90883667800A3D77B /* OsiriXSCPDataHandler.mm */; };
 		CEAA6F430E50C085008802D2 /* OsiriXSCPDataHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = BF9201E80883667800A3D77B /* OsiriXSCPDataHandler.h */; };
 		CEAE02E00DE7E33B00E9BD01 /* DICOMDestination.tif in Resources */ = {isa = PBXBuildFile; fileRef = CEAE02DF0DE7E33B00E9BD01 /* DICOMDestination.tif */; };
@@ -4383,7 +4383,6 @@
 		CEEDA35706A061EB00DEAB22 /* ThickSlabVR.h in Headers */ = {isa = PBXBuildFile; fileRef = CEEDA35306A061EB00DEAB22 /* ThickSlabVR.h */; };
 		CEEDA35806A061EB00DEAB22 /* ThickSlabVR.mm in Sources */ = {isa = PBXBuildFile; fileRef = CEEDA35406A061EB00DEAB22 /* ThickSlabVR.mm */; };
 		CEF09317182D23B20020C70A /* ThumbnailsList.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEF09315182D23B20020C70A /* ThumbnailsList.xib */; };
-		CEF0E4BC06AEC91F001FF9E5 /* Message.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF0E4BB06AEC91F001FF9E5 /* Message.framework */; };
 		CEF0E60306AEF326001FF9E5 /* Mailer.h in Headers */ = {isa = PBXBuildFile; fileRef = CEF0E5FF06AEF326001FF9E5 /* Mailer.h */; };
 		CEF0E60406AEF326001FF9E5 /* Mailer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF0E60006AEF326001FF9E5 /* Mailer.m */; };
 		CEF0E6DC06AEF5CB001FF9E5 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEF0E6DA06AEF5CB001FF9E5 /* Carbon.framework */; };
@@ -4567,6 +4566,9 @@
 		4FCBBD7A162C685A00C9CBE3 /* OSIPathExtrusionROI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIPathExtrusionROI.m; sourceTree = "<group>"; };
 		4FCBBD7B162C685A00C9CBE3 /* OSIROIMaskRunStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIROIMaskRunStack.h; sourceTree = "<group>"; };
 		4FCBBD7C162C685A00C9CBE3 /* OSIROIMaskRunStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIROIMaskRunStack.m; sourceTree = "<group>"; };
+		55A7947E1A62E59F0039D87A /* DiskArbitration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiskArbitration.framework; path = System/Library/Frameworks/DiskArbitration.framework; sourceTree = SDKROOT; };
+		55A794801A62E5A70039D87A /* InstantMessage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = InstantMessage.framework; path = System/Library/Frameworks/InstantMessage.framework; sourceTree = SDKROOT; };
+		55A794821A62E5AE0039D87A /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		590A3DCB12A92920004581C2 /* WebPortalDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPortalDatabase.h; sourceTree = "<group>"; };
 		590A3DCC12A92920004581C2 /* WebPortalDatabase.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WebPortalDatabase.mm; sourceTree = "<group>"; };
 		590BB21E12A002FA009E9758 /* WebPortalStudy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebPortalStudy.h; sourceTree = "<group>"; };
@@ -7056,6 +7058,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55A794831A62E5AE0039D87A /* AddressBook.framework in Frameworks */,
+				55A794811A62E5A80039D87A /* InstantMessage.framework in Frameworks */,
+				55A7947F1A62E59F0039D87A /* DiskArbitration.framework in Frameworks */,
 				934C880F189B52EA00C07290 /* libCharLS.a in Frameworks */,
 				934C87A3189B523F00C07290 /* libvtkalglib-6.2.a in Frameworks */,
 				934C87A4189B523F00C07290 /* libvtkChartsCore-6.2.a in Frameworks */,
@@ -7253,7 +7258,6 @@
 				AB28B93405B79D5C00A9906C /* ApplicationServices.framework in Frameworks */,
 				AB28B93505B79D5D00A9906C /* IOKit.framework in Frameworks */,
 				AB28B93705B79D5E00A9906C /* Accelerate.framework in Frameworks */,
-				CEF0E4BC06AEC91F001FF9E5 /* Message.framework in Frameworks */,
 				CEF0E6DC06AEF5CB001FF9E5 /* Carbon.framework in Frameworks */,
 				7E3E38660715FFDC0049E72E /* PreferencePanes.framework in Frameworks */,
 				7E54303D07A05E7100500ABB /* DiscRecording.framework in Frameworks */,
@@ -7270,9 +7274,6 @@
 				8406956310B6800E00C37AD0 /* SystemConfiguration.framework in Frameworks */,
 				841524C5113D6BDB008250E6 /* QuartzCore.framework in Frameworks */,
 				CE2BE05E1524344D00AE6156 /* Growl.framework in Frameworks */,
-				CE65D9F115C4843300E9D94C /* DiskArbitration.framework in Frameworks */,
-				CEA9237215CE3F7C00D3385F /* InstantMessage.framework in Frameworks */,
-				CEA9237515CE436E00D3385F /* AddressBook.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7578,6 +7579,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				55A794821A62E5AE0039D87A /* AddressBook.framework */,
+				55A794801A62E5A70039D87A /* InstantMessage.framework */,
+				55A7947E1A62E59F0039D87A /* DiskArbitration.framework */,
 				934C8737189B523B00C07290 /* libvtkalglib-6.2.a */,
 				934C8738189B523B00C07290 /* libvtkChartsCore-6.2.a */,
 				934C8739189B523B00C07290 /* libvtkCommonColor-6.2.a */,
@@ -9162,7 +9166,6 @@
 				A9B23D1E15CFE917000E47C3 /* Opened Polygon.pdf */,
 				CEE619EE0912C73000C31D78 /* OrientationWidget.tif */,
 				A9FEC13F0907EBA600B218BE /* orthogonalReslice.tif */,
-				ABBB6495063587B200D9531F /* Osirix.icns */,
 				AB10FA670B96C95500D74684 /* OsirixDownload.icns */,
 				A97B73970CB380EF00E5348D /* osirixplugin.icns */,
 				CEAF4ECC089D6E9400DE46AF /* OsiriXTables.pdf */,
@@ -11777,7 +11780,7 @@
 			name = "Unit Tests";
 			productName = "Unit Tests";
 			productReference = A98795C216DB9FD100926023 /* Unit Tests.octest */;
-			productType = "com.apple.product-type.bundle";
+			productType = "com.apple.product-type.bundle.ocunit-test";
 		};
 		AB0F3A2B1046BD2B004129DD /* OsiriX API */ = {
 			isa = PBXNativeTarget;
@@ -16098,7 +16101,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-fvisibility=default";
 				OTHER_CODE_SIGN_FLAGS = "";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = Development;
 		};
@@ -16511,7 +16514,7 @@
 				OTHER_CFLAGS = "-fvisibility=default";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = "Deployment 32-bit";
 		};
@@ -16729,7 +16732,7 @@
 				OTHER_CFLAGS = "-fvisibility=default";
 				OTHER_CODE_SIGN_FLAGS = "";
 				PROVISIONING_PROFILE = "";
-				SDKROOT = macosx10.8;
+				SDKROOT = macosx;
 			};
 			name = "Deployment 64-bit";
 		};

@@ -57,8 +57,9 @@
 
 // KDU support
 #include <CoreServices/CoreServices.h>
-#include "kdu_OsiriXSupport.h"
+//#include "kdu_OsiriXSupport.h"
 extern short Use_kdu_IfAvailable;
+#include "OPJSupport.h"
 
 // use 16K blocks for temporary storage of compressed JPEG data
 #define IJGE12_BLOCKSIZE 16384
@@ -440,7 +441,7 @@ OFCondition DJCompressJP2K::encode(
 		bitsstored = bits;
 	}
 	
-	if( Use_kdu_IfAvailable && kdu_available())
+	if( Use_kdu_IfAvailable)
 	{
 //		printf( "JP2K KDU-DCMTK-Encode ");
 		
@@ -487,7 +488,9 @@ OFCondition DJCompressJP2K::encode(
                 processors = 8;
         }
 		
-		void *outBuffer = kdu_compressJPEG2K( (void*) image_buffer, samplesPerPixel, rows, columns, bitsstored, false, rate, &compressedLength, processors);
+		void *outBuffer = NULL;
+        
+        //compressJPEG2K( (void*) image_buffer, samplesPerPixel, rows, columns, bitsstored, false, rate, ////&compressedLength);
 		
 		if( outBuffer)
 		{

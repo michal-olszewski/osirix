@@ -2,6 +2,7 @@
 #include "djdijp2k.h"
 #include "djcparam.h"
 #include "ofconsol.h"
+#include "OPJSupport.h"
 
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -22,7 +23,6 @@
 
 // KDU support
 #include <CoreServices/CoreServices.h>
-#include "kdu_OsiriXSupport.h"
 extern short Use_kdu_IfAvailable;
 
 BEGIN_EXTERN_C
@@ -103,7 +103,6 @@ OFCondition DJDecompressJP2k::decode(
   Uint32 uncompressedFrameBufferSize,
   OFBool isSigned)
 {
-	if( Use_kdu_IfAvailable && kdu_available())
 	{
 		int processors = 0;
 		
@@ -120,8 +119,9 @@ OFCondition DJDecompressJP2k::decode(
 		
 		long decompressedBufferSize = 0;
 		int colorModel;
-		
-		kdu_decompressJPEG2KWithBuffer( uncompressedFrameBuffer, compressedFrameBuffer, compressedFrameBufferSize, &decompressedBufferSize, &colorModel, processors);
+
+		OPJSupport opj;
+		opj.decompressJPEG2KWithBuffer( uncompressedFrameBuffer, compressedFrameBuffer, compressedFrameBufferSize, &decompressedBufferSize, &colorModel);
 		
 		if( colorModel == 1)
 			decompressedColorModel = (EP_Interpretation) EPI_RGB;

@@ -356,13 +356,17 @@ public:
   /// copy assignment operator
   OFCondition& operator=(const OFCondition& arg)
   {
-    if (&arg != this && &arg && arg.theCondition)
+    if (&arg != this)
     {
-        if (theCondition->deletable())
-          delete OFconst_cast(OFConditionBase *, theCondition); // cast away const
-        
-        theCondition = arg.theCondition->clone();
-        assert(theCondition);
+      if (theCondition->deletable())
+      {
+        delete OFconst_cast(OFConditionBase *, theCondition); // cast away const
+      }
+    if( &arg && arg.theCondition)
+    {
+      theCondition = arg.theCondition->clone();
+      assert(theCondition);
+    }
     }
     return *this;
   }
