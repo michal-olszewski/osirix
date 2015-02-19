@@ -350,15 +350,15 @@ static SyncSeriesScope globalSyncSeriesScope;
 
 - (void)applyWLWWForString:(NSString *)menuString
 {
-	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 		id firstResponder = [[self window] firstResponder];
 		[self setWLWW:[[firstResponder curDCM] savedWL] :[[firstResponder curDCM] savedWW]];
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 		[self setWLWW:0 :0];
 	}
@@ -384,13 +384,13 @@ static SyncSeriesScope globalSyncSeriesScope;
 {
 	NSString	*menuString = [sender title];
 	
-	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 	}
 	else
@@ -1544,7 +1544,7 @@ return YES;
 		
 		[[self keyView] getWLWW:&cwl :&cww];
 		
-		if( [[viewer modality] isEqualToString: @"PT"] == YES)
+		if( [[viewer modality] isEqualToString: @"PT"])
 		{
 			float slope = [[viewer imageView] curDCM].appliedFactorPET2SUV * [[viewer imageView] curDCM].slope;
 			[exportDCM setSlope: slope];

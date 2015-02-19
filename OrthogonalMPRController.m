@@ -473,7 +473,7 @@
 
 -(void) ApplyCLUTString:(NSString*) str
 {
-	if( [str isEqualToString:NSLocalizedString(@"No CLUT", nil)] == YES)
+	if( [str isEqualToString:NSLocalizedString(@"No CLUT", nil)])
 	{
 		[originalView setCLUT: nil :nil :nil];
 		[xReslicedView setCLUT: nil :nil :nil];

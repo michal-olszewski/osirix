@@ -1325,14 +1325,9 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 @synthesize full32bitPipeline;
 @synthesize frameNo, notAbleToLoadImage, shutterPolygonal, SOPClassUID, frameofReferenceUID;
 @synthesize minValueOfSeries, maxValueOfSeries, factorPET2SUV, slope, offset;
-@synthesize isRGB, pwidth = width, pheight = height, checking;
-@synthesize pixelRatio, transferFunction, subPixOffset, isOriginDefined;
+@synthesize isRGB, pwidth = width, pheight = height, checking, shutterRect;
+@synthesize pixelRatio, transferFunction, subPixOffset, isOriginDefined, shutterEnabled;
 @synthesize imageType, waveform, VOILUTApplied, VOILUT_table, dcmtkDcmFileFormat;
-
-@synthesize DCMPixShutterRectWidth = shutterRect_w;
-@synthesize DCMPixShutterRectHeight = shutterRect_h;
-@synthesize DCMPixShutterRectOriginX = shutterRect_x;
-@synthesize DCMPixShutterRectOriginY = shutterRect_y;
 
 @synthesize repetitiontime, echotime;
 
@@ -3760,11 +3755,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 	copy->halflife = self->halflife;
 	copy->philipsFactor = self->philipsFactor;
 
-    copy->shutterRect_w = self->shutterRect_w;
-    copy->shutterRect_h = self->shutterRect_h;
-    copy->shutterRect_x = self->shutterRect_x;
-    copy->shutterRect_y = self->shutterRect_y;
-    copy->DCMPixShutterOnOff = self->DCMPixShutterOnOff;
+	copy->shutterRect = self->shutterRect;
+	copy->shutterEnabled = self->shutterEnabled;
 	
 	copy->generated = YES;
 	
@@ -5439,30 +5431,30 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             {
                 if ( [shutter isEqualToString:@"RECTANGULAR"])
                 {
-                    DCMPixShutterOnOff = YES;
+                    shutterEnabled = YES;
                     
-                    shutterRect_x = [[dcmObject attributeValueWithName:@"ShutterLeftVerticalEdge"] floatValue];
-                    shutterRect_w = [[dcmObject attributeValueWithName:@"ShutterRightVerticalEdge"] floatValue]  - shutterRect_x;
-                    shutterRect_y = [[dcmObject attributeValueWithName:@"ShutterUpperHorizontalEdge"] floatValue];
-                    shutterRect_h = [[dcmObject attributeValueWithName:@"ShutterLowerHorizontalEdge"] floatValue]  - shutterRect_y;
+                    shutterRect.origin.x = [[dcmObject attributeValueWithName:@"ShutterLeftVerticalEdge"] floatValue];
+                    shutterRect.size.width = [[dcmObject attributeValueWithName:@"ShutterRightVerticalEdge"] floatValue] - shutterRect.origin.x;
+                    shutterRect.origin.y = [[dcmObject attributeValueWithName:@"ShutterUpperHorizontalEdge"] floatValue];
+                    shutterRect.size.height = [[dcmObject attributeValueWithName:@"ShutterLowerHorizontalEdge"] floatValue] - shutterRect.origin.y;
                 }
                 else if( [shutter isEqualToString:@"CIRCULAR"])
                 {
-                    DCMPixShutterOnOff = YES;
+                    shutterEnabled = YES;
                     
                     NSArray *centerArray = [dcmObject attributeArrayWithName:@"CenterofCircularShutter"];
                     
                     if( centerArray.count == 2)
                     {
-                        shutterCircular_x = [[centerArray objectAtIndex:0] intValue];
-                        shutterCircular_y = [[centerArray objectAtIndex:1] intValue];
+                        shutterCircular.x = [[centerArray objectAtIndex:0] intValue];
+                        shutterCircular.y = [[centerArray objectAtIndex:1] intValue];
                     }
                     
                     shutterCircular_radius = [[dcmObject attributeValueWithName:@"RadiusofCircularShutter"] floatValue];
                 }
                 else if( [shutter isEqualToString:@"POLYGONAL"])
                 {
-                    DCMPixShutterOnOff = YES;
+                    shutterEnabled = YES;
                     
                     NSArray *locArray = [dcmObject attributeArrayWithName:@"VerticesofthePolygonalShutter"];
                     
@@ -5600,8 +5592,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     [iContext save: nil];
 #endif
     
-    if( shutterRect_w == 0) shutterRect_w = width;
-    if( shutterRect_h == 0) shutterRect_h = height;
+    if( shutterRect.size.width == 0) shutterRect.size.width = width;
+    if( shutterRect.size.height == 0) shutterRect.size.height = height;
     
     //window level & width
     if ([dcmObject attributeValueWithName:@"WindowCenter"] && isRGB == NO) savedWL = (int)[[dcmObject attributeValueWithName:@"WindowCenter"] floatValue];
@@ -6398,7 +6390,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
             NSString *colorspace = [dcmObject attributeValueWithName:@"PhotometricInterpretation"];
             if ([colorspace rangeOfString:@"MONOCHROME1"].location != NSNotFound)
             {
-                if( [[dcmObject attributeValueWithName:@"Modality"] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpacityTableNM"] == YES && [[dcmObject attributeValueWithName:@"Modality"] isEqualToString:@"NM"] == YES))
+                if( [[dcmObject attributeValueWithName:@"Modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpacityTableNM"] == YES && [[dcmObject attributeValueWithName:@"Modality"] isEqualToString:@"NM"]))
                 {
                     
                 }
@@ -7122,8 +7114,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 		
 		if( success == NO)	// Is it a NON-DICOM IMAGE ??
 		{
-            long		i;
-			
 			NSImage		*otherImage = nil;
 			NSString	*extension = [[srcFile pathExtension] lowercaseString];
             
@@ -7150,7 +7140,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 			else
 #endif
 				
-				if( [extension isEqualToString:@"zip"] == YES)  // ZIP
+				if( [extension isEqualToString:@"zip"])
 				{
 					// the ZIP icon
 					NSImage *icon = [[NSWorkspace sharedWorkspace] iconForFile:srcFile];
@@ -7200,11 +7190,11 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 					isRGB = YES;
 					[TIFFRep release];
 				}
-				else if( [extension isEqualToString:@"lsm"] == YES)  // LSM
+				else if( [extension isEqualToString:@"lsm"])
 				{
 					[self LoadLSM];
 				}
-				else if( [extension isEqualToString:@"pic"] == YES)
+				else if( [extension isEqualToString:@"pic"])
 				{
 					[self LoadBioradPic];
 				}
@@ -7213,9 +7203,9 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 					[self LoadFVTiff];
 				}
 				#ifndef DECOMPRESS_APP
-				else if( (( [extension isEqualToString:@"hdr"] == YES) && 
+				else if( (( [extension isEqualToString:@"hdr"]) &&
 						  ([[NSFileManager defaultManager] fileExistsAtPath:[[srcFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)) ||
-						( [extension isEqualToString:@"nii"] == YES))
+						( [extension isEqualToString:@"nii"]))
 				{
 					// NIfTI support developed by Zack Mahdavi at the Center for Neurological Imaging, a division of Harvard Medical School
 					// For more information: http://cni.bwh.harvard.edu/
@@ -7336,7 +7326,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 								
 								if( fImage)
 								{
-									for( i = 0; i < height;i++)
+									for(long i = 0; i < height;i++)
 										memcpy( fImage + i * width, [fileData bytes]+ frameNo * (height * width)*sizeof(float) + i*width*sizeof(float), width * sizeof(float));
 								}
 								else N2LogStackTrace( @"*** Not enough memory - malloc failed");
@@ -7640,7 +7630,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 							
 						}
 					}
-					else if( [extension isEqualToString:@"hdr"] == YES) // 'old' ANALYZE
+					else if( [extension isEqualToString:@"hdr"]) // 'old' ANALYZE
 					{
 						if ([[NSFileManager defaultManager] fileExistsAtPath:[[srcFile stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)
 						{
@@ -7756,7 +7746,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 										
 										if( fImage)
 										{
-											for( i = 0; i < height;i++)
+											for(long i = 0; i < height;i++)
 											{
 												memcpy( fImage + i * width, [fileData bytes]+ frameNo * (height * width)*sizeof(float) + i*width*sizeof(float), width*sizeof(float));
 											}
@@ -7816,20 +7806,20 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 					NIfTI = nil;
 				}
 				#endif
-				else if( [extension isEqualToString:@"jpg"] == YES ||
-                        [extension isEqualToString:@"jp2"] == YES ||
-						[extension isEqualToString:@"jpeg"] == YES ||
-						[extension isEqualToString:@"pdf"] == YES ||
-						[extension isEqualToString:@"pct"] == YES ||
-						[extension isEqualToString:@"png"] == YES ||
-						[extension isEqualToString:@"gif"] == YES)
+				else if( [extension isEqualToString:@"jpg"] ||
+                        [extension isEqualToString:@"jp2"] ||
+						[extension isEqualToString:@"jpeg"] ||
+						[extension isEqualToString:@"pdf"] ||
+						[extension isEqualToString:@"pct"] ||
+						[extension isEqualToString:@"png"] ||
+						[extension isEqualToString:@"gif"])
 				{
 					otherImage = [[NSImage alloc] initWithContentsOfFile: srcFile];
 				}
 			
-				else if( [extension isEqualToString:@"tiff"] == YES ||
-							[extension isEqualToString:@"stk"] == YES ||
-							[extension isEqualToString:@"tif"] == YES)
+				else if( [extension isEqualToString:@"tiff"] ||
+							[extension isEqualToString:@"stk"] ||
+							[extension isEqualToString:@"tif"])
 				{
 #ifndef STATIC_DICOM_LIB
                     
@@ -7891,10 +7881,10 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 			}
 			else	// It's a Movie ??
 			{
-				if( [extension isEqualToString:@"mov"] == YES ||
-				   [extension isEqualToString:@"mpg"] == YES ||
-				   [extension isEqualToString:@"mpeg"] == YES ||
-				   [extension isEqualToString:@"avi"] == YES)
+				if( [extension isEqualToString:@"mov"] ||
+				   [extension isEqualToString:@"mpg"] ||
+				   [extension isEqualToString:@"mpeg"] ||
+				   [extension isEqualToString:@"avi"])
 				{
                     NSError *error = nil;
                     AVAsset *asset = [AVAsset assetWithURL: [NSURL fileURLWithPath: srcFile]];
@@ -8361,19 +8351,22 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 		src.rowBytes = [self pwidth]*4;
 		src.data = [self computefImage];
         
-        if([self DCMPixShutterOnOff] &&
-           [self DCMPixShutterRectWidth] > 0 &&
-           [self DCMPixShutterRectHeight] > 0)
+        if(self.shutterEnabled &&
+           shutterRect.size.width > 0 &&
+           shutterRect.size.height > 0)
 		{
-            if( [self DCMPixShutterRectOriginY] < 0) self.DCMPixShutterRectOriginY = 0;
-            if( [self DCMPixShutterRectOriginX] < 0) self.DCMPixShutterRectOriginX = 0;
-            
-            if( [self DCMPixShutterRectWidth] + [self DCMPixShutterRectOriginX] > [self pwidth])
-                self.DCMPixShutterRectWidth = [self pwidth] - [self DCMPixShutterRectOriginX];
-            
-            if( [self DCMPixShutterRectHeight] + [self DCMPixShutterRectOriginY] > [self pheight])
-                self.DCMPixShutterRectHeight = [self pheight] - [self DCMPixShutterRectOriginY];
+            shutterRect.origin.y = roundf( shutterRect.origin.y);
+            shutterRect.origin.x = roundf( shutterRect.origin.x);
+            shutterRect.size.width = roundf( shutterRect.size.width);
+            shutterRect.size.height = roundf( shutterRect.size.height);
+
+		if( shutterRect.origin.x < 0) { shutterRect.size.width += shutterRect.origin.x; shutterRect.origin.x = 0;}
+		if( shutterRect.origin.y < 0) { shutterRect.size.height += shutterRect.origin.y; shutterRect.origin.y = 0;}
 			
+		if( shutterRect.origin.x + shutterRect.size.width > [self pwidth]) shutterRect.size.width = [self pwidth] - shutterRect.origin.x;
+
+		if( shutterRect.origin.y + shutterRect.size.height > [self pheight]) shutterRect.size.height = [self pheight] - shutterRect.origin.y;
+
 			float *tempMem = malloc( [self pwidth] * [self pheight] * sizeof(float));
 			
 			if( tempMem)
@@ -8386,15 +8379,14 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 					*s++ = m;
 				
 				s = src.data;
-                s += (([self DCMPixShutterRectOriginY] * [self pwidth]) + [self DCMPixShutterRectOriginX]);
-                float *d = tempMem + (([self DCMPixShutterRectOriginY] * [self pwidth]) + [self DCMPixShutterRectOriginX]);
-                
-                i = self.DCMPixShutterRectHeight;
-
+				s += (long) ((shutterRect.origin.y * [self pwidth]) + shutterRect.origin.x);
+				float *d = tempMem + (long) ((shutterRect.origin.y * [self pwidth]) + shutterRect.origin.x);
+				
+				i = shutterRect.size.height;
 				while( i-- > 0)
 				{
-                    memcpy( d, s, self.DCMPixShutterRectWidth*4);
-                    
+					memcpy( d, s, shutterRect.size.width*4);
+					
 					d += [self pwidth];
 					s += [self pwidth];
 				}
@@ -8598,9 +8590,10 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 	
 	[c orientationDouble: o];
 	
-    for( int i = 0 ; i < 9; i ++)
-        if( o[ i] != orientation[ i])
-            return NO;
+	for( int i = 0 ; i < 9; i ++)
+    {
+        if( fabs( o[ i] - orientation[ i]) > ORIENTATION_SENSIBILITY) return NO;
+    }
 	
 	return YES;
 }
@@ -9328,12 +9321,10 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 }
 -(NSNumber*) positionerSecondaryAngle{return positionerSecondaryAngle;}
 
--(void) DCMPixShutterRect:(long)x :(long)y :(long)w :(long)h;
+//-(void) DCMPixShutterRect:(long)x :(long)y :(long)w :(long)h;
+-(void) setShutterRect:(NSRect) s
 {
-    shutterRect_x = x;
-    shutterRect_y = y;
-    shutterRect_w = w;
-    shutterRect_h = h;
+    shutterRect  = s;
     
     if( shutterPolygonal)
     {
@@ -9342,11 +9333,10 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     }
 }
 
--(BOOL) DCMPixShutterOnOff  {return DCMPixShutterOnOff;}
--(void) DCMPixShutterOnOff:(BOOL)newDCMPixShutterOnOff
+-(void) setShutterEnabled:(BOOL) v
 {
-    DCMPixShutterOnOff = newDCMPixShutterOnOff;
-    updateToBeApplied = YES;
+	shutterEnabled = v;
+	updateToBeApplied = YES;
 }
 
 - (void) setBlackIndex:(int) i
@@ -9356,13 +9346,18 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 
 -(void) applyShutter
 {
-    if (DCMPixShutterOnOff == NSOnState)
+	if (shutterEnabled == NSOnState)
 	{
-        if( shutterRect_y < 0) shutterRect_y = 0;
-        if( shutterRect_x < 0) shutterRect_x = 0;
-        
-        if( shutterRect_w + shutterRect_x > width) shutterRect_w = width - shutterRect_x;
-        if( shutterRect_h + shutterRect_y > height) shutterRect_h = height - shutterRect_y;
+        if( shutterRect.origin.x < 0) { shutterRect.size.width += shutterRect.origin.x; shutterRect.origin.x = 0;}
+        if( shutterRect.origin.y < 0) { shutterRect.size.height += shutterRect.origin.y; shutterRect.origin.y = 0;}
+		
+		if( shutterRect.size.width + shutterRect.origin.x > width) shutterRect.size.width = width - shutterRect.origin.x;
+		if( shutterRect.size.height + shutterRect.origin.y > height) shutterRect.size.height = height - shutterRect.origin.y;
+		
+        shutterRect.origin.y = roundf( shutterRect.origin.y);
+        shutterRect.origin.x = roundf( shutterRect.origin.x);
+        shutterRect.size.width = roundf( shutterRect.size.width);
+        shutterRect.size.height = roundf( shutterRect.size.height);
         
 		if( isRGB == YES || thickSlabVRActivated == YES)
 		{
@@ -9370,14 +9365,14 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 			
 			if( tempMem)
 			{
-                int i = shutterRect_h;
-
-                char*	src = baseAddr + ((shutterRect_y * width*4) + shutterRect_x*4);
-                char*	dst = tempMem + ((shutterRect_y * width*4) + shutterRect_x*4);
+				int i = shutterRect.size.height;
+				
+				char*	src = baseAddr + (long) ((shutterRect.origin.y * width*4) + shutterRect.origin.x*4);
+				char*	dst = tempMem + (long) ((shutterRect.origin.y * width*4) + shutterRect.origin.x*4);
 				
 				while( i-- > 0)
 				{
-                    memcpy( dst, src, shutterRect_w*4);
+					memcpy( dst, src, shutterRect.size.width*4);
 					
 					dst += width*4;
 					src += width*4;
@@ -9396,14 +9391,14 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 			{
 				memset( tempMem, blackIndex, height * width * sizeof(char));
 			
-                int i = shutterRect_h;
-                
-                char*	src = baseAddr + ((shutterRect_y * width) + shutterRect_x);
-                char*	dst = tempMem + ((shutterRect_y * width) + shutterRect_x);
+				int i = shutterRect.size.height;
+				
+				char*	src = baseAddr + (long) ((shutterRect.origin.y * width) + shutterRect.origin.x);
+				char*	dst = tempMem + (long) ((shutterRect.origin.y * width) + shutterRect.origin.x);
 				
 				while( i-- > 0)
 				{
-                    memcpy( dst, src, shutterRect_w);
+					memcpy( dst, src, shutterRect.size.width);
 					
 					dst += width;
 					src += width;
@@ -9411,7 +9406,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 				
 				if( shutterCircular_radius)
 				{
-                    erase_outside_circle( tempMem, width, height, shutterCircular_x, shutterCircular_y, shutterCircular_radius, blackIndex);
+					erase_outside_circle( tempMem, width, height, shutterCircular.x, shutterCircular.y, shutterCircular_radius, blackIndex);
 				}
 				
 				if( shutterPolygonal)

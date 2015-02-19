@@ -608,9 +608,9 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	#ifndef OSIRIX_LIGHT
 	NSString *extension = [[file pathExtension] lowercaseString];
 	
-	if( [extension isEqualToString:@"tiff"] == YES ||
-		[extension isEqualToString:@"stk"] == YES ||
-		[extension isEqualToString:@"tif"] == YES)
+	if( [extension isEqualToString:@"tiff"] ||
+		[extension isEqualToString:@"stk"] ||
+		[extension isEqualToString:@"tif"])
 	{
 		TIFF* tif = TIFFOpen([file UTF8String], "r");
 		if(tif)
@@ -633,8 +633,8 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	#ifndef OSIRIX_LIGHT
 	NSString *extension = [[file pathExtension] lowercaseString];
 	
-	if( [extension isEqualToString:@"tiff"] == YES ||
-		[extension isEqualToString:@"tif"] == YES)
+	if( [extension isEqualToString:@"tiff"] ||
+		[extension isEqualToString:@"tif"])
 	{
 		short head_size = 0;
 		char* head_data = 0;
@@ -661,8 +661,8 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	NSString	*extension = [[file pathExtension] lowercaseString];
 	struct nifti_1_header  *NIfTI;
 	
-	if( [extension isEqualToString:@"hdr"] == YES ||
-		[extension isEqualToString:@"nii"] == YES)
+	if( [extension isEqualToString:@"hdr"] ||
+		[extension isEqualToString:@"nii"])
 	{
 		NIfTI = (nifti_1_header *) nifti_read_header([file UTF8String], nil, 0);
 		
@@ -724,8 +724,8 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	#ifndef OSIRIX_LIGHT
 	NSString *extension = [[filePath pathExtension] lowercaseString];
 	
-	if( [extension isEqualToString:@"tiff"] == YES ||
-		[extension isEqualToString:@"tif"] == YES)
+	if( [extension isEqualToString:@"tiff"] ||
+		[extension isEqualToString:@"tif"])
 	{
 		TIFF* tif = TIFFOpen( [filePath UTF8String], "r");
 		
@@ -907,16 +907,16 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	NoOfFrames = 1;
 	
 	
-	if( [extension isEqualToString:@"tiff"] == YES ||
-		[extension isEqualToString:@"tif"] == YES ||
-		[extension isEqualToString:@"stk"] == YES ||
-		[extension isEqualToString:@"png"] == YES ||
-		[extension isEqualToString:@"jpg"] == YES ||
-		[extension isEqualToString:@"jpeg"] == YES ||
-        [extension isEqualToString:@"jp2"] == YES ||
-		[extension isEqualToString:@"pdf"] == YES ||
-		[extension isEqualToString:@"pct"] == YES ||
-		[extension isEqualToString:@"gif"] == YES)
+	if( [extension isEqualToString:@"tiff"] ||
+		[extension isEqualToString:@"tif"] ||
+		[extension isEqualToString:@"stk"] ||
+		[extension isEqualToString:@"png"] ||
+		[extension isEqualToString:@"jpg"] ||
+		[extension isEqualToString:@"jpeg"] ||
+        [extension isEqualToString:@"jp2"] ||
+		[extension isEqualToString:@"pdf"] ||
+		[extension isEqualToString:@"pct"] ||
+		[extension isEqualToString:@"gif"])
 		{
 			NSImage		*otherImage = [[NSImage alloc] initWithContentsOfFile:filePath];
 			if( otherImage || [extension isEqualToString:@"tiff"] || [extension isEqualToString:@"tif"])
@@ -927,9 +927,9 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 				
 				#ifndef STATIC_DICOM_LIB
 				#ifndef OSIRIX_LIGHT
-				if( [extension isEqualToString:@"tiff"] == YES ||
-					[extension isEqualToString:@"stk"] == YES ||
-					[extension isEqualToString:@"tif"] == YES)
+				if( [extension isEqualToString:@"tiff"] ||
+					[extension isEqualToString:@"stk"] ||
+					[extension isEqualToString:@"tif"])
 				{
 					TIFF* tif = TIFFOpen([filePath UTF8String], "r");
 					if( tif)
@@ -1078,10 +1078,10 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 			}
 	}
 	
-	if( [extension isEqualToString:@"mov"] == YES ||
-		[extension isEqualToString:@"mpg"] == YES ||
-		[extension isEqualToString:@"mpeg"] == YES ||
-		[extension isEqualToString:@"avi"] == YES)
+	if( [extension isEqualToString:@"mov"] ||
+		[extension isEqualToString:@"mpg"] ||
+		[extension isEqualToString:@"mpeg"] ||
+		[extension isEqualToString:@"avi"])
     {
         name = [[NSString alloc] initWithString:[filePath lastPathComponent]];
         patientID = [[NSString alloc] initWithString:name];
@@ -1269,7 +1269,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	
 	NSString	*extension = [[filePath pathExtension] lowercaseString];
 	
-	if( [extension isEqualToString:@"pic"] == YES)
+	if( [extension isEqualToString:@"pic"])
 	{
 		NSLog(@"Entering getBioradPicFile");
 		
@@ -1347,7 +1347,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	
 	NSString	*extension = [[filePath pathExtension] lowercaseString];
 	
-	if( [extension isEqualToString:@"lsm"] == YES)
+	if( [extension isEqualToString:@"lsm"])
 	{
 		file = [NSData dataWithContentsOfFile: filePath];
 		if( [file length] > 1)
@@ -1676,7 +1676,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	NSData		*file;
 	NSString	*extension = [[filePath pathExtension] lowercaseString];
 
-	if( [extension isEqualToString:@"hdr"] == YES)
+	if( [extension isEqualToString:@"hdr"])
 	{
 		if ([[NSFileManager defaultManager] fileExistsAtPath:[[filePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)
 		{
@@ -1751,9 +1751,9 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 	
 	NSString	*extension = [[filePath pathExtension] lowercaseString];
 
-	if( (( [extension isEqualToString:@"hdr"] == YES) && 
+	if( (( [extension isEqualToString:@"hdr"]) &&
 		([[NSFileManager defaultManager] fileExistsAtPath:[[filePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"img"]] == YES)) ||
-		( [extension isEqualToString:@"nii"] == YES))
+		( [extension isEqualToString:@"nii"]))
 	{
 		NIfTI = (nifti_1_header *) nifti_read_header([filePath UTF8String], nil, 0);
 		

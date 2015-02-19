@@ -788,7 +788,7 @@ static NSString* const O2NotEnoughData = @"O2NotEnoughData";
             if( [[item valueForKeyPath: key] isKindOfClass: [NSNumber class]]) [item setValue: [NSNumber numberWithInt: [value intValue]] forKeyPath: key];
             else
             {
-                if( [key isEqualToString: @"reportURL"] == YES)
+                if( [key isEqualToString: @"reportURL"])
                 {
                     if( value == nil)
                     {

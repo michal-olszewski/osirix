@@ -6662,7 +6662,9 @@ static ViewerController *draggedController = nil;
 		NSDictionary	*info = [bundle infoDictionary];
 		NSString		*pluginType = [info objectForKey: @"pluginType"];
         
-		if( [pluginType isEqualToString: @"imageFilter"] == YES || [pluginType isEqualToString: @"roiTool"] == YES || [pluginType isEqualToString: @"other"] == YES)
+		if( [pluginType isEqualToString: @"imageFilter"] ||
+            [pluginType isEqualToString: @"roiTool"] ||
+            [pluginType isEqualToString: @"other"])
 		{
 			id allowToolbarIcon = [info objectForKey: @"allowToolbarIcon"];
             
@@ -6915,8 +6917,9 @@ return YES;
 //	[imageView display];
 //	return;
 //	}
-	
-	if ([[sender title] isEqualToString:@"Shutter"] == YES) [shutterOnOff setState: (![shutterOnOff state])]; //from menu
+    
+	if ([[sender title] isEqualToString:@"Shutter"])
+        [shutterOnOff setState: (![shutterOnOff state])]; //from menu
 	
 	DCMPix *curPix = [[imageView dcmPixList] objectAtIndex:[imageView curImage]];
 	
@@ -6948,10 +6951,30 @@ return YES;
                 if (shutterRect.origin.y < 0) { shutterRect.size.height += shutterRect.origin.y; shutterRect.origin.x = 0;}
                 if (shutterRect.origin.x + shutterRect.size.width > p.pwidth) shutterRect.size.width = p.pwidth - shutterRect.origin.x;
                 if (shutterRect.origin.y + shutterRect.size.height > p.pheight) shutterRect.size.height = p.pheight - shutterRect.origin.y;
+                
+				p.shutterRect = shutterRect;
+				p.shutterEnabled = NSOnState;
+			}
+		}
+		else
+		{
+			//using stored shutterRect?
+			if( (curPix.shutterRect.size.width == 0 || (curPix.shutterRect.size.width == [curPix pwidth] && curPix.shutterRect.size.height == [curPix pheight])) && curPix.shutterPolygonal == nil)
+			{
+				[shutterOnOff setState:NSOffState];
+				
+				NSRunCriticalAlertPanel(NSLocalizedString(@"Shutter", nil), NSLocalizedString(@"Please first define a rectangle with a rectangular ROI.", nil), NSLocalizedString(@"OK", nil), nil, nil);
+			}
+			else //reuse preconfigured shutterRect
+			{
+				for( DCMPix *p in [imageView dcmPixList]) p.shutterEnabled = NSOnState;
 			}
 		}
 	}
-
+	else
+	{
+		for( DCMPix *p in [imageView dcmPixList]) p.shutterEnabled = NSOffState;
+	}
 	[imageView setIndex: [imageView curImage]]; //refresh viewer only
 }
 
@@ -8228,7 +8251,7 @@ static int avoidReentryRefreshDatabase = 0;
 					
 					if( [[pixList[0] objectAtIndex: 0] isRGB] == NO)
 					{
-						if( [[self modality] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"] == YES))
+						if( [[self modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"]))
 						{
 							if( [[[NSUserDefaults standardUserDefaults] stringForKey:@"PET Clut Mode"] isEqualToString: @"B/W Inverse"])
 								[self ApplyCLUTString: @"B/W Inverse"];
@@ -8237,7 +8260,7 @@ static int avoidReentryRefreshDatabase = 0;
 						}
 						else [self ApplyCLUTString:NSLocalizedString(@"No CLUT", nil)];
 						
-						if( [[self modality] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpacityTableNM"] == YES && [[self modality] isEqualToString:@"NM"] == YES))
+						if( [[self modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpacityTableNM"] == YES && [[self modality] isEqualToString:@"NM"]))
 						{
 							if( [[NSUserDefaults standardUserDefaults] boolForKey:@"PETOpacityTable"])
 								[self ApplyOpacityString: [[NSUserDefaults standardUserDefaults] stringForKey:@"PET Default Opacity Table"]];
@@ -8873,7 +8896,7 @@ static int avoidReentryRefreshDatabase = 0;
     #pragma mark XA
     enableSubtraction = FALSE;
     subCtrlMinMaxComputed = NO;
-    if([[firstPix modalityString] isEqualToString:@"XA"] == YES)
+    if([[firstPix modalityString] isEqualToString:@"XA"])
     {
         if([[pixListArray objectAtIndex: 0] count] > 1)
         {
@@ -8897,10 +8920,10 @@ static int avoidReentryRefreshDatabase = 0;
     
     BOOL isPET = NO;
     
-    if( [[firstPix modalityString] isEqualToString: @"PT"] == YES)
+    if( [[firstPix modalityString] isEqualToString: @"PT"])
         isPET = YES;
     
-    if( isPET || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[firstPix modalityString] isEqualToString:@"NM"] == YES))
+    if( isPET || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[firstPix modalityString] isEqualToString:@"NM"]))
     {
         if( [[NSUserDefaults standardUserDefaults] integerForKey:@"DEFAULTPETWLWW"] != 0)
             [imageView updatePresentationStateFromSeries];
@@ -8915,6 +8938,9 @@ static int avoidReentryRefreshDatabase = 0;
         }
     }
     
+    if( firstPix.shutterEnabled)
+        [self setShutterOnOffButton: [NSNumber numberWithBool: YES]];
+	
     [self setWindowTitle:self];
     
     originalOrientation = -1;
@@ -10895,14 +10921,14 @@ static int avoidReentryRefreshDatabase = 0;
 {
 	NSString *name = [sender title];
 	
-	if( [[sender title] isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [[sender title] isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 	}
-	else if( [[sender title] isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [[sender title] isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 		[imageView setWLWW:[[imageView curDCM] savedWL] :[[imageView curDCM] savedWW]];
 	}
-	else if( [[sender title] isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [[sender title] isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 		[imageView setWLWW:0 :0];
 	}
@@ -11282,14 +11308,15 @@ static float oldsetww, oldsetwl;
 				{
 					[theCell setEnabled:NO];
 					[theCell setStringValue:@""];
-					[theCell setAlignment:NSCenterTextAlignment];
 				}
 				else
 				{
 					[theCell setEnabled:YES];
-					if( [[theCell stringValue] isEqualToString:@""] == YES) [theCell setStringValue:@"0"];
-					[theCell setAlignment:NSCenterTextAlignment];
+					if( [[theCell stringValue] isEqualToString:@""])
+                        [theCell setStringValue:@"0"];
 				}
+                
+                [theCell setAlignment:NSCenterTextAlignment];
 			}
 		}
 		break;
@@ -11302,7 +11329,9 @@ static float oldsetww, oldsetwl;
 				theCell = [convMatrix cellAtRow:y column:x];
 				
 				[theCell setEnabled:YES];
-				if( [[theCell stringValue] isEqualToString:@""] == YES) [theCell setStringValue:@"0"];
+				if( [[theCell stringValue] isEqualToString:@""])
+                    [theCell setStringValue:@"0"];
+                
 				[theCell setAlignment:NSCenterTextAlignment];
 			}
 		}
@@ -11353,7 +11382,7 @@ static float oldsetww, oldsetwl;
 
 -(void) ApplyConvString:(NSString*) str
 {
-	if( [str isEqualToString:NSLocalizedString(@"No Filter", nil)] == YES)
+	if( [str isEqualToString:NSLocalizedString(@"No Filter", nil)])
 	{
 		[self setConv:nil :0: 0];
 		[imageView setIndex:[imageView curImage]];
@@ -11444,7 +11473,9 @@ static float oldsetww, oldsetwl;
 						else
 						{
 							[theCell setEnabled:YES];
-							if( [[theCell stringValue] isEqualToString:@""] == YES) [theCell setStringValue:@"0"];
+							if( [[theCell stringValue] isEqualToString:@""])
+                                [theCell setStringValue:@"0"];
+                            
 							[theCell setAlignment:NSCenterTextAlignment];
 							[[convMatrix cellAtRow:x column:y] setFloatValue: [[array objectAtIndex:inc++] floatValue]];
 						}
@@ -11461,7 +11492,9 @@ static float oldsetww, oldsetwl;
 						NSCell *theCell = [convMatrix cellAtRow:y column:x];
 						
 						[theCell setEnabled:YES];
-						if( [[theCell stringValue] isEqualToString:@""] == YES) [theCell setStringValue:@"0"];
+						if( [[theCell stringValue] isEqualToString:@""])
+                            [theCell setStringValue:@"0"];
+                        
 						[theCell setAlignment:NSCenterTextAlignment];
 						[[convMatrix cellAtRow:x column:y] setFloatValue: [[array objectAtIndex:inc++] floatValue]];
 					}
@@ -11592,7 +11625,9 @@ float				matrix[25];
 			NSCell *theCell = [convMatrix cellAtRow:y column:x];
 			
 			[theCell setEnabled:YES];
-			if( [[theCell stringValue] isEqualToString:@""] == YES) [theCell setStringValue:@"0"];
+			if( [[theCell stringValue] isEqualToString:@""])
+                [theCell setStringValue:@"0"];
+            
 			[theCell setAlignment:NSCenterTextAlignment];
 		}
 	}
@@ -11639,7 +11674,7 @@ float				matrix[25];
 	}
 	else
 	{
-		if( [str isEqualToString:NSLocalizedString(@"No CLUT", nil)] == YES)
+		if( [str isEqualToString:NSLocalizedString(@"No CLUT", nil)])
 		{
 			for( int x = 0; x < maxMovieIndex; x++)
 			{
@@ -12391,7 +12426,7 @@ float				matrix[25];
                 
                 if( [[blendingController curCLUTMenu] isEqualToString:NSLocalizedString(@"No CLUT", nil)] && [[[blendingController pixList] objectAtIndex: 0] isRGB] == NO)
                 {
-                    if( [[self modality] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"] == YES))
+                    if( [[self modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"]))
                     {
                         if( [[[NSUserDefaults standardUserDefaults] stringForKey:@"PET Clut Mode"] isEqualToString: @"B/W Inverse"])
                             [self ApplyCLUTString: @"B/W Inverse"];
@@ -16225,7 +16260,7 @@ int i,j,l;
 	
 	for( id loopItem in items)
 	{
-		if( [[loopItem itemIdentifier] isEqualToString:SyncSeriesToolbarItemIdentifier] == YES)
+		if( [[loopItem itemIdentifier] isEqualToString:SyncSeriesToolbarItemIdentifier])
 		{
 			return loopItem;
 		}
@@ -16435,7 +16470,7 @@ int i,j,l;
 	
 	if( [[NSUserDefaults standardUserDefaults] boolForKey:@"COPYSETTINGS"] == YES)
 	{
-		if( [[vC curCLUTMenu] isEqualToString:[self curCLUTMenu]] == YES)
+		if( [[vC curCLUTMenu] isEqualToString:[self curCLUTMenu]])
 		{
 			BOOL	 propagate = YES;
 			
@@ -16450,12 +16485,12 @@ int i,j,l;
 			
 			if( [[vC modality] isEqualToString: @"NM"]) propagate = NO;
 			
-			if( [[vC modality] isEqualToString:@"PT"] == YES && [[self modality] isEqualToString:@"PT"] == YES)
+			if( [[vC modality] isEqualToString:@"PT"] && [[self modality] isEqualToString:@"PT"])
 			{
 				if( [[imageView curDCM] SUVConverted] != [[[vC imageView] curDCM] SUVConverted]) propagate = NO;
 			}
 			
-//			if( [[vC modality] isEqualToString:@"MR"] == YES && [[self modality] isEqualToString:@"MR"] == YES)
+//			if( [[vC modality] isEqualToString:@"MR"] && [[self modality] isEqualToString:@"MR"])
 //			{
 //
 //			}
@@ -16562,7 +16597,8 @@ int i,j,l;
 {
 	NSMutableArray *viewersList;
 	
-	if( [[[[fileList[0] objectAtIndex: 0] valueForKey:@"completePath"] lastPathComponent] isEqualToString:@"Empty.tif"] == YES) return;
+	if( [[[[fileList[0] objectAtIndex: 0] valueForKey:@"completePath"] lastPathComponent] isEqualToString:@"Empty.tif"])
+        return;
 	
 //	if( [[self window] isVisible] == NO) return;
 	if( windowWillClose) return;
@@ -16647,7 +16683,8 @@ int i,j,l;
 	
 	for( NSWindow *win in [NSApp windows])
 	{
-		if( [[[win windowController] windowNibName] isEqualToString:@"VR"] == YES || [[[win windowController] windowNibName] isEqualToString:@"VRPanel"] == YES)
+		if( [[[win windowController] windowNibName] isEqualToString:@"VR"] ||
+            [[[win windowController] windowNibName] isEqualToString:@"VRPanel"])
 		{
 			if( self != [win windowController]) [viewersList addObject: [win windowController]];
 		}
@@ -17416,7 +17453,7 @@ int i,j,l;
 		
 //		if( TICKPLAY)
 //		{
-//			if( [[self modality] isEqualToString:@"XA"] == YES)
+//			if( [[self modality] isEqualToString:@"XA"])
 //			{
 //				[tickSound stop];
 //				[tickSound play];
@@ -18733,7 +18770,7 @@ int i,j,l;
 		
 		[imageView getWLWW:&cwl :&cww];
 		
-		if( [[self modality] isEqualToString:@"PT"] == YES)
+		if( [[self modality] isEqualToString:@"PT"])
 		{
 			float slope = [[imageView curDCM] appliedFactorPET2SUV] * [[imageView curDCM] slope];
 			[exportDCM setSlope: slope];
@@ -18789,7 +18826,7 @@ int i,j,l;
 	
 	for( id loopItem in items)
 	{
-		if( [[loopItem itemIdentifier] isEqualToString:PlayToolbarItemIdentifier] == YES)
+		if( [[loopItem itemIdentifier] isEqualToString:PlayToolbarItemIdentifier])
 		{
 			return loopItem;
 		}
@@ -19904,7 +19941,7 @@ int i,j,l;
 //		
 //		for( id loopItem in items)
 //		{
-//			if( [[loopItem itemIdentifier] isEqualToString:iChatBroadCastToolbarItemIdentifier] == YES)
+//			if( [[loopItem itemIdentifier] isEqualToString:iChatBroadCastToolbarItemIdentifier])
 //			{
 //				return loopItem;
 //			}
@@ -20580,7 +20617,7 @@ int i,j,l;
 	
 	if( [[pixList[0] objectAtIndex: 0] isRGB] == NO)
 	{
-		if( [[self modality] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"] == YES))
+		if( [[self modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"]))
 		{
 			if( [[[NSUserDefaults standardUserDefaults] stringForKey:@"PET Clut Mode"] isEqualToString: @"B/W Inverse"])
 				[self ApplyCLUTString: @"B/W Inverse"];
@@ -20588,7 +20625,7 @@ int i,j,l;
 				[self ApplyCLUTString: [[NSUserDefaults standardUserDefaults] stringForKey:@"PET Default CLUT"]];
 		}
 		
-		if( [[self modality] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpacityTableNM"] == YES && [[self modality] isEqualToString:@"NM"] == YES))
+		if( [[self modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"OpacityTableNM"] == YES && [[self modality] isEqualToString:@"NM"]))
 		{
 			if( [[NSUserDefaults standardUserDefaults] boolForKey:@"PETOpacityTable"])
 				[self ApplyOpacityString: [[NSUserDefaults standardUserDefaults] stringForKey:@"PET Default Opacity Table"]];
@@ -20719,7 +20756,7 @@ int i,j,l;
 			
 			if( [[pixList[0] objectAtIndex: 0] isRGB] == NO)
 			{
-				if( [[self modality] isEqualToString:@"PT"] == YES)
+				if( [[self modality] isEqualToString:@"PT"])
 				{
 					if( [[imageView curDCM] SUVConverted] == YES)
 					{
@@ -20734,7 +20771,7 @@ int i,j,l;
 			
 			[viewer load3DState];
 			
-			if( [[self modality] isEqualToString:@"PT"] == YES && [[pixList[0] objectAtIndex: 0] isRGB] == NO)
+			if( [[self modality] isEqualToString:@"PT"] && [[pixList[0] objectAtIndex: 0] isRGB] == NO)
 			{
 				if( [[[NSUserDefaults standardUserDefaults] stringForKey:@"PET Clut Mode"] isEqualToString: @"B/W Inverse"])
 					[viewer ApplyCLUTString: @"B/W Inverse"];
@@ -20832,7 +20869,7 @@ int i,j,l;
 			[viewer addMoviePixList:pixList[ i] :volumeData[ i]];
 		}
 		
-		if( [[self modality] isEqualToString:@"PT"] == YES && [[pixList[0] objectAtIndex: 0] isRGB] == NO)
+		if( [[self modality] isEqualToString:@"PT"] && [[pixList[0] objectAtIndex: 0] isRGB] == NO)
 		{
 			if( [[imageView curDCM] SUVConverted] == YES)
 			{
@@ -21056,7 +21093,7 @@ int i,j,l;
 	
 	if( [[pixList[0] objectAtIndex: 0] isRGB] == NO)
 	{
-		if( [[self modality] isEqualToString:@"PT"] == YES || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"] == YES))
+		if( [[self modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"clutNM"] == YES && [[self modality] isEqualToString:@"NM"]))
 		{
 			if( [[[NSUserDefaults standardUserDefaults] stringForKey:@"PET Clut Mode"] isEqualToString: @"B/W Inverse"])
 				[viewer ApplyCLUTString: @"B/W Inverse"];

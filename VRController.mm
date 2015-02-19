@@ -1291,13 +1291,13 @@ return YES;
 {
 	NSString	*menuString = [sender title];
 	
-	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 	}
 	else
@@ -1312,15 +1312,15 @@ return YES;
 
 - (void)applyWLWWForString:(NSString *)menuString
 {
-	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 		//[imageView setWLWW:0 :0];
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 		[view setWLWW:[[pixList[0] objectAtIndex:0] savedWL] :[[pixList[0] objectAtIndex:0] savedWW]];
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 		[view setWLWW:0 :0];
 	}
@@ -1439,7 +1439,7 @@ return YES;
 		curCLUTMenu = [str retain];
 	}
 	
-	if( [str isEqualToString:NSLocalizedString(@"No CLUT", nil)] == YES)
+	if( [str isEqualToString:NSLocalizedString(@"No CLUT", nil)])
 	{
 		[view setCLUT: nil :nil :nil];
 		

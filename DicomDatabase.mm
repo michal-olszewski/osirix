@@ -1858,7 +1858,8 @@ static BOOL protectionAgainstReentry = NO;
                     
                     if (curDict != nil)
                     {
-                        if ([[curDict objectForKey: @"studyID"] isEqualToString: curStudyID] == YES && [[curDict objectForKey: @"patientUID"] compare: curPatientUID options: NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch] == NSOrderedSame)
+                        if ([[curDict objectForKey: @"studyID"] isEqualToString: curStudyID] &&
+                            [[curDict objectForKey: @"patientUID"] compare: curPatientUID options: NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch | NSWidthInsensitiveSearch] == NSOrderedSame)
                         {
                             if ([[study valueForKey: @"modality"] isEqualToString: @"SR"] || [[study valueForKey: @"modality"] isEqualToString: @"OT"])
                                 [study setValue: [curDict objectForKey: @"modality"] forKey:@"modality"];
@@ -2931,7 +2932,7 @@ static BOOL protectionAgainstReentry = NO;
                 if ([[fattrs objectForKey:NSFileBusy] boolValue])
                     continue;
 				
-				if ([[fattrs objectForKey:NSFileType] isEqualToString: NSFileTypeDirectory] == YES)
+				if ([[fattrs objectForKey:NSFileType] isEqualToString: NSFileTypeDirectory])
 				{
 					// if alias assume nested folders should stay
 					if (!isAlias) { // Is this directory empty?? If yes, delete it!

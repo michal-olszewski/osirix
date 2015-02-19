@@ -851,7 +851,7 @@ static NSRecursiveLock *dbModifyLock = nil;
             SC = YES;
         else if( [mod isEqualToString:@"PR"])
             PR = YES;
-        else if( [mod isEqualToString:@"RTSTRUCT"] == YES && [r containsString: mod] == NO)
+        else if( [mod isEqualToString:@"RTSTRUCT"] && [r containsString: mod] == NO)
             [r addObject: @"RT"];
         else if( [mod isEqualToString:@"OT"])
             OT = YES;
@@ -1759,8 +1759,12 @@ static NSRecursiveLock *dbModifyLock = nil;
 
 		for( DicomSeries *series in array)
 		{
-			if( [[series valueForKey:@"id"] intValue] == 5004 && [[series valueForKey:@"name"] isEqualToString: @"OsiriX Annotations SR"] == YES && [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+			if([[series valueForKey:@"id"] intValue] == 5004 &&
+               [[series valueForKey:@"name"] isEqualToString: @"OsiriX Annotations SR"] &&
+               [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+            {
 				[newArray addObject: series];
+            }
 		}
 		
 		// Take the most recent series
@@ -1853,8 +1857,12 @@ static NSRecursiveLock *dbModifyLock = nil;
     
 		for( DicomSeries *series in array)
 		{
-			if( [[series valueForKey:@"id"] intValue] == 5003 && [[series valueForKey:@"name"] isEqualToString: @"OsiriX Report SR"] == YES && [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+			if( [[series valueForKey:@"id"] intValue] == 5003 &&
+               [[series valueForKey:@"name"] isEqualToString: @"OsiriX Report SR"] &&
+               [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+            {
 				[newArray addObject:series];
+            }
 		}
 		
 		if( [newArray count] > 1)
@@ -1940,8 +1948,12 @@ static NSRecursiveLock *dbModifyLock = nil;
         
 		for( DicomSeries *series in array)
 		{
-			if( [[series valueForKey:@"id"] intValue] == 5006 && [[series valueForKey:@"name"] isEqualToString: @"OsiriX WindowsState SR"] == YES && [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+			if( [[series valueForKey:@"id"] intValue] == 5006 &&
+               [[series valueForKey:@"name"] isEqualToString: @"OsiriX WindowsState SR"] &&
+               [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+            {
 				[newArray addObject:series];
+            }
 		}
 		
 		if( [newArray count] > 1)
@@ -1999,8 +2011,12 @@ static NSRecursiveLock *dbModifyLock = nil;
         NSMutableArray *newArray = [NSMutableArray array];
 		for( DicomSeries *series in array)
 		{
-			if( [[series valueForKey:@"id"] intValue] == 5002 && [[series valueForKey:@"name"] isEqualToString: @"OsiriX ROI SR"] == YES && [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+			if( [[series valueForKey:@"id"] intValue] == 5002 &&
+               [[series valueForKey:@"name"] isEqualToString: @"OsiriX ROI SR"] &&
+               [DCMAbstractSyntaxUID isStructuredReport:[series valueForKey:@"seriesSOPClassUID"]] == YES)
+            {
 				[newArray addObject:series];
+            }
 		}
 		
 		if( [newArray count] > 1)

@@ -850,7 +850,7 @@ static NSConditionLock *threadLock = nil;
 			{
 				if([defaultManager fileExistsAtPath: filename isDirectory:&isDirectory])     // A directory
 				{
-					if( isDirectory == YES && [[filename pathExtension] isEqualToString: @"pages"] == NO && [[filename pathExtension] isEqualToString: @"app"] == NO)
+					if( isDirectory && [[filename pathExtension] isEqualToString: @"pages"] == NO && [[filename pathExtension] isEqualToString: @"app"] == NO)
 					{
 						NSString    *pathname;
 						NSString	*folderSkip = nil;
@@ -900,7 +900,7 @@ static NSConditionLock *threadLock = nil;
 												NSString *uniqueFolder = [NSString stringWithFormat: @"unzip_folder_A%d", uniqueZipFolder++];
 												[[NSFileManager defaultManager] moveItemAtPath: unzipPath toPath: [[self INCOMINGPATH] stringByAppendingPathComponent: uniqueFolder] error: nil];
 											}
-											else if( [[[itemPath lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR"] == YES || [[[itemPath lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR."] == YES)
+											else if( [[[itemPath lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR"] || [[[itemPath lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR."])
 												[self addDICOMDIR: itemPath : filesArray];
 											
 											else [filesArray addObject:itemPath];
@@ -947,7 +947,7 @@ static NSConditionLock *threadLock = nil;
 							NSString *uniqueFolder = [NSString stringWithFormat: @"unzip_folder_B%d", uniqueZipFolder++];
 							[[NSFileManager defaultManager] moveItemAtPath: unzipPath toPath: [[self INCOMINGPATH] stringByAppendingPathComponent: uniqueFolder] error: nil];
 						}
-						else if( [[[filename lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR"] == YES || [[[filename lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR."] == YES)
+						else if( [[[filename lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR"] || [[[filename lastPathComponent] uppercaseString] isEqualToString:@"DICOMDIR."])
 							[self addDICOMDIR: filename :filesArray];
 						else if( [[filename pathExtension] isEqualToString: @"app"])
 						{
@@ -9484,14 +9484,15 @@ static BOOL withReset = NO;
 	NSLog( @"%@", pathToPDF);
 	
 	//creating file and opening it with preview
-	NSManagedObject		*curObj = [matrixViewArray objectAtIndex: [[sender selectedCell] tag]];
+	NSManagedObject	*curObj = [matrixViewArray objectAtIndex: [[sender selectedCell] tag]];
 	NSLog( @"%@", [curObj valueForKey: @"type"]);
 	
 //	[_database lock];
 	
 	@try 
 	{
-		if( [[curObj valueForKey:@"type"] isEqualToString: @"Series"] == YES) curObj = [[self childrenArray: curObj] objectAtIndex: 0];
+		if( [[curObj valueForKey:@"type"] isEqualToString: @"Series"])
+            curObj = [[self childrenArray: curObj] objectAtIndex: 0];
 	
 	}
 	@catch (NSException * e) 
@@ -11143,7 +11144,9 @@ constrainSplitPosition:(CGFloat)proposedPosition
             NSString *noOfStudies = nil;
             @synchronized (_albumNoOfStudiesCache)
             {
-                if (_albumNoOfStudiesCache == nil || rowIndex >= [_albumNoOfStudiesCache count] || [[_albumNoOfStudiesCache objectAtIndex: rowIndex] isEqualToString:@""] == YES)
+                if (_albumNoOfStudiesCache == nil ||
+                    rowIndex >= [_albumNoOfStudiesCache count] ||
+                    [[_albumNoOfStudiesCache objectAtIndex: rowIndex] isEqualToString:@""])
                 {
                     [self refreshAlbums];
                     // It will be computed in a separate thread, and then displayed later.
@@ -13071,8 +13074,11 @@ constrainSplitPosition:(CGFloat)proposedPosition
                     {
                         NSManagedObject*  curFile = [matrixViewArray objectAtIndex: [cell tag]];
                         
-                        if( [[curFile valueForKey:@"type"] isEqualToString: @"Image"]) loadList = [self childrenArray: selectedLine onlyImages: YES];
-                        if( [[curFile valueForKey:@"type"] isEqualToString: @"Series"]) loadList = [self childrenArray: curFile onlyImages: YES];
+                        if( [[curFile valueForKey:@"type"] isEqualToString: @"Image"])
+                            loadList = [self childrenArray: selectedLine onlyImages: YES];
+                        
+                        if( [[curFile valueForKey:@"type"] isEqualToString: @"Series"])
+                            loadList = [self childrenArray: curFile onlyImages: YES];
                         
                         if( loadList) [toOpenArray addObject: loadList];
                     }
@@ -13156,7 +13162,9 @@ constrainSplitPosition:(CGFloat)proposedPosition
 	
 	@try 
 	{
-		if (sender == Nil && [[oMatrix selectedCells] count] == 1 && [[item valueForKey:@"type"] isEqualToString:@"Study"] == YES)
+		if (sender == Nil &&
+            [[oMatrix selectedCells] count] == 1 &&
+            [[item valueForKey:@"type"] isEqualToString:@"Study"])
 		{
 			NSArray *array = [self databaseSelection];
 			
@@ -19132,7 +19140,7 @@ static volatile int numberOfThreadsForJPEG = 0;
 		NSBundle		*bundle = [[PluginManager pluginsDict] objectForKey: plugin];
 		NSDictionary	*info = [bundle infoDictionary];
 		
-		if( [[info objectForKey: @"pluginType"] isEqualToString: @"Database"] == YES)
+		if( [[info objectForKey: @"pluginType"] isEqualToString: @"Database"])
 		{
 			id allowToolbarIcon = [info objectForKey: @"allowToolbarIcon"];
 			if( allowToolbarIcon)

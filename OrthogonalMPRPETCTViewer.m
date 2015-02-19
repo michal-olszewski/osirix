@@ -455,15 +455,15 @@ static NSString*	ThreeDPositionToolbarItemIdentifier			= @"3DPosition";
 
 - (void)applyWLWWForString:(NSString *)menuString
 {
-	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 		//[imageView setWLWW:0 :0];
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 		[self setWLWW:[[[self keyView] curDCM] savedWL] :[[[self keyView] curDCM] savedWW] : [[self keyView] controller]];
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 		[self setWLWW:0 :0 : [[self keyView] controller]];
 	}
@@ -489,13 +489,13 @@ static NSString*	ThreeDPositionToolbarItemIdentifier			= @"3DPosition";
 {
 	NSString *menuString = [sender title];
 	
-	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [menuString isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 	}
-	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [menuString isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 	}
 	else

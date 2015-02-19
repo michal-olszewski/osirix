@@ -1077,7 +1077,7 @@ static void* const SearchDicomNodesContext = @"SearchDicomNodesContext";
         }
     }
     
-    if ([notification.name isEqualToString:NSWorkspaceDidRenameVolumeNotification] && oldPathWasMounted == YES) // Re-mount an renamed path, that was previously mounted
+    if ([notification.name isEqualToString:NSWorkspaceDidRenameVolumeNotification] && oldPathWasMounted) // Re-mount an renamed path, that was previously mounted
     {
         [self _analyzeVolumeAtPath:[[notification.userInfo objectForKey: NSWorkspaceVolumeURLKey] path]];
     }

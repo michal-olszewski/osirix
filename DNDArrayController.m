@@ -40,7 +40,8 @@ NSString *CopiedRowsType = @"COPIED_ROWS_TYPE";
 
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-	if( [[aTableColumn identifier] isEqualToString:@"AddressAndPort"] == YES || [[aTableColumn identifier] isEqualToString:@"Address"] == YES)		// Warning ! DNDArrayController is used in Query.xib AND in OSILocations.xib
+	if( [[aTableColumn identifier] isEqualToString:@"AddressAndPort"] ||
+        [[aTableColumn identifier] isEqualToString:@"Address"])		// Warning ! DNDArrayController is used in Query.xib AND in OSILocations.xib
 	{
 		NSParameterAssert(rowIndex >= 0 && rowIndex < [[self arrangedObjects] count]);
 		

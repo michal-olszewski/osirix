@@ -2012,7 +2012,13 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 	
 	int w = d.pwidth;
 	int h = d.pheight;
-		
+	
+	if( d.shutterEnabled)
+	{
+		w = d.shutterRect.size.width;
+		h = d.shutterRect.size.height;
+	}
+	
 	if( sizeView.size.width / w < sizeView.size.height / h / d.pixelRatio )
 		return sizeView.size.width / w;
 	else
@@ -2026,7 +2032,13 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 	
 	self.scaleValue = [self scaleToFitForDCMPix: curDCM];
 	
-    origin.x = origin.y = 0;
+	if( curDCM.shutterEnabled)
+	{
+		origin.x = ((curDCM.pwidth  * 0.5f ) - ( curDCM.shutterRect.origin.x + ( curDCM.shutterRect.size.width  * 0.5f ))) * scaleValue;
+		origin.y = -((curDCM.pheight * 0.5f ) - ( curDCM.shutterRect.origin.y + ( curDCM.shutterRect.size.height * 0.5f ))) * scaleValue;
+	}
+	else
+		origin.x = origin.y = 0;
 	
 	[self setNeedsDisplay:YES];
 	
@@ -2497,8 +2509,10 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 
 		if( dcmPixList && index > -1 && [dcmPixList count] > 0)
 		{
-			if( [[[[dcmFilesList objectAtIndex: 0] valueForKey:@"completePath"] lastPathComponent] isEqualToString:@"Empty.tif"]) noScale = YES;
-			else noScale = NO;
+			if( [[[[dcmFilesList objectAtIndex: 0] valueForKey:@"completePath"] lastPathComponent] isEqualToString:@"Empty.tif"])
+                noScale = YES;
+			else
+                noScale = NO;
 				
 			curImage = index;
 			if( curImage >= [dcmPixList count]) curImage = (long)[dcmPixList count] -1;
@@ -5533,7 +5547,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 		[[[self windowController] thickSlabController] setLowQuality: YES];
 	}
 
-	if( [[[[blendingView dcmFilesList] objectAtIndex:0] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[[blendingView dcmFilesList] objectAtIndex:0] valueForKey:@"modality"] isEqualToString:@"NM"] == YES))
+	if( [[[[blendingView dcmFilesList] objectAtIndex:0] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[[blendingView dcmFilesList] objectAtIndex:0] valueForKey:@"modality"] isEqualToString:@"NM"]))
 	{
 		float startlevel;
 		float endlevel;
@@ -5607,7 +5621,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 			[[[self windowController] thickSlabController] setLowQuality: YES];
 		}
 		
-		if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"NM"] == YES))
+		if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"NM"]))
 		{
 			float startlevel;
 			float endlevel;
@@ -10088,8 +10102,15 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 							{
 								if( pix != curDCM)
 								{
-                                    NSPoint o = NSMakePoint( 0, 0);
-                                    [pix.imageObj setValue: [NSNumber numberWithFloat: [self scaleToFitForDCMPix: pix]] forKey: @"scale"];
+                                    [pix.imageObj setValue: nil forKey: @"scale"];
+                                    //[pix.imageObj setValue: [NSNumber numberWithFloat: [self scaleToFitForDCMPix: pix]] forKey: @"scale"];
+
+									NSPoint o = NSMakePoint( 0, 0);
+									if( pix.shutterEnabled)
+									{
+										o.x = ((curDCM.pwidth  * 0.5f ) - ( curDCM.shutterRect.origin.x + ( curDCM.shutterRect.size.width  * 0.5f ))) * scaleValue;
+										o.y = -((curDCM.pheight * 0.5f ) - ( curDCM.shutterRect.origin.y + ( curDCM.shutterRect.size.height * 0.5f ))) * scaleValue;
+									}
 									
 									[pix.imageObj setValue: [NSNumber numberWithFloat: o.x] forKey:@"xOffset"];
 									[pix.imageObj setValue: [NSNumber numberWithFloat: o.y] forKey:@"yOffset"];
@@ -10719,7 +10740,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 				
 				float slope = 1;
 				
-				if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] == YES)
+				if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"])
 					slope = im.appliedFactorPET2SUV * im.slope;
 				
 				if( buf)
@@ -10876,7 +10897,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 					
 					float slope = 1;
 					
-					if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] == YES)
+					if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"])
 						slope = dcm.appliedFactorPET2SUV * dcm.slope;
 					
 					long i = *width * *height * *spp * *bpp / 8;
@@ -11858,7 +11879,8 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 		
 	if( curDCM.subtractedfImage) 
 		intFULL32BITPIPELINE = NO;
-	    
+	if( curDCM.shutterEnabled) 
+		intFULL32BITPIPELINE = NO;
 	if( curDCM.pwidth >= maxTextureSize)
 		intFULL32BITPIPELINE = NO;
 	
@@ -13118,7 +13140,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 		{
 			if( ww != 0.0)
 			{
-				if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"NM"] == YES))
+				if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"NM"]))
 				{
 					float from, to;
 					
@@ -13182,7 +13204,7 @@ NSInteger studyCompare(ViewerController *v1, ViewerController *v2, void *context
 		}
 		else if( onlyImage == NO)
 		{
-			if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"NM"] == YES))
+			if( [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[dcmFilesList objectAtIndex: curImage] valueForKey:@"modality"] isEqualToString:@"NM"]))
 			{
 				float from, to;
 				

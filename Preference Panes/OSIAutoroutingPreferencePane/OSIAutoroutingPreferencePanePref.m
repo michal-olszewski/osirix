@@ -84,7 +84,11 @@
 		BOOL found = NO;
 		for( int x = 0; x < [serversArray count]; x++)
 		{
-			if( [[[serversArray objectAtIndex: x] valueForKey:@"Activated"] boolValue] && [[[serversArray objectAtIndex: x] valueForKey:@"Description"] isEqualToString: [[routesArray objectAtIndex:i] valueForKey:@"server"]]) found = YES;
+			if( [[[serversArray objectAtIndex: x] valueForKey:@"Activated"] boolValue] &&
+                [[[serversArray objectAtIndex: x] valueForKey:@"Description"] isEqualToString: [[routesArray objectAtIndex:i] valueForKey:@"server"]])
+            {
+                found = YES;
+            }
 		}
 		
 		if( found == NO)

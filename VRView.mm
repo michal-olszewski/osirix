@@ -1324,7 +1324,7 @@ public:
 		[exportDCM setOffset: offset];
 		[exportDCM setSigned: isSigned];
 		
-		if( [[[controller viewer2D] modality] isEqualToString:@"PT"] == YES)
+		if( [[[controller viewer2D] modality] isEqualToString:@"PT"])
 		{
 			float slope = firstObject.appliedFactorPET2SUV * firstObject.slope;
 			[exportDCM setSlope: slope];
@@ -3287,7 +3287,7 @@ public:
 				_startMax = blendingWl + blendingWw/2;
 				WWAdapter  = _startWW / 100.0;
 				
-				if( [[[controller blendingController] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller blendingController] modality] isEqualToString:@"NM"] == YES))
+				if( [[[controller blendingController] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller blendingController] modality] isEqualToString:@"NM"]))
 				{
 					switch( [[NSUserDefaults standardUserDefaults] integerForKey: @"PETWindowingMode"])
 					{
@@ -3343,7 +3343,7 @@ public:
 					_startMax = wl + ww/2;
 					WWAdapter  = _startWW / 100.0;
 					
-					if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"] == YES))
+					if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"]))
 					{
 						switch( [[NSUserDefaults standardUserDefaults] integerForKey: @"PETWindowingMode"])
 						{
@@ -3400,7 +3400,7 @@ public:
 					else
 						colorTransferFunction->BuildFunctionFromTable( valueFactor*(OFFSET16 + wl-ww/2), valueFactor*(OFFSET16 + wl+ww/2), 255, (double*) &table);
 					
-					if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"] == YES))
+					if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"]))
 					{
 						if( ww < 50) sprintf(WLWWString, "From: %0.4f   To: %0.4f ", wl-ww/2, wl+ww/2);
 						else sprintf(WLWWString, "From: %0.f   To: %0.f ", wl-ww/2, wl+ww/2);
@@ -5678,7 +5678,7 @@ public:
 	else if(!advancedCLUT)
 		colorTransferFunction->BuildFunctionFromTable( valueFactor*(OFFSET16 + wl-ww/2), valueFactor*(OFFSET16 + wl+ww/2), 255, (double*) &table);
 	
-	if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"] == YES))
+	if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"]))
 	{
 		if( ww < 50) sprintf(WLWWString, "From: %0.4f   To: %0.4f ", wl-ww/2, wl+ww/2);
 		else sprintf(WLWWString, "From: %0.f   To: %0.f ", wl-ww/2, wl+ww/2);
@@ -7251,7 +7251,7 @@ public:
 					
 					float slope = 1;
 					
-					if( [[[controller viewer2D] modality] isEqualToString:@"PT"] == YES)
+					if( [[[controller viewer2D] modality] isEqualToString:@"PT"])
 						slope = firstObject.appliedFactorPET2SUV * firstObject.slope;
 					
 					buf = (unsigned char*) malloc( *width * *height * *spp * *bpp / 8);

@@ -80,7 +80,7 @@ extern NSRecursiveLock *PapyrusLock;
 	int success = NO;
 	NSString	*extension = [[file pathExtension] lowercaseString];
 	
-	if( [extension isEqualToString:@"nrrd"] == YES)
+	if( [extension isEqualToString:@"nrrd"])
 	{
 		success = YES;
 	}
@@ -161,7 +161,7 @@ extern NSRecursiveLock *PapyrusLock;
 	NSString	*extension = [[filePath pathExtension] lowercaseString];
 	char		*err = nil;
 	
-	if( [extension isEqualToString:@"nrrd"] == YES)
+	if( [extension isEqualToString:@"nrrd"])
 	{
 		Nrrd *nin;
 

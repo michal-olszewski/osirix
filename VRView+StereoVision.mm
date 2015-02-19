@@ -1076,7 +1076,7 @@ static void  updateRight(vtkObject*, unsigned long eid, void* clientdata, void *
 				_startMax = blendingWl + blendingWw/2;
 				WWAdapter  = _startWW / 100.0;
 				
-				if( [[[controller blendingController] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller blendingController] modality] isEqualToString:@"NM"] == YES))
+				if( [[[controller blendingController] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller blendingController] modality] isEqualToString:@"NM"]))
 				{
 					switch( [[NSUserDefaults standardUserDefaults] integerForKey: @"PETWindowingMode"])
 					{
@@ -1132,7 +1132,7 @@ static void  updateRight(vtkObject*, unsigned long eid, void* clientdata, void *
 				_startMax = wl + ww/2;
 				WWAdapter  = _startWW / 100.0;
 				
-				if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"] == YES))
+				if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"]))
 				{
 					switch( [[NSUserDefaults standardUserDefaults] integerForKey: @"PETWindowingMode"])
 					{
@@ -1189,7 +1189,7 @@ static void  updateRight(vtkObject*, unsigned long eid, void* clientdata, void *
 				else
 					colorTransferFunction->BuildFunctionFromTable( valueFactor*(OFFSET16 + wl-ww/2), valueFactor*(OFFSET16 + wl+ww/2), 255, (double*) &table);
 				
-				if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"] == YES))
+				if( [[[controller viewer2D] modality] isEqualToString:@"PT"] || ([[NSUserDefaults standardUserDefaults] boolForKey:@"mouseWindowingNM"] == YES && [[[controller viewer2D] modality] isEqualToString:@"NM"]))
 				{
 					if( ww < 50) sprintf(WLWWString, "From: %0.4f   To: %0.4f ", wl-ww/2, wl+ww/2);
 					else sprintf(WLWWString, "From: %0.f   To: %0.f ", wl-ww/2, wl+ww/2);
@@ -1790,7 +1790,7 @@ static void  updateRight(vtkObject*, unsigned long eid, void* clientdata, void *
 			
 			float slope = 1;
 			
-			if( [[[controller viewer2D] modality] isEqualToString:@"PT"] == YES)
+			if( [[[controller viewer2D] modality] isEqualToString:@"PT"])
 				slope = firstObject.appliedFactorPET2SUV * firstObject.slope;
 			
 			buf = (unsigned char*) malloc( *width * *height * *spp * *bpp / 8);
@@ -1956,7 +1956,7 @@ static void  updateRight(vtkObject*, unsigned long eid, void* clientdata, void *
 				
 				float slope = 1;
 				
-				if( [[[controller viewer2D] modality] isEqualToString:@"PT"] == YES)
+				if( [[[controller viewer2D] modality] isEqualToString:@"PT"])
 					slope = firstObject.appliedFactorPET2SUV * firstObject.slope;
 				
 				buf = (unsigned char*) malloc( *width * *height * *spp * *bpp / 8);

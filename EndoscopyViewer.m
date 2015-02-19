@@ -704,15 +704,15 @@ static NSString*	PathAssistantToolbarItemIdentifier		= @"PathAssistant";
 {
 	cur2DWLWWMenu = [sender title];
 
-	if( [[sender title] isEqualToString:NSLocalizedString(@"Other", nil)] == YES)
+	if( [[sender title] isEqualToString:NSLocalizedString(@"Other", nil)])
 	{
 		//[imageView setWLWW:0 :0];
 	}
-	else if( [[sender title] isEqualToString:NSLocalizedString(@"Default WL & WW", nil)] == YES)
+	else if( [[sender title] isEqualToString:NSLocalizedString(@"Default WL & WW", nil)])
 	{
 		[self set2DWLWW:[[[mprController originalView] curDCM] savedWL] :[[[mprController originalView] curDCM] savedWW]];
 	}
-	else if( [[sender title] isEqualToString:NSLocalizedString(@"Full dynamic", nil)] == YES)
+	else if( [[sender title] isEqualToString:NSLocalizedString(@"Full dynamic", nil)])
 	{
 		[self set2DWLWW:0 :0];
 	}

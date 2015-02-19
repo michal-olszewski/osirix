@@ -126,16 +126,13 @@ extern XYZ ArbitraryRotate(XYZ p,double theta,XYZ r);
     NSNumber			*positionerPrimaryAngle;
     NSNumber			*positionerSecondaryAngle;
     
-    long				shutterRect_x;
-    long				shutterRect_y;
-    long				shutterRect_w;
-    long				shutterRect_h;
+    BOOL                shutterEnabled;
+    NSRect              shutterRect;
     
-    long				shutterCircular_x;
-    long				shutterCircular_y;
+
+    NSPoint             shutterCircular;
     long				shutterCircular_radius;
     
-    BOOL				DCMPixShutterOnOff;
 	
 	NSPoint	 			*shutterPolygonal;
 	long				shutterPolygonalSize;
@@ -270,8 +267,8 @@ Note setter is different to not break existing usage. :-( */
 
 @property(nonatomic) NSPoint subPixOffset;
 
-@property long DCMPixShutterRectWidth, DCMPixShutterRectHeight;
-@property long DCMPixShutterRectOriginX, DCMPixShutterRectOriginY;
+@property(nonatomic) BOOL shutterEnabled;
+@property(nonatomic) NSRect shutterRect;
 
 @property(retain) NSString *repetitiontime, *echotime;
 @property(readonly) NSString *flipAngle;
@@ -508,10 +505,6 @@ Note setter is different to not break existing usage. :-( */
 + (NSPoint) originCorrectedAccordingToOrientation: (DCMPix*) pix1;
 - (void) setBlackIndex:(int) i;
 + (NSImage*) resizeIfNecessary:(NSImage*) currentImage dcmPix: (DCMPix*) dcmPix;
-
-- (void) DCMPixShutterRect:(long)x :(long)y :(long)w :(long)h;
-- (BOOL) DCMPixShutterOnOff;
-- (void) DCMPixShutterOnOff:(BOOL)newDCMPixShutterOnOff;
 
 - (void) computeTotalDoseCorrected;
 - (void) setRGB : (BOOL) val;
