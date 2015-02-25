@@ -517,9 +517,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 			DEFAULTSSET = YES;
 			
 			PREFERPAPYRUSFORCD = [sd integerForKey: @"PREFERPAPYRUSFORCD"];
-			TOOLKITPARSER = [sd integerForKey: @"TOOLKITPARSER4"];
-			if( TOOLKITPARSER == 0)
-                TOOLKITPARSER = 2;
+            TOOLKITPARSER = 2; // Always and only DCMTK. Papyrus has been removed from the project.
             
 			#ifdef OSIRIX_LIGHT
 			TOOLKITPARSER = 2;
