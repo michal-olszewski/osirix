@@ -198,7 +198,6 @@ void errmsg(const char* msg, ...)
     OFCmdUnsignedInt overrideMaxPDU = 0;
     DcmQueryRetrieveOptions options;
 
-
 	//verbose
 	options.verbose_= 0;
 	
@@ -334,13 +333,6 @@ void errmsg(const char* msg, ...)
      */
     setuid(getuid());
 #endif
-
-	
-	
-	
-	
-	
-	
 	
 #ifdef WITH_OPENSSL // joris
 	
@@ -501,7 +493,6 @@ void errmsg(const char* msg, ...)
 			return;
 		}
 	}
-	
 #endif
 	
 	
@@ -522,7 +513,7 @@ DcmQueryRetrieveConfig config;
 	//scp.setDatabaseFlags(OFFalse, OFFalse, options.debug_);
 
 	DcmQueryRetrieveSCP *localSCP = nil;
-	
+    
 	localSCP = new DcmQueryRetrieveSCP(config, options, factory);
 	
 	if([[_params objectForKey:@"TLSEnabled"] boolValue])

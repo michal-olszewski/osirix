@@ -12,7 +12,11 @@
      PURPOSE.
 =========================================================================*/
 
+#include <stdio.h>
+
 #include "options.h"
+#include "url.h"
+#import "DCMUIDs.h"
 
 #ifndef OSIRIX_LIGHT
 #include "FVTiff.h"
@@ -555,7 +559,7 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 		else	// FOR THE SAFEDBREBUILD ! Shell tool
 		{
 			NSMutableDictionary	*dict = [DefaultsOsiriX getDefaults];
-			[dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.rossetantoine.osirix"]];
+			[dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@BUNDLE_IDENTIFIER]];
 			
 			DEFAULTSSET = YES;
 			
@@ -684,7 +688,46 @@ char* replaceBadCharacter (char* str, NSStringEncoding encoding)
 
 + (BOOL) isDICOMFile:(NSString *) file compressed:(BOOL*) compressed image:(BOOL*) image
 {
-    return YES;
+    if ( compressed)
+        *compressed = NO; // Assume it's not compressed
+    
+    if ( image)
+        *image = YES;
+    
+    BOOL readable = YES;  // TODO
+    
+    @try
+    {
+        if (image) {
+            // TODO: check that it has pixel data
+            // See also Decompress
+            //*image = [DCMAbstractSyntaxUID isImageStorage: SOPClassUID];
+        }
+        
+        if (compressed) {
+            NSString *transferSyntax = [DicomFile getDicomField: @"TransferSyntaxUID" forFile: file];
+            if ([transferSyntax isEqualToString: DCM_JPEGLossless] ||
+                [transferSyntax isEqualToString: DCM_JPEGBaseline] ||
+                [transferSyntax isEqualToString: DCM_JPEG2000Lossy] ||
+                [transferSyntax isEqualToString: DCM_JPEG2000Lossless] ||
+                [transferSyntax isEqualToString: DCM_JPEGLSLossless] ||
+                [transferSyntax isEqualToString: DCM_JPEGLSLossy])
+            {
+                *compressed = YES;
+            }
+            else
+            {
+                *compressed = NO;
+            }
+        }
+    }
+    @catch (NSException * e)
+    {
+        N2LogExceptionWithStackTrace(e);
+        //readable = NO;
+    }
+    
+    return readable;
 }
 
 + (BOOL) isDICOMFile:(NSString *) file compressed:(BOOL*) compressed

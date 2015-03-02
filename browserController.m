@@ -17116,11 +17116,11 @@ static volatile int numberOfThreadsForJPEG = 0;
 				{
 					switch( [compressionMatrix selectedTag])
 					{
-						case 1:
+						case 1: // compress
 							[files2Compress addObject: dest];
 							break;
 							
-						case 2:
+						case 2: // decompress
 							[files2Compress addObject: dest];
 							break;
 					}
@@ -17151,7 +17151,8 @@ static volatile int numberOfThreadsForJPEG = 0;
 		[[DicomStudy dbModifyLock] unlock];
 		
 		for( NSDictionary *d in renameArray)
-			[[NSFileManager defaultManager] moveItemAtPath: [d objectForKey: @"oldName"] toPath: [d objectForKey: @"newName"] error: nil];
+			[[NSFileManager defaultManager] moveItemAtPath: [d objectForKey: @"oldName"]
+                                                    toPath: [d objectForKey: @"newName"] error: nil];
 		
 		//close progress window	
 		[splash close];

@@ -164,7 +164,6 @@ errmsg(const char *msg,...)
     fprintf(stderr, "\n");
 }
 
-
 static OFCondition
 addStoragePresentationContexts(T_ASC_Parameters *params, OFList<OFString>& sopClasses);
 

@@ -11,7 +11,7 @@
      the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.
 =========================================================================*/
-//2L
+
 #ifndef DCMPIX_H_INCLUDED
 #define DCMPIX_H_INCLUDED
 

@@ -42,7 +42,6 @@
 #import "N2Debug.h"
 
 #include "osconfig.h"
-#include "mdfconen.h"
 
 #include "dcvrsl.h"
 #include "ofcast.h"
@@ -52,6 +51,8 @@
 
 #define INCLUDE_CSTDIO
 #include "ofstdinc.h"
+
+#include "url.h"
 
 static NSString *PatientName = @"PatientsName";
 static NSString *PatientID = @"PatientID";
@@ -4203,7 +4204,7 @@ extern "C"
 -(void) awakeFromNib
 {
     [authView setDelegate: self];
-    [authView setString: "com.rossetantoine.osirix.autoQRWindow"];
+    [authView setString: BUNDLE_IDENTIFIER".autoQRWindow"];
     [authView updateStatus: self];
     
 	[numberOfStudies setStringValue: @""];

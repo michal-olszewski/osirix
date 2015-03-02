@@ -32,11 +32,8 @@
 #import "DCMEncapsulatedPDF.h"
 
 
-
-
 #define DCMDEBUG 0
 #define DCMFramework_compile YES
-
 
 
 #import <Accelerate/Accelerate.h>
