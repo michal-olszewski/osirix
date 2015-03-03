@@ -215,10 +215,21 @@
 @synthesize origin = _origin;
 @synthesize directionX = _directionX;
 @synthesize directionY = _directionY;
+@synthesize directionZ = _directionZ;
 @synthesize pixelSpacingX = _pixelSpacingX;
 @synthesize pixelSpacingY = _pixelSpacingY;
-@synthesize projectionMode = _projectionMode;
+#if 0
+@synthesize pixelSpacingZ = _slabSampleDistance;
+#else
+- (CGFloat) pixelSpacingZ {
+    return _slabSampleDistance;
+}
 
+- (void) setPixelSpacingZ:(CGFloat)z {
+    _slabSampleDistance = z;
+}
+#endif
+@synthesize projectionMode = _projectionMode;
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
