@@ -31,8 +31,8 @@
 #include "dcuid.h"
 #include "dcdict.h"
 #include "dcdeftag.h"
-#include "Binaries/dcmtk-source/dcmjpls/djdecode.h" //JPEG-LS
-#include "Binaries/dcmtk-source/dcmjpls/djencode.h" //JPEG-LS
+#include "../Binaries/dcmtk-source/dcmjpls/djdecode.h" //JPEG-LS
+#include "../Binaries/dcmtk-source/dcmjpls/djencode.h" //JPEG-LS
 
 #include "options.h"
 

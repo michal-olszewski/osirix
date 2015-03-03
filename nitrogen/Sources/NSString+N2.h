@@ -14,8 +14,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-extern NSString* N2NonNullString(NSString* s);
+#define N2NonNullString( a) a ? a : @""
 
 @interface NSString (N2)
 

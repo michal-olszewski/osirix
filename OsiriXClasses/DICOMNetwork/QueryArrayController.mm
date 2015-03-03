@@ -156,7 +156,7 @@
                                                 hostname: hostname
                                                 port: [port intValue]
                                                 transferSyntax: 0		//EXS_LittleEndianExplicit / EXS_JPEGProcess14SV1TransferSyntax
-                                                compression: nil
+                                                compression: 0
                                                 extraParameters: distantServer] retain];
                                                 
                 NSMutableArray *filterArray = [NSMutableArray array];

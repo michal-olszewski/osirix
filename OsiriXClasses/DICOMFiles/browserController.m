@@ -13216,7 +13216,7 @@ constrainSplitPosition:(CGFloat)proposedPosition
 	if( ([sender isKindOfClass:[NSMenuItem class]] && [sender menu] == [oMatrix menu]) || [[self window] firstResponder] == oMatrix) [self filesForDatabaseMatrixSelection: images];
 	else [self filesForDatabaseOutlineSelection: images];
 	
-	[self openViewerFromImages :[NSArray arrayWithObject:images] movie: 0 viewer :nil keyImagesOnly:NO];
+	[self openViewerFromImages :[NSArray arrayWithObject:images] movie: NO viewer :nil keyImagesOnly:NO];
 	
 	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"AUTOTILING"])
 		[NSApp sendAction: @selector(tileWindows:) to:nil from: self];
@@ -13231,7 +13231,7 @@ constrainSplitPosition:(CGFloat)proposedPosition
 	if( [roisImagesArray count])
 	{
 		dontShowOpenSubSeries = YES;
-		[self openViewerFromImages :[NSArray arrayWithObject: roisImagesArray] movie: 0 viewer :nil keyImagesOnly:NO];
+		[self openViewerFromImages :[NSArray arrayWithObject: roisImagesArray] movie: NO viewer :nil keyImagesOnly:NO];
 		dontShowOpenSubSeries = NO;
 		
 		if(	[[NSUserDefaults standardUserDefaults] boolForKey: @"AUTOTILING"])
@@ -13271,7 +13271,7 @@ constrainSplitPosition:(CGFloat)proposedPosition
         [self filesForDatabaseOutlineSelection: selectedItems];
 	
 	dontShowOpenSubSeries = YES;
-	[self openViewerFromImages :[NSArray arrayWithObject:selectedItems] movie: 0 viewer :nil keyImagesOnly:YES];
+	[self openViewerFromImages :[NSArray arrayWithObject:selectedItems] movie: NO viewer :nil keyImagesOnly:YES];
 	dontShowOpenSubSeries = NO;
 	
 	if( [[NSUserDefaults standardUserDefaults] boolForKey: @"AUTOTILING"])
@@ -19333,7 +19333,7 @@ static volatile int numberOfThreadsForJPEG = 0;
 			}
 		}
 		dontShowOpenSubSeries = YES;
-		ViewerController *v = [self openViewerFromImages: [NSArray arrayWithObject: roisImagesArray] movie: 0 viewer :nil keyImagesOnly:NO];
+		ViewerController *v = [self openViewerFromImages: [NSArray arrayWithObject: roisImagesArray] movie: NO viewer :nil keyImagesOnly:NO];
 		dontShowOpenSubSeries = NO;
 		
 		if( sameSeries == NO)

@@ -725,8 +725,7 @@ extern BOOL forkedProcess;
 		{
 			NSPredicate *predicate = nil;
 			
-			NSTimeInterval startDate = nil;
-			NSTimeInterval endDate = nil;
+			NSTimeInterval startDate = 0, endDate = 0;
 			
 			if( dcmstartDate)
 			{

@@ -26,8 +26,8 @@
 #import "ThickSlabController.h"
 #import "browserController.h"
 #import "AppController.h"
-#import "MPR2DController.h"
-#import "MPR2DView.h"
+//#import "MPR2DController.h"
+//#import "MPR2DView.h"
 #import "OrthogonalMPRController.h"
 #import "OrthogonalMPRView.h"
 #import "OrthogonalMPRPETCTView.h"
@@ -43,7 +43,7 @@
 #include <OpenGL/CGLContext.h>
 #import <CoreVideo/CoreVideo.h>
 #import "DefaultsOsiriX.h"
-#include "NSFont_OpenGL/NSFont_OpenGL.h"
+#include "NSFont_OpenGL.h"
 #import "Notifications.h"
 #import "PluginManager.h"
 #import "N2Debug.h"

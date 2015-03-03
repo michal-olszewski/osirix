@@ -22,8 +22,8 @@
 #include "dcrledrg.h"  /* for DcmRLEDecoderRegistration */
 #include "dcrleerg.h"  /* for DcmRLEEncoderRegistration */
 
-#include "Binaries/dcmtk-source/dcmjpls/djdecode.h" //JPEG-LS
-#include "Binaries/dcmtk-source/dcmjpls/djencode.h" //JPEG-LS
+#include "../../Binaries/dcmtk-source/dcmjpls/djdecode.h" //JPEG-LS
+#include "../../Binaries/dcmtk-source/dcmjpls/djencode.h" //JPEG-LS
 
 extern int gPutSrcAETitleInSourceApplicationEntityTitle, gPutDstAETitleInPrivateInformationCreatorUID;
 

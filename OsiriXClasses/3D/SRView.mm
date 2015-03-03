@@ -1523,7 +1523,7 @@ typedef struct _xyzArray
 		{
 			NSEvent *artificialPKeyDown = [NSEvent keyEventWithType:NSKeyDown
 												location:[theEvent locationInWindow]
-												modifierFlags:nil
+												modifierFlags:0
 												timestamp:[theEvent timestamp]
 												windowNumber:[theEvent windowNumber]
 												context:[theEvent context]

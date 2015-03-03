@@ -54,6 +54,7 @@ extern XYZ ArbitraryRotate(XYZ p,double theta,XYZ r);
 {
     NSString            *srcFile;  /**< source File */
     NSString            *URIRepresentationAbsoluteString;
+    NSString		*imageType;
     BOOL				isBonjour;
     BOOL                fileTypeHasPrefixDICOM;
     int                 numberOfFrames;
@@ -92,9 +93,6 @@ extern XYZ ArbitraryRotate(XYZ p,double theta,XYZ r);
     
 //  Waveform data
     DCMWaveform         *waveform;
-    
-//  image type
-    NSString*           imageType;
     
 //--------------------------------------
 
