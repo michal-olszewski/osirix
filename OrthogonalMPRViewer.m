@@ -1576,7 +1576,8 @@ return YES;
 		[exportDCM setModalityAsSource: YES];
 		
 		f = [exportDCM writeDCMFile: nil];
-		if( f == nil) NSRunCriticalAlertPanel( NSLocalizedString(@"Error", nil),  NSLocalizedString(@"Error during the creation of the DICOM File!", nil), NSLocalizedString(@"OK", nil), nil, nil);
+		if( f == nil)
+            NSRunCriticalAlertPanel( NSLocalizedString(@"Error", nil), NSLocalizedString(@"Error during the creation of the DICOM File!", nil), NSLocalizedString(@"OK", nil), nil, nil);
 		
 		free( data);
 	}
@@ -1751,7 +1752,7 @@ return YES;
 {
     if( dcmExportWindow == nil)
     {
-        NSRunCriticalAlertPanel( NSLocalizedString(@"Error", nil),  NSLocalizedString(@"DICOM Files Export not supported", nil), NSLocalizedString(@"OK", nil), nil, nil);
+        NSRunCriticalAlertPanel( NSLocalizedString(@"Error", nil), NSLocalizedString(@"DICOM Files Export not supported", nil), NSLocalizedString(@"OK", nil), nil, nil);
         return;
     }
     

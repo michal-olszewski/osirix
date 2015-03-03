@@ -342,13 +342,13 @@ typedef itk::ResampleImageFilter<ImageType, ImageType> ResampleFilterType;
 		[referenceViewer propagateSettings]; // avolz: previously [new2DViewer propagateSettings], the consequence was that both the reference and the new viewer were awkwardly zoomed in - by propagating the untouched viewer's settings the user will get what he was viewing before the fusion
 		[new2DViewer setRegisteredViewer: referenceViewer];
 	}
-	else
-	{
-		if( NSRunCriticalAlertPanel(NSLocalizedString(@"32-bit", nil),
-								NSLocalizedString(@"Cannot complete the operation.\r\rUpgrade to OsiriX 64-bit or OsiriX MD to solve this issue.", nil),
-								NSLocalizedString(@"OK", nil), NSLocalizedString(@"OsiriX 64-bit", nil), nil) == NSAlertAlternateReturn)
-									[[AppController sharedAppController] osirix64bit: self];
-	}
+//	else
+//	{
+//		if( NSRunCriticalAlertPanel(NSLocalizedString(@"32-bit", nil),
+//								NSLocalizedString(@"Cannot complete the operation.\r\rUpgrade to OsiriX 64-bit or OsiriX MD to solve this issue.", nil),
+//								NSLocalizedString(@"OK", nil), NSLocalizedString(@"OsiriX 64-bit", nil), nil) == NSAlertAlternateReturn)
+//									[[AppController sharedAppController] osirix64bit: self];
+//	}
 	
 	return new2DViewer;
 }

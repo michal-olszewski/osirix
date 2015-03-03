@@ -2939,7 +2939,10 @@ static BOOL initialized = NO;
 				NSLog(@"Number of processors: %d / %d", processors, (int) [[NSProcessInfo processInfo] processorCount]);
                 NSLog(@"Number of screens: %d", (int) [[NSScreen screens] count]);
 				NSLog(@"Main screen backingScaleFactor: %f", (float) [[NSScreen mainScreen] backingScaleFactor]);
-                NSLog(@"OsiriX version: %@ - %@ - %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey], [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"], bits);
+                NSLog(@"OsiriX version: %@ - %@ - %@",
+                      [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey],
+                      [[[NSBundle mainBundle] infoDictionary] objectForKey: @"CFBundleShortVersionString"],
+                      bits);
                 NSLog(@"OpenJPEG %d.%d.%d", OPJ_VERSION_MAJOR, OPJ_VERSION_MINOR, OPJ_VERSION_BUILD);                
                 NSArray *components = [[[NSBundle mainBundle] pathForResource: @"Localizable" ofType: @"strings"] pathComponents];
                 if( components.count > 3)
@@ -2992,7 +2995,8 @@ static BOOL initialized = NO;
                     }
                 }
                 
-//				[[NSUserDefaults standardUserDefaults] addSuiteNamed: @BUNDLE_IDENTIFIER]; // Backward compatibility
+//              NSString *bundleId = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+//				[[NSUserDefaults standardUserDefaults] addSuiteNamed: bundleId]; // Backward compatibility
                 [[NSUserDefaults standardUserDefaults] setInteger:200 forKey:@"NSInitialToolTipDelay"];
                 [[NSUserDefaults standardUserDefaults] setBool: NO forKey: @"DontUseUndoQueueForROIs"];
                 [[NSUserDefaults standardUserDefaults] setInteger: 20 forKey: @"UndoQueueSize"];
@@ -3703,7 +3707,9 @@ static BOOL initialized = NO;
 	
 	NSMutableDictionary *mutableDict = [NSMutableDictionary dictionaryWithDictionary: dict];
 	
-	NSDictionary *handlerForOsiriX = [NSDictionary dictionaryWithObjectsAndKeys: @BUNDLE_IDENTIFIER, @"LSHandlerRoleAll", @"dicom", @"LSHandlerURLScheme", nil];
+    NSString *bundleId = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleIdentifier"];
+    NSLog(@"bundle:%@", bundleId);
+	NSDictionary *handlerForOsiriX = [NSDictionary dictionaryWithObjectsAndKeys: bundleId, @"LSHandlerRoleAll", @"dicom", @"LSHandlerURLScheme", nil];
 	
 	[mutableDict setObject: [[dict objectForKey: @"LSHandlers"] arrayByAddingObject: handlerForOsiriX] forKey: @"LSHandlers"];
 	

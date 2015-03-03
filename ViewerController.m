@@ -17082,7 +17082,10 @@ int i,j,l;
 	{			
 		NSRunCriticalAlertPanel(NSLocalizedString(@"Point-Based Registration Error", nil),
 								@"%@",
-								NSLocalizedString(@"OK", nil), nil, nil, errorString);
+								NSLocalizedString(@"OK", nil),
+                                nil,
+                                nil,
+                                errorString);
 	}
 	
 	[previousNames release];

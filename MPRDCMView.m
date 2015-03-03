@@ -1385,8 +1385,12 @@ unsigned int minimumStep;
 	
     [self displayIfNeeded];
     
-	[NSObject cancelPreviousPerformRequestsWithTarget: windowController selector:@selector(delayedFullLODRendering:) object: self];	
-	[windowController performSelector: @selector(delayedFullLODRendering:) withObject: self afterDelay: 0.2];
+	[NSObject cancelPreviousPerformRequestsWithTarget: windowController
+                                             selector: @selector(delayedFullLODRendering:)
+                                               object: self];
+	[windowController performSelector: @selector(delayedFullLODRendering:)
+                           withObject: self
+                           afterDelay: 0.2];
 }
 
 - (void)rightMouseDown:(NSEvent *)theEvent

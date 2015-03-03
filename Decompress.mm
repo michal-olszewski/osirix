@@ -35,7 +35,6 @@
 #include "Binaries/dcmtk-source/dcmjpls/djencode.h" //JPEG-LS
 
 #include "options.h"
-#include "url.h"
 
 extern "C"
 {
@@ -172,8 +171,10 @@ int main(int argc, const char *argv[])
 		NSString	*what = [NSString stringWithUTF8String:argv[2]];
 		NSInteger fileListFirstItemIndex = 3;
 		
+        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"DCMPix")];
+        NSString *bundleId = [[bundle infoDictionary] objectForKey:@"CFBundleIdentifier"];
 		NSMutableDictionary* dict = [DefaultsOsiriX getDefaults];
-		[dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:@BUNDLE_IDENTIFIER]];
+		[dict addEntriesFromDictionary: [[NSUserDefaults standardUserDefaults] persistentDomainForName:bundleId]];
 		
 		if ([what isEqualToString:@"SettingsPlist"])
 		{
@@ -210,7 +211,7 @@ int main(int argc, const char *argv[])
 			else
 				destDirec = path;
 			
-			int i;
+			NSInteger i;
 			for( i = fileListFirstItemIndex; i < argc; i++)
 			{
 				NSString *curFile = [NSString stringWithUTF8String:argv[ i]];
@@ -536,7 +537,7 @@ int main(int argc, const char *argv[])
 			UseOpenJpeg = [[dict objectForKey:@"UseOpenJpegForJPEG2000"] intValue];
 			Use_kdu_IfAvailable = [[dict objectForKey:@"UseKDUForJPEG2000"] intValue];
 			
-			int i;
+			NSInteger i;
 			for( i = fileListFirstItemIndex; i < argc ; i++)
 			{
 				NSString *curFile = [NSString stringWithUTF8String: argv[ i]];
@@ -569,7 +570,7 @@ int main(int argc, const char *argv[])
 			UseOpenJpeg = [[dict objectForKey:@"UseOpenJpegForJPEG2000"] intValue];
 			Use_kdu_IfAvailable = [[dict objectForKey:@"UseKDUForJPEG2000"] intValue];
 			
-			int i;
+			NSInteger i;
 			for( i = fileListFirstItemIndex; i < argc ; i++)
 			{
 				NSString *curFile = [NSString stringWithUTF8String:argv[ i]];

@@ -985,11 +985,12 @@ public:
         
         if( vramMB <= 512)
         {
-            NSRunCriticalAlertPanel(NSLocalizedString(@"GPU Rendering", nil),
-                                    [NSString stringWithFormat: NSLocalizedString( @"Your graphic board has only %d MB of VRAM. Performances will be very limited with large dataset.", nil), vramMB],
-                                    NSLocalizedString( @"OK", nil),
+            NSRunCriticalAlertPanel(NSLocalizedString(@"GPU Rendering", nil), // title
+                                    NSLocalizedString(@"Your graphic board has only %d MB of VRAM. Performances will be very limited with large dataset.", nil), // msg format
+                                    NSLocalizedString(@"OK", nil), // default button
                                     nil,
-                                    nil);
+                                    nil,
+                                    vramMB);
         }
     }
     

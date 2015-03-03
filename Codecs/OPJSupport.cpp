@@ -638,9 +638,9 @@ OPJSupport::compressJPEG2K(  void *data,
     strcpy(parameters.outfile,tmpnam(NULL));
 #endif
     
-    int image_width = columns;
-    int image_height = rows;
-    int sample_pixel = samplesPerPixel;
+//    int image_width = columns;
+//    int image_height = rows;
+//    int sample_pixel = samplesPerPixel;
     
     image = rawtoimage( (char*) data,
                        &parameters,
