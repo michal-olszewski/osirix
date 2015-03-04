@@ -96,6 +96,10 @@
 		434B47AE1A1A1AD4008CF8CF /* libopenjp2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 434B47AB1A1A1AD4008CF8CF /* libopenjp2.a */; };
 		434B47AF1A1A1AD4008CF8CF /* libopenjp2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 434B47AB1A1A1AD4008CF8CF /* libopenjp2.a */; };
 		434C54FF1AA5868000218595 /* BioradHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 434C54FE1AA5868000218595 /* BioradHeader.h */; };
+		4352BE501AA698F6000B80E1 /* OSIDerivedROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4352BE4E1AA698F6000B80E1 /* OSIDerivedROI.h */; };
+		4352BE511AA698F6000B80E1 /* OSIDerivedROI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4352BE4F1AA698F6000B80E1 /* OSIDerivedROI.m */; };
+		4352BE541AA69905000B80E1 /* OSIPETDerivedROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4352BE521AA69905000B80E1 /* OSIPETDerivedROI.h */; };
+		4352BE551AA69905000B80E1 /* OSIPETDerivedROI.m in Sources */ = {isa = PBXBuildFile; fileRef = 4352BE531AA69905000B80E1 /* OSIPETDerivedROI.m */; };
 		4362173C1A2F3730006FA27A /* libITKBiasCorrection-4.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 436216EF1A2F3730006FA27A /* libITKBiasCorrection-4.7.a */; };
 		4362173D1A2F3730006FA27A /* libITKBioCell-4.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 436216F01A2F3730006FA27A /* libITKBioCell-4.7.a */; };
 		4362173E1A2F3730006FA27A /* libITKCommon-4.7.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 436216F11A2F3730006FA27A /* libITKCommon-4.7.a */; };
@@ -4586,6 +4590,10 @@
 		434B47A11A1A18D3008CF8CF /* kdu_OsiriX_NO_Support.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = kdu_OsiriX_NO_Support.cpp; path = "Binaries/KDU SDK/kdu_OsiriX_NO_Support.cpp"; sourceTree = "<group>"; };
 		434B47AB1A1A1AD4008CF8CF /* libopenjp2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libopenjp2.a; path = Binaries/openjpeg/libopenjp2.a; sourceTree = "<group>"; };
 		434C54FE1AA5868000218595 /* BioradHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BioradHeader.h; sourceTree = "<group>"; };
+		4352BE4E1AA698F6000B80E1 /* OSIDerivedROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIDerivedROI.h; sourceTree = "<group>"; };
+		4352BE4F1AA698F6000B80E1 /* OSIDerivedROI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIDerivedROI.m; sourceTree = "<group>"; };
+		4352BE521AA69905000B80E1 /* OSIPETDerivedROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIPETDerivedROI.h; sourceTree = "<group>"; };
+		4352BE531AA69905000B80E1 /* OSIPETDerivedROI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSIPETDerivedROI.m; sourceTree = "<group>"; };
 		436216EF1A2F3730006FA27A /* libITKBiasCorrection-4.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libITKBiasCorrection-4.7.a"; path = "Binaries/ITKLibs/libITKBiasCorrection-4.7.a"; sourceTree = "<group>"; };
 		436216F01A2F3730006FA27A /* libITKBioCell-4.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libITKBioCell-4.7.a"; path = "Binaries/ITKLibs/libITKBioCell-4.7.a"; sourceTree = "<group>"; };
 		436216F11A2F3730006FA27A /* libITKCommon-4.7.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libITKCommon-4.7.a"; path = "Binaries/ITKLibs/libITKCommon-4.7.a"; sourceTree = "<group>"; };
@@ -8233,6 +8241,10 @@
 		434C54FB1AA5808E00218595 /* OSI */ = {
 			isa = PBXGroup;
 			children = (
+				4352BE4E1AA698F6000B80E1 /* OSIDerivedROI.h */,
+				4352BE4F1AA698F6000B80E1 /* OSIDerivedROI.m */,
+				4352BE521AA69905000B80E1 /* OSIPETDerivedROI.h */,
+				4352BE531AA69905000B80E1 /* OSIPETDerivedROI.m */,
 				4F832D2413FA5F8C00511070 /* OSICoalescedPlanarROI.h */,
 				4F832D2513FA5F8C00511070 /* OSICoalescedPlanarROI.m */,
 				4F832D2813FA5F8C00511070 /* OSIEnvironment+Private.h */,
@@ -11017,6 +11029,7 @@
 				BFBF3FBA09B6828D00545F5E /* djencpro.h in Headers */,
 				BFBF3FBC09B6828D00545F5E /* djencsps.h in Headers */,
 				BFBF3FBE09B6828D00545F5E /* djencsv1.h in Headers */,
+				4352BE501AA698F6000B80E1 /* OSIDerivedROI.h in Headers */,
 				BFBF3FC009B6828D00545F5E /* djrplol.h in Headers */,
 				BFBF3FC209B6828D00545F5E /* djrploss.h in Headers */,
 				BFBF3FC409B6828D00545F5E /* djutils.h in Headers */,
@@ -11362,6 +11375,7 @@
 				841721BC10D8D745001A833F /* DDNumber.h in Headers */,
 				841721BE10D8D745001A833F /* DDRange.h in Headers */,
 				841721C010D8D745001A833F /* HTTPAsyncFileResponse.h in Headers */,
+				4352BE541AA69905000B80E1 /* OSIPETDerivedROI.h in Headers */,
 				841721C210D8D745001A833F /* HTTPAuthenticationRequest.h in Headers */,
 				841721C410D8D745001A833F /* HTTPConnection.h in Headers */,
 				841721C610D8D745001A833F /* HTTPResponse.h in Headers */,
@@ -14092,6 +14106,7 @@
 				CE9DD287086B35050058DD2A /* DicomSeries.m in Sources */,
 				A99B7ECB0885A61F004328C0 /* BonjourPublisher.m in Sources */,
 				A99B7ECD0885A621004328C0 /* BonjourBrowser.m in Sources */,
+				4352BE511AA698F6000B80E1 /* OSIDerivedROI.m in Sources */,
 				7EBE4B2608917A7200FC1C36 /* LogTableView.m in Sources */,
 				CE88576008AF938800B72DA7 /* ROIVolumeController.mm in Sources */,
 				CE88576108AF938800B72DA7 /* ROIVolumeView.mm in Sources */,
@@ -14628,6 +14643,7 @@
 				BFBF41FD09B6828D00545F5E /* offname.cc in Sources */,
 				BFBF420009B6828D00545F5E /* oflist.cc in Sources */,
 				BFBF420209B6828D00545F5E /* oflogfil.cc in Sources */,
+				4352BE551AA69905000B80E1 /* OSIPETDerivedROI.m in Sources */,
 				BFBF420809B6828D00545F5E /* ofstd.cc in Sources */,
 				BFBF420C09B6828D00545F5E /* ofstring.cc in Sources */,
 				BFBF420E09B6828D00545F5E /* ofthread.cc in Sources */,
