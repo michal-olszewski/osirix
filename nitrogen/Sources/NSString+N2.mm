@@ -19,6 +19,7 @@
 #include <sys/stat.h>
 #include <CommonCrypto/CommonDigest.h>
 
+
 @implementation NSString (N2)
 
 - (NSString *)stringByTruncatingToLength:(NSInteger)theWidth

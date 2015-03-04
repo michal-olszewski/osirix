@@ -281,7 +281,9 @@ typedef itk::ResampleImageFilter<ImageType, ImageType> ResampleFilterType;
             }
 			
 			// to keep settings propagated for MRI we need the old values for echotime & repetitiontime
-            
+            curPix.echotime = originalPix.echotime;
+            curPix.repetitiontime = originalPix.repetitiontime;
+			
 			[curPix setSavedWL: [originalPix savedWL]];
 			[curPix setSavedWW: [originalPix savedWW]];
 			[curPix changeWLWW: wl : ww];

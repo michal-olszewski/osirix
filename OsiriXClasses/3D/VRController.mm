@@ -801,7 +801,6 @@ static NSString*	CLUTEditorsViewToolbarItemIdentifier = @"CLUTEditors";
         }
         [nc addObserver:self selector:@selector(windowWillCloseNotification:) name:NSWindowWillCloseNotification object:nil];
         [nc addObserver:self selector:@selector(windowWillMoveNotification:) name:NSWindowWillMoveNotification object:nil];
-        //[nc addObserver:self selector:@selector(windowWillMoveNotification:) name:NSWindowWillMoveNotification object:nil];
         
         if( [style isEqualToString:@"panel"])
         {

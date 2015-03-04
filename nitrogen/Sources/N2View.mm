@@ -26,7 +26,7 @@ NSString* N2ViewBoundsSizeDidChangeNotificationOldBoundsSize = @"oldBoundsSize";
 -(void)dealloc {
 	[self setForeColor:NULL];
 	[self setBackColor:NULL];
-	[self setN2Layout:NULL];
+	[self setN2layout:NULL];
 	[super dealloc];
 }
 

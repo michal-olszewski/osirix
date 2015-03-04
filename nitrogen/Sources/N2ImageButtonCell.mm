@@ -26,8 +26,8 @@
 		self.altImage = inAltImage;
 	
 	self.gradientType = NSGradientNone;
-	//self.bezelStyle = 0;
-	
+//	self.bezelStyle = 0;
+
 	return self;
 }
 

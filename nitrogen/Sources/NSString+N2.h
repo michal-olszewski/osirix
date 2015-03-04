@@ -14,6 +14,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+
 #define N2NonNullString( a) a ? a : @""
 
 @interface NSString (N2)

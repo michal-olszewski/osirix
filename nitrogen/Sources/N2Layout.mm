@@ -23,7 +23,7 @@
 -(id)initWithView:(N2View*)view controlSize:(NSControlSize)size {
 	self = [super init];
 	_view = view;
-	[view setN2Layout:self];
+	[view setN2layout:self];
 	[self setEnabled:YES];
 	
 	switch (_controlSize = size) {
