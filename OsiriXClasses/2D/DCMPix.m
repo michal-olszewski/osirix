@@ -10643,15 +10643,19 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
                                     {
                                         value = [NSString stringWithFormat:@"%.6g", [echotime floatValue]];;
                                     }
-                                    else if(fileNb>=0)
-                                        value = [self getDICOMFieldValueForGroup:[[field objectForKey:@"group"] intValue] element:[[field objectForKey:@"element"] intValue] papyLink:fileNb];
                                     else
-                                        value = nil;
+                                    {
+                                        value = [self getDICOMFieldValueForGroup:[[field objectForKey:@"group"] intValue]
+                                                                         element:[[field objectForKey:@"element"] intValue]
+                                                                         DCMLink:dcmObject];
+                                    }
                                     
-                                    if( [[field objectForKey:@"group"] intValue] == 0x0010 && [[field objectForKey:@"element"] intValue] == 0x0010)
+                                    if( [[field objectForKey:@"group"] intValue] == 0x0010 &&
+                                        [[field objectForKey:@"element"] intValue] == 0x0010)
                                         value = @"PatientName";
                                     
-                                    if( [[field objectForKey:@"group"] intValue] == 0x0002 && [[field objectForKey:@"element"] intValue] == 0x0010)
+                                    if( [[field objectForKey:@"group"] intValue] == 0x0002 &&
+                                        [[field objectForKey:@"element"] intValue] == 0x0010)
                                         value = [BrowserController compressionString: value];
                                     
                                     if(value==nil || [value length] == 0) value = @"-";
