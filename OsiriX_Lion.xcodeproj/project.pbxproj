@@ -286,6 +286,16 @@
 		4362185E1A2F375D006FA27A /* libvtkViewsInfovis-6.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 436217F41A2F375C006FA27A /* libvtkViewsInfovis-6.2.a */; };
 		439B8C141A19CCC300F396D7 /* 3DconnexionClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */; };
 		439B8C151A19CCC900F396D7 /* 3DconnexionClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */; };
+		43F8F9AA1AA7DAA6008F318C /* LoupeController.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F8F9A41AA7DAA6008F318C /* LoupeController.h */; };
+		43F8F9AB1AA7DAA6008F318C /* LoupeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F8F9A51AA7DAA6008F318C /* LoupeController.m */; };
+		43F8F9AC1AA7DAA6008F318C /* LoupeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F8F9A61AA7DAA6008F318C /* LoupeView.h */; };
+		43F8F9AD1AA7DAA6008F318C /* LoupeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F8F9A71AA7DAA6008F318C /* LoupeView.m */; };
+		43F8F9AE1AA7DAA6008F318C /* LoupeWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F8F9A81AA7DAA6008F318C /* LoupeWindow.h */; };
+		43F8F9AF1AA7DAA6008F318C /* LoupeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F8F9A91AA7DAA6008F318C /* LoupeWindow.m */; };
+		43F8F9B21AA7DE44008F318C /* PathForImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F8F9B01AA7DE44008F318C /* PathForImage.h */; };
+		43F8F9B31AA7DE44008F318C /* PathForImage.mm in Sources */ = {isa = PBXBuildFile; fileRef = 43F8F9B11AA7DE44008F318C /* PathForImage.mm */; };
+		43F8F9B61AA7DF12008F318C /* PlaceholderWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F8F9B41AA7DF12008F318C /* PlaceholderWindowController.h */; };
+		43F8F9B71AA7DF12008F318C /* PlaceholderWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F8F9B51AA7DF12008F318C /* PlaceholderWindowController.m */; };
 		4F00A9E4139A778000ABD529 /* CPRStretchedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F00A9E3139A778000ABD529 /* CPRStretchedView.m */; };
 		4F00A9E8139A779200ABD529 /* CPRStretchedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F00A9E7139A779200ABD529 /* CPRStretchedView.h */; };
 		4F1FCE1B143092DC008683F9 /* OSIPlanarBrushROI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */; };
@@ -4779,6 +4789,16 @@
 		436217F31A2F375C006FA27A /* libvtkViewsCore-6.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libvtkViewsCore-6.2.a"; path = "Binaries/VTKLibs/libvtkViewsCore-6.2.a"; sourceTree = "<group>"; };
 		436217F41A2F375C006FA27A /* libvtkViewsInfovis-6.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libvtkViewsInfovis-6.2.a"; path = "Binaries/VTKLibs/libvtkViewsInfovis-6.2.a"; sourceTree = "<group>"; };
 		439B8C131A19CCC300F396D7 /* 3DconnexionClient.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = 3DconnexionClient.framework; path = Binaries/3DconnexionClient.framework; sourceTree = "<group>"; };
+		43F8F9A41AA7DAA6008F318C /* LoupeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoupeController.h; sourceTree = "<group>"; };
+		43F8F9A51AA7DAA6008F318C /* LoupeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoupeController.m; sourceTree = "<group>"; };
+		43F8F9A61AA7DAA6008F318C /* LoupeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoupeView.h; sourceTree = "<group>"; };
+		43F8F9A71AA7DAA6008F318C /* LoupeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoupeView.m; sourceTree = "<group>"; };
+		43F8F9A81AA7DAA6008F318C /* LoupeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoupeWindow.h; sourceTree = "<group>"; };
+		43F8F9A91AA7DAA6008F318C /* LoupeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoupeWindow.m; sourceTree = "<group>"; };
+		43F8F9B01AA7DE44008F318C /* PathForImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PathForImage.h; sourceTree = "<group>"; };
+		43F8F9B11AA7DE44008F318C /* PathForImage.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PathForImage.mm; sourceTree = "<group>"; };
+		43F8F9B41AA7DF12008F318C /* PlaceholderWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceholderWindowController.h; sourceTree = "<group>"; };
+		43F8F9B51AA7DF12008F318C /* PlaceholderWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceholderWindowController.m; sourceTree = "<group>"; };
 		4F00A9E3139A778000ABD529 /* CPRStretchedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPRStretchedView.m; sourceTree = "<group>"; };
 		4F00A9E7139A779200ABD529 /* CPRStretchedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPRStretchedView.h; sourceTree = "<group>"; };
 		4F1FCE19143092DC008683F9 /* OSIPlanarBrushROI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSIPlanarBrushROI.h; sourceTree = "<group>"; };
@@ -7706,6 +7726,12 @@
 				ABD5790906231FEF00616F39 /* HistoView.m */,
 				ABD578EA0623179E00616F39 /* HistogramWindow.h */,
 				ABD578E90623179E00616F39 /* HistogramWindow.m */,
+				43F8F9A41AA7DAA6008F318C /* LoupeController.h */,
+				43F8F9A51AA7DAA6008F318C /* LoupeController.m */,
+				43F8F9A61AA7DAA6008F318C /* LoupeView.h */,
+				43F8F9A71AA7DAA6008F318C /* LoupeView.m */,
+				43F8F9A81AA7DAA6008F318C /* LoupeWindow.h */,
+				43F8F9A91AA7DAA6008F318C /* LoupeWindow.m */,
 				AB1CB35A0618A37E00CD966B /* MyPoint.h */,
 				AB1CB35B0618A37E00CD966B /* MyPoint.m */,
 				A910FB330D57728A0095A956 /* NavigatorView.h */,
@@ -8014,6 +8040,8 @@
 				59DC290911C6178500DAD5B4 /* DiscBurningOptions.mm */,
 				CEE73FC708F44724002A395F /* FVTiff.h */,
 				CEE73FC808F44724002A395F /* FVTiff.m */,
+				43F8F9B01AA7DE44008F318C /* PathForImage.h */,
+				43F8F9B11AA7DE44008F318C /* PathForImage.mm */,
 				AB4A6DF3056EC14E009E6C6E /* XMLController.h */,
 				AB4A6DF4056EC14E009E6C6E /* XMLController.m */,
 				CE96D0DB0BEE6F9800C4E397 /* XMLControllerDCMTKCategory.h */,
@@ -8136,6 +8164,8 @@
 				CEA20534073A810100F0DAB7 /* iPhoto.m */,
 				ABB230B90C2F95DD00B38596 /* JPEGExif.h */,
 				ABB230BA0C2F95DD00B38596 /* JPEGExif.m */,
+				A9EDB2CD091A473E00EE86AF /* KFSplitView.h */,
+				A9EDB2CE091A473E00EE86AF /* KFSplitView.m */,
 				CEF0E5FF06AEF326001FF9E5 /* Mailer.h */,
 				CEF0E60006AEF326001FF9E5 /* Mailer.m */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -8166,6 +8196,8 @@
 				849B44BA1552B2D800194728 /* OsiriXNotificationCenter.m */,
 				CE6CD06B0CFB0462001DF429 /* OsiriXToolbar.h */,
 				CE6CD06C0CFB0462001DF429 /* OsiriXToolbar.m */,
+				43F8F9B41AA7DF12008F318C /* PlaceholderWindowController.h */,
+				43F8F9B51AA7DF12008F318C /* PlaceholderWindowController.m */,
 				BFAFEE9208F2220B002AD789 /* PluginFileFormatDecoder.h */,
 				BFAFEE9308F2220B002AD789 /* PluginFileFormatDecoder.m */,
 				AB2C24E10677861300A08910 /* PluginFilter.h */,
@@ -9051,8 +9083,6 @@
 			children = (
 				CE594401155E382B007BDF5B /* LetsMove and Dock */,
 				AB36742F0BE0CEB0003634E6 /* iLifeControls */,
-				A9EDB2CD091A473E00EE86AF /* KFSplitView.h */,
-				A9EDB2CE091A473E00EE86AF /* KFSplitView.m */,
 				AB3C6A8E057ADCA60001052D /* NSFont_OpenGL.h */,
 				AB3C6A8F057ADCA60001052D /* NSFont_OpenGL.m */,
 			);
@@ -10846,6 +10876,7 @@
 				AB94E72606343D91003E4C48 /* MutableArrayCategory.h in Headers */,
 				AB0128640635991400A74AA1 /* QuicktimeExport.h in Headers */,
 				ABE3336B063D624400C8E087 /* QueryFilter.h in Headers */,
+				43F8F9B61AA7DF12008F318C /* PlaceholderWindowController.h in Headers */,
 				AB695A1F063D8261002BDF78 /* Analyze.h in Headers */,
 				AB73E13A06497EDA00545980 /* PreviewView.h in Headers */,
 				7E569399065007D6001A9762 /* SmartWindowController.h in Headers */,
@@ -10931,6 +10962,7 @@
 				BFBF3E7D09B6828D00545F5E /* dcdebug.h in Headers */,
 				BFBF3E7E09B6828D00545F5E /* dcdefine.h in Headers */,
 				BFBF3E7F09B6828D00545F5E /* dcdeftag.h in Headers */,
+				43F8F9AC1AA7DAA6008F318C /* LoupeView.h in Headers */,
 				BFBF3E8109B6828D00545F5E /* dcdicdir.h in Headers */,
 				BFBF3E8309B6828D00545F5E /* dcdicent.h in Headers */,
 				BFBF3E8509B6828D00545F5E /* dcdict.h in Headers */,
@@ -11018,6 +11050,7 @@
 				BFBF3FA509B6828D00545F5E /* djdijg12.h in Headers */,
 				BFBF3FA709B6828D00545F5E /* djdijg16.h in Headers */,
 				BFBF3FA909B6828D00545F5E /* djdijg8.h in Headers */,
+				43F8F9AA1AA7DAA6008F318C /* LoupeController.h in Headers */,
 				BFBF3FAB09B6828D00545F5E /* djeijg12.h in Headers */,
 				BFBF3FAD09B6828D00545F5E /* djeijg16.h in Headers */,
 				BFBF3FAF09B6828D00545F5E /* djeijg8.h in Headers */,
@@ -11238,6 +11271,7 @@
 				BF3F217209CB870E002736A5 /* diqtpbox.h in Headers */,
 				BF3F217309CB870F002736A5 /* diqtpix.h in Headers */,
 				BF3F217409CB8715002736A5 /* diqtstab.h in Headers */,
+				43F8F9B21AA7DE44008F318C /* PathForImage.h in Headers */,
 				BF3F217509CB8715002736A5 /* diqttype.h in Headers */,
 				BF3F217809CB8718002736A5 /* diregist.h in Headers */,
 				BF3F217A09CB871A002736A5 /* dirgbimg.h in Headers */,
@@ -11518,6 +11552,7 @@
 				CE90550912F5B64300263AB6 /* CPRProjectionOperation.h in Headers */,
 				CE90550B12F5B64300263AB6 /* CPRStraightenedOperation.h in Headers */,
 				CE90550D12F5B64300263AB6 /* CPRTransverseView.h in Headers */,
+				43F8F9AE1AA7DAA6008F318C /* LoupeWindow.h in Headers */,
 				CE90550F12F5B64300263AB6 /* CPRUnsignedInt16ImageRep.h in Headers */,
 				CE90551112F5B64300263AB6 /* CPRStraightenedView.h in Headers */,
 				CE90551312F5B64300263AB6 /* CPRVolumeData.h in Headers */,
@@ -14051,6 +14086,7 @@
 				AB1CB35D0618A37E00CD966B /* MyPoint.m in Sources */,
 				ABD1A8710619E68B00C5B670 /* ROIWindow.m in Sources */,
 				AB785FBB061A3C0700EC48D3 /* MyNSTextView.m in Sources */,
+				43F8F9AB1AA7DAA6008F318C /* LoupeController.m in Sources */,
 				ABF68A44061DD18600FEED6D /* StringTexture.m in Sources */,
 				ABD578ED0623179E00616F39 /* HistogramWindow.m in Sources */,
 				ABD5790B06231FEF00616F39 /* HistoView.m in Sources */,
@@ -14340,6 +14376,7 @@
 				59526F331281ACA90016F6C0 /* WebPortalDB.xcdatamodeld in Sources */,
 				59526F3D1281ADC10016F6C0 /* WebPortalUser.mm in Sources */,
 				59526F6D1281AFCA0016F6C0 /* WebPortalConnection.mm in Sources */,
+				43F8F9B71AA7DF12008F318C /* PlaceholderWindowController.m in Sources */,
 				CEFFFE271286895300D69BB8 /* djdec2k.cc in Sources */,
 				CEFFFE3C12868F5400D69BB8 /* djdijp2k.cc in Sources */,
 				CEFF00FE1286F7A700D69BB8 /* djenc2k.cc in Sources */,
@@ -14474,6 +14511,7 @@
 				BFBF3ECE09B6828D00545F5E /* dcuid.cc in Sources */,
 				BFBF3ED009B6828D00545F5E /* dcvm.cc in Sources */,
 				BFBF3ED209B6828D00545F5E /* dcvr.cc in Sources */,
+				43F8F9B31AA7DE44008F318C /* PathForImage.mm in Sources */,
 				BFBF3ED409B6828D00545F5E /* dcvrae.cc in Sources */,
 				BFBF3ED609B6828D00545F5E /* dcvras.cc in Sources */,
 				BFBF3ED809B6828D00545F5E /* dcvrat.cc in Sources */,
@@ -14552,6 +14590,7 @@
 				BFBF40D009B6828D00545F5E /* dimse.cc in Sources */,
 				BFBF40D209B6828D00545F5E /* dimstore.cc in Sources */,
 				BFBF40D309B6828D00545F5E /* diutil.cc in Sources */,
+				43F8F9AD1AA7DAA6008F318C /* LoupeView.m in Sources */,
 				BFBF40D509B6828D00545F5E /* dul.cc in Sources */,
 				BFBF40D709B6828D00545F5E /* dulconst.cc in Sources */,
 				BFBF40D809B6828D00545F5E /* dulextra.cc in Sources */,
@@ -14897,6 +14936,7 @@
 				59C447C214516F1000D71580 /* DataNodeIdentifier.m in Sources */,
 				59C447D214516FF500D71580 /* DicomDatabase+Clean.mm in Sources */,
 				59C447D614516FF500D71580 /* DicomDatabase+DCMTK.mm in Sources */,
+				43F8F9AF1AA7DAA6008F318C /* LoupeWindow.m in Sources */,
 				59C447DA14516FF500D71580 /* DicomDatabase+Routing.mm in Sources */,
 				59C447DE14516FF500D71580 /* DicomDatabase+Scan.mm in Sources */,
 				59C447EA1451710F00D71580 /* NSArray+N2.mm in Sources */,

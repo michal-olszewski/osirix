@@ -19,7 +19,7 @@
 #import "OSIVoxel.h"
 #import "VRView.h"
 #import "EndoscopyVRView.h"
-#import "EndoscopyFlyThruController.h"
+//#import "EndoscopyFlyThruController.h"
 #import "OrthogonalMPRController.h"
 #import "BrowserController.h"
 #import "Notifications.h"
