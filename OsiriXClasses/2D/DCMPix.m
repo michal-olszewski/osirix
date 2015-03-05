@@ -1178,6 +1178,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 }
 @end
 
+#pragma mark - PixThread
+
 @implementation PixThread
 
 - (void) computeMax:(float*) fResult pos:(int) pos threads:(int) threads object: (DCMPix*) o
@@ -1318,6 +1320,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 
 @end
 
+#pragma mark - DCMPix
 
 @implementation DCMPix
 
@@ -1354,6 +1357,57 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 @synthesize isLUT12Bit;
 
 @synthesize referencedSOPInstanceUID;
+
+#pragma mark - Non-synthesized accessors
+
+- (void)setSourceFile:(NSString*)s {
+    if (![srcFile isEqualToString:s]) {
+        [srcFile release];
+        srcFile = [s retain];
+    }
+}
+
+-(NSString*) sourceFile {
+    return srcFile;
+}
+
+- (void)setBaseAddr: (char*) ptr
+{
+    if( baseAddr) free( baseAddr);
+    baseAddr = ptr;
+}
+
+- (char*)baseAddr
+{
+    [self CheckLoad];
+    
+    if( baseAddr == nil)
+        [self allocate8bitRepresentation];
+    
+    if( needToCompute8bitRepresentation)
+        [self compute8bitRepresentation];
+    
+    return baseAddr;
+}
+
+- (void)setLUT12baseAddr: (unsigned char*) ptr
+{
+    if( ptr != LUT12baseAddr)
+    {
+        if(LUT12baseAddr) free(LUT12baseAddr);
+        LUT12baseAddr = ptr;
+    }
+}
+
+- (unsigned char*)LUT12baseAddr;
+{
+    [self CheckLoad];
+    if( LUT12baseAddr == nil)
+        [self allocate8bitRepresentation];
+    return LUT12baseAddr;
+}
+
+#pragma mark -
 
 - (DicomImage*) imageObj
 {
@@ -8024,42 +8078,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     }
 }
 
-- (void)setBaseAddr: (char*) ptr
-{
-	if( baseAddr) free( baseAddr);
-	baseAddr = ptr;
-}
-
-- (char*)baseAddr
-{
-    [self CheckLoad];
-	
-	if( baseAddr == nil)
-		[self allocate8bitRepresentation];
-    
-	if( needToCompute8bitRepresentation)
-		[self compute8bitRepresentation];
-	
-	return baseAddr;
-}
-
-- (void)setLUT12baseAddr: (unsigned char*) ptr
-{
-	if( ptr != LUT12baseAddr)
-	{
-		if(LUT12baseAddr) free(LUT12baseAddr);
-		LUT12baseAddr = ptr;
-	}
-}
-
-- (unsigned char*)LUT12baseAddr;
-{
-    [self CheckLoad];
-	if( LUT12baseAddr == nil)
-		[self allocate8bitRepresentation];
-    return LUT12baseAddr;
-}
-
 # pragma mark-
 
 + (NSPoint) rotatePoint:(NSPoint)pt aroundPoint:(NSPoint)c angle:(float)a;
@@ -8845,17 +8863,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 	
 	updateToBeApplied = YES;
 	needToCompute8bitRepresentation = YES;
-}
-
-- (void)setSourceFile:(NSString*)s
-{
-    [srcFile release];
-    srcFile = [s retain];
-}
-
--(NSString*) sourceFile
-{
-    return srcFile;
 }
 
 - (void) ConvertToBW:(long) mode

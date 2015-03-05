@@ -52,7 +52,7 @@
 - (instancetype)initWithROIMask:(OSIROIMask *)mask volumeTransform:(N3AffineTransform)volumeTransform sampledOnVolumeData:(OSIFloatVolumeData *)floatVolumeData name:(NSString *)name reinterpolateMask:(BOOL)reinterpolateMask
 {
 	if ( (self = [super init]) ) {
-        if (reinterpolateMask = NO) {
+        if (reinterpolateMask == NO) {
             _mask = [mask retain];
             _volumeTransform = volumeTransform;
             _name = [name retain];
@@ -112,24 +112,20 @@
         [_cachedBitmapMask release];
         _cachedBitmapMask = nil;
 
-        if (reinterpolateMask = NO) {
-            [self willChangeValueForKey:@"volumeTransform"];
-            [self willChangeValueForKey:@"mask"]; // ok, so the mask itself didn't change, but what the mask logically represented did
-            _volumeTransform = volumeTransform;
-            [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVolumetricROIDidUpdateNotification object:self userInfo:nil];
-            [self didChangeValueForKey:@"mask"];
-            [self didChangeValueForKey:@"volumeTransform"];
-        } else {
-            [self willChangeValueForKey:@"volumeTransform"];
-            [self willChangeValueForKey:@"mask"]; // ok, so the mask itself didn't change, but what the mask logically represented did
+        [self willChangeValueForKey:@"volumeTransform"];
+        [self willChangeValueForKey:@"mask"]; // ok, so the mask itself didn't change, but what the mask logically represented did
+        
+        if (reinterpolateMask) {
             OSIROIMask *mappedMask = [[self.mask ROIMaskByResamplingFromVolumeTransform:_volumeTransform toVolumeTransform:volumeTransform interpolationMode:CPRInterpolationModeNearestNeighbor] retain];
             [_mask release];
             _mask = mappedMask;
-            _volumeTransform = volumeTransform;
-            [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVolumetricROIDidUpdateNotification object:self userInfo:nil];
-            [self didChangeValueForKey:@"mask"];
-            [self didChangeValueForKey:@"volumeTransform"];
         }
+        
+        _volumeTransform = volumeTransform;
+        [[NSNotificationCenter defaultCenter] postNotificationName:OsirixVolumetricROIDidUpdateNotification object:self userInfo:nil];
+
+        [self didChangeValueForKey:@"mask"];
+        [self didChangeValueForKey:@"volumeTransform"];
     }
 }
 
