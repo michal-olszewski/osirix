@@ -5588,14 +5588,21 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 {
     // Group 0x0028
     
-    if( [dcmObject attributeValueWithName:@"PixelRepresentation"]) fIsSigned = [[dcmObject attributeValueWithName:@"PixelRepresentation"] intValue];
-    if( [dcmObject attributeValueWithName:@"BitsAllocated"]) bitsAllocated = [[dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
+    if( [dcmObject attributeValueWithName:@"PixelRepresentation"])
+        fIsSigned = [[dcmObject attributeValueWithName:@"PixelRepresentation"] intValue];
     
-    bitsStored = [[dcmObject attributeValueWithName:@"BitsStored"] intValue];
+    if( [dcmObject attributeValueWithName:@"BitsAllocated"])
+        bitsAllocated = [[dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
+    
+    if( [dcmObject attributeValueWithName:@"BitsStored"])
+        bitsStored = [[dcmObject attributeValueWithName:@"BitsStored"] intValue];
+    
     if( bitsStored == 8 && bitsAllocated == 16 && [[dcmObject attributeValueWithName:@"PhotometricInterpretation"] isEqualToString:@"RGB"])
         bitsAllocated = 8;
     
-    if ([dcmObject attributeValueWithName:@"RescaleIntercept"]) offset = [[dcmObject attributeValueWithName:@"RescaleIntercept"] floatValue];
+    if ([dcmObject attributeValueWithName:@"RescaleIntercept"])
+        offset = [[dcmObject attributeValueWithName:@"RescaleIntercept"] floatValue];
+    
     if ([dcmObject attributeValueWithName:@"RescaleSlope"])
     {
         slope = [[dcmObject attributeValueWithName:@"RescaleSlope"] floatValue];
@@ -5650,8 +5657,12 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     if( shutterRect.size.height == 0) shutterRect.size.height = height;
     
     //window level & width
-    if ([dcmObject attributeValueWithName:@"WindowCenter"] && isRGB == NO) savedWL = (int)[[dcmObject attributeValueWithName:@"WindowCenter"] floatValue];
-    if ([dcmObject attributeValueWithName:@"WindowWidth"] && isRGB == NO) savedWW =  (int) [[dcmObject attributeValueWithName:@"WindowWidth"] floatValue];
+    if ([dcmObject attributeValueWithName:@"WindowCenter"] && isRGB == NO)
+        savedWL = (int)[[dcmObject attributeValueWithName:@"WindowCenter"] floatValue];
+    
+    if ([dcmObject attributeValueWithName:@"WindowWidth"] && isRGB == NO)
+        savedWW =  (int) [[dcmObject attributeValueWithName:@"WindowWidth"] floatValue];
+    
     if(  savedWW < 0) savedWW =-savedWW;
     
     if( [[dcmObject attributeValueWithName:@"RescaleType"] isEqualToString: @"US"] == NO)
