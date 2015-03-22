@@ -25,7 +25,6 @@
 #import "Accelerate/Accelerate.h"
 
 #import "OPJSupport.h"
-
 //#import "jasper.h"
 
 static int Use_kdu_IfAvailable = 0;
@@ -473,142 +472,6 @@ static inline int int_ceildivpow2(int a, int b) {
 //	opj_image_destroy(image);
 //
 //  return raw;
-//}
-
-//template<typename T>
-//void rawtoimage_fill(T *inputbuffer, int w, int h, int numcomps, opj_image_t *image, int pc)
-//{
-//  T *p = inputbuffer;
-//  if( pc )
-//    {
-//    for(int compno = 0; compno < numcomps; compno++)
-//      {
-//      for (int i = 0; i < w * h; i++)
-//        {
-//        /* compno : 0 = GREY, (0, 1, 2) = (R, G, B) */
-//        image->comps[compno].data[i] = *p;
-//        ++p;
-//        }
-//      }
-//    }
-//  else
-//    {
-//    for (int i = 0; i < w * h; i++)
-//      {
-//      for(int compno = 0; compno < numcomps; compno++)
-//        {
-//        /* compno : 0 = GREY, (0, 1, 2) = (R, G, B) */
-//        image->comps[compno].data[i] = *p;
-//        ++p;
-//        }
-//      }
-//    }
-//}
-//
-//
-//opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
-//  int fragment_size, int image_width, int image_height, int sample_pixel,
-//  int bitsallocated, int bitsstored, int sign, int quality, int pc)
-//{
-//  (void)quality;
-//  int w, h;
-//  int numcomps;
-//  OPJ_COLOR_SPACE color_space;
-//  opj_image_cmptparm_t cmptparm[3]; /* maximum of 3 components */
-//  opj_image_t * image = NULL;
-//
-//  assert( sample_pixel == 1 || sample_pixel == 3 );
-//  if( sample_pixel == 1 )
-//    {
-//    numcomps = 1;
-//    color_space = CLRSPC_GRAY;
-//    }
-//  else // sample_pixel == 3
-//    {
-//    numcomps = 3;
-//    color_space = CLRSPC_SRGB;
-//    /* Does OpenJPEg support: CLRSPC_SYCC ?? */
-//    }
-//  if( bitsallocated % 8 != 0 )
-//    {
-//    return 0;
-//    }
-//  assert( bitsallocated % 8 == 0 );
-//  // eg. fragment_size == 63532 and 181 * 117 * 3 * 8 == 63531 ...
-//  assert( ((fragment_size + 1)/2 ) * 2 == ((image_height * image_width * numcomps * (bitsallocated/8) + 1)/ 2 )* 2 );
-//  int subsampling_dx = parameters->subsampling_dx;
-//  int subsampling_dy = parameters->subsampling_dy;
-//
-//  // FIXME
-//  w = image_width;
-//  h = image_height;
-//
-//  /* initialize image components */
-//  memset(&cmptparm[0], 0, 3 * sizeof(opj_image_cmptparm_t));
-//  //assert( bitsallocated == 8 );
-//  for(int i = 0; i < numcomps; i++) {
-//    cmptparm[i].prec = bitsstored;
-//    cmptparm[i].bpp = bitsallocated;
-//    cmptparm[i].sgnd = sign;
-//    cmptparm[i].dx = subsampling_dx;
-//    cmptparm[i].dy = subsampling_dy;
-//    cmptparm[i].w = w;
-//    cmptparm[i].h = h;
-//  }
-//
-//  /* create the image */
-//  image = opj_image_create(numcomps, &cmptparm[0], color_space);
-//  if(!image) {
-//    return NULL;
-//  }
-//  /* set image offset and reference grid */
-//  image->x0 = parameters->image_offset_x0;
-//  image->y0 = parameters->image_offset_y0;
-//  image->x1 = parameters->image_offset_x0 + (w - 1) * subsampling_dx + 1;
-//  image->y1 = parameters->image_offset_y0 + (h - 1) * subsampling_dy + 1;
-//
-//  /* set image data */
-//
-//  //assert( fragment_size == numcomps*w*h*(bitsallocated/8) );
-//  if (bitsallocated <= 8)
-//    {
-//    if( sign )
-//      {
-//      rawtoimage_fill<int8_t>((int8_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    else
-//      {
-//      rawtoimage_fill<uint8_t>((uint8_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    }
-//  else if (bitsallocated <= 16)
-//    {
-//    if( sign )
-//      {
-//      rawtoimage_fill<int16_t>((int16_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    else
-//      {
-//      rawtoimage_fill<uint16_t>((uint16_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    }
-//  else if (bitsallocated <= 32)
-//    {
-//    if( sign )
-//      {
-//      rawtoimage_fill<int32_t>((int32_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    else
-//      {
-//      rawtoimage_fill<uint32_t>((uint32_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    }
-//  else
-//    {
-//    return NULL;
-//    }
-//
-//  return image;
 //}
 /////////
 //extern "C" NSData* compressJPEG2000(int inQuality, unsigned char* inImageBuffP, int inImageHeight, int inImageWidth, int samplesPerPixel);
@@ -1266,7 +1129,7 @@ static inline int int_ceildivpow2(int a, int b) {
 		
 		int colorModel;
 		
-        OPJSupport opj ;
+        OPJSupport opj;
         void *p = opj.decompressJPEG2K( (void*) [jpegData bytes],
                                        [jpegData length], &decompressedLength, &colorModel);
 		if( p)
@@ -1534,25 +1397,78 @@ static inline int int_ceildivpow2(int a, int b) {
 }
 
 - (NSMutableData *)encodeJPEG2000:(NSMutableData *)data quality:(int)quality
-{
-	if( Use_kdu_IfAvailable && kdu_available())
+{    
+    int rate = 0;
+
+#ifdef WITH_KDU_JP2K
+    if( Use_kdu_IfAvailable && kdu_available())
+    {
+        int precision = [[_dcmObject attributeValueWithName:@"BitsStored"] intValue];
+        
+        switch( quality)
+        {
+            case DCMLosslessQuality:
+                rate = 0;
+                break;
+                
+            case DCMHighQuality:
+                rate = 5;
+                break;
+                
+            case DCMMediumQuality:
+                if( _columns <= 600 || _rows <= 600) rate = 6;
+                else rate = 8;
+                break;
+                
+            case DCMLowQuality:
+                rate = 16;
+                break;
+                
+            default:
+                NSLog( @"****** warning unknown compression rate -> lossless : %d", quality);
+                rate = 0;
+                break;
+        }
+        
+        long compressedLength = 0;
+        
+        int processors = 0;
+        
+        if( _rows*_columns > 256*1024) // 512 * 512
+            processors = [[NSProcessInfo processInfo] processorCount]/2;
+        
+        if( processors > 8)
+            processors = 8;
+        
+        void *outBuffer = kdu_compressJPEG2K( (void*) [data bytes], _samplesPerPixel, _rows, _columns, precision, false, rate, &compressedLength, processors);
+        
+        NSMutableData *jpeg2000Data = [NSMutableData dataWithBytesNoCopy: outBuffer length: compressedLength freeWhenDone: YES];
+        
+        char zero = 0;
+        if ([jpeg2000Data length] % 2) 
+            [jpeg2000Data appendBytes:&zero length:1];
+        
+        return jpeg2000Data;
+    }
+    else
+#endif // WITH_KDU_JP2K
+    
 	{
-		int precision = [[_dcmObject attributeValueWithName:@"BitsStored"] intValue];
-		int rate = 0;
-		
-		switch( quality)
+		switch (quality)
 		{
 			case DCMLosslessQuality:
 				rate = 0;
 			break;
 				
 			case DCMHighQuality:
-				rate = 5;
+				rate = 4;
 			break;
 				
 			case DCMMediumQuality:
-				if( _columns <= 600 || _rows <= 600) rate = 6;
-				else rate = 8;
+				if( _columns <= 600 || _rows <= 600)
+                    rate = 6;
+				else
+                    rate = 8;
 			break;
 				
 			case DCMLowQuality:
@@ -1564,426 +1480,266 @@ static inline int int_ceildivpow2(int a, int b) {
 				rate = 0;
 			break;
 		}
-		
+        
+        int precision = [[_dcmObject attributeValueWithName:@"BitsStored"] intValue];
+        int bitsAllocated = [[_dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
 		long compressedLength = 0;
 		
-		int processors = 0;
+        OPJSupport opj;
+        unsigned char *outBuffer = opj.compressJPEG2K( (void*) [data bytes],
+                                                     _samplesPerPixel,
+                                                     _rows, _columns,
+                                                     precision,
+                                                     bitsAllocated,
+                                                     false,
+                                                     rate,
+                                                     &compressedLength);
+
+        NSMutableData *jpeg2000Data = [NSMutableData dataWithBytesNoCopy: outBuffer
+                                                                  length: compressedLength
+                                                            freeWhenDone: YES];
+
+        return jpeg2000Data;
+	}
+    
+#ifdef WITH_JASPER
+	{
+		NSMutableData *jpeg2000Data;
+
+		jas_image_t *image;
+		jas_image_cmptparm_t cmptparms[3];
+		jas_image_cmptparm_t *cmptparm;
+		int i;
+		int width = _columns;
+		int height = _rows;
+		int spp = _samplesPerPixel;
+		int prec = [[_dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
 		
-		if( _rows*_columns > 256*1024) // 512 * 512
-			processors = [[NSProcessInfo processInfo] processorCount]/2;
+		DCMAttributeTag *tag = [DCMAttributeTag tagWithName: @"PhotometricInterpretation"];
+		DCMAttribute *attr = [[_dcmObject attributes] objectForKey:[tag stringValue]];
+		NSString *photometricInterpretation = [attr value];
 		
-        if( processors > 8)
-            processors = 8;
-        
-		void *outBuffer = kdu_compressJPEG2K( (void*) [data bytes], _samplesPerPixel, _rows, _columns, precision, false, rate, &compressedLength, processors);
+		if ([photometricInterpretation isEqualToString:@"MONOCHROME1"] || [photometricInterpretation isEqualToString:@"MONOCHROME2"])
+		{
 		
-		NSMutableData *jpeg2000Data = [NSMutableData dataWithBytesNoCopy: outBuffer length: compressedLength freeWhenDone: YES];
+		}
+		else
+		{
+			if( spp != 3)
+				NSLog( @"*** RGB Photometric?, but... spp != 3 ?");
+			spp = 3;
+		}
+		
+		if( prec >= 16)
+		{
+			[self findMinAndMax: data];
+			
+			int amplitude = _max;
+			
+			if( _min < 0)
+				amplitude -= _min;
+			
+			int bits = 1, value = 2;
+			
+			while( value < amplitude && bits <= 16))
+			{
+				value *= 2;
+				bits++;
+			}
+			
+			if( _min < 0)
+			{
+				[_dcmObject setAttributeValues: [NSMutableArray arrayWithObject: [NSNumber numberWithBool:YES]] forName:@"PixelRepresentation"];
+				bits++;  // For the sign
+			}
+			else
+				[_dcmObject setAttributeValues: [NSMutableArray arrayWithObject: [NSNumber numberWithBool:NO]] forName:@"PixelRepresentation"];
+			
+			if( bits < 9) bits = 9;
+			
+			// avoid the artifacts... switch to lossless
+			if( (_max >= 32000 && _min <= -32000) || _max >= 65000 || bits > 16)
+			{
+				quality = DCMLosslessQuality;
+			}
+			
+			if( bits > 16) bits = 16;
+			
+			prec = bits;
+		}
+		
+		DCMAttribute *signedAttr = [[_dcmObject attributes] objectForKey:[[DCMAttributeTag tagWithName:@"PixelRepresentation"] stringValue]];
+		BOOL sgnd = [[signedAttr value] boolValue];
+		
+		//set up component parameters
+		for (i = 0, cmptparm = cmptparms; i < spp; ++i, ++cmptparm)
+		{
+			cmptparm->tlx = 0;
+			cmptparm->tly = 0;
+			cmptparm->hstep = 1;
+			cmptparm->vstep = 1;
+			cmptparm->width = width;
+			cmptparm->height = height;
+			cmptparm->prec = prec;
+			cmptparm->sgnd = sgnd;
+		}
+		
+		//create jasper image
+		if (!(image = jas_image_create(spp, cmptparms, JAS_CLRSPC_UNKNOWN)))
+		{
+			return nil;
+		}
+		
+		//int jasColorSpace = JAS_CLRSPC_UNKNOWN;
+		if ([photometricInterpretation isEqualToString:@"MONOCHROME1"] || [photometricInterpretation isEqualToString:@"MONOCHROME2"])
+		{
+			jas_image_setclrspc(image, JAS_CLRSPC_SGRAY);
+			jas_image_setcmpttype(image, 0,JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_GRAY_Y));
+		}
+		else if ([photometricInterpretation isEqualToString:@"RGB"] || [photometricInterpretation isEqualToString:@"ARGB"])
+		{
+			jas_image_setclrspc(image, JAS_CLRSPC_SRGB);
+			jas_image_setcmpttype(image, 0,
+			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_RGB_R));
+			jas_image_setcmpttype(image, 1,
+			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_RGB_G));
+			jas_image_setcmpttype(image, 2,
+			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_RGB_B));
+		}
+		else if ([photometricInterpretation isEqualToString:@"YBR_FULL_422"] || [photometricInterpretation isEqualToString:@"YBR_PARTIAL_422"] || [photometricInterpretation isEqualToString:@"YBR_FULL"]) {
+			jas_image_setclrspc(image, JAS_CLRSPC_FAM_YCBCR);
+			jas_image_setcmpttype(image, 0,
+			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_YCBCR_Y));
+			jas_image_setcmpttype(image, 1,
+			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_YCBCR_CB));
+			jas_image_setcmpttype(image, 2,
+			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_YCBCR_CR));
+		}
+			/*
+		if ([photometricInterpretation isEqualToString:@"CMYK"])
+			jasColorSpace = JCS_CMYK;
+			*/
+			
+		//component data
+		int cmptno;	
+		int x,y;
+		jas_matrix_t *jasData[3];
+		//int_fast64_t v;
+		long long v;
+		jasData[0] = 0;
+		jasData[1] = 0;
+		jasData[2] = 0;	
+		for (cmptno = 0; cmptno < spp; ++cmptno)
+		{
+			if (!(jasData[cmptno] = jas_matrix_create( 1, width)))
+			{
+				return nil;
+			}
+		}
+		
+		unsigned char *dataPointer = (unsigned char*) [data bytes];
+		
+		for (y = 0; y < height; ++y)
+		{
+			for (x = 0; x < width; ++x)
+			{
+				for (cmptno = 0; cmptno < spp; ++cmptno)
+				{
+					if (_bitsAllocated <= 8)
+					{
+						unsigned char s;
+						s = *(unsigned char*) dataPointer;
+						dataPointer++;
+						v = s;
+					}
+					else if (sgnd)
+					{
+						signed short s;
+						s = *(signed short*) dataPointer;
+						dataPointer+=2;
+						v = s;
+
+					}
+					else
+					{
+						unsigned short s;
+						s = *(unsigned short*) dataPointer;
+						dataPointer+=2;
+						v = s;
+					}
+					jas_matrix_setv(jasData[cmptno], x, v);
+				} //cmpt
+			}	// x
+			
+			for (cmptno = 0; cmptno < spp; ++cmptno)
+			{
+				if (jas_image_writecmpt(image, cmptno, 0, y, width, 1, jasData[cmptno]))
+				{
+					NSLog( @"err");
+				}
+			} // for
+		}  // y
+		//done  reading data	
+		
+		char optstr[ 128] = "";
+		
+		switch( quality)
+		{
+			case DCMLosslessQuality:
+			break;
+				
+			case DCMHighQuality:
+				strcpy( optstr, "rate=0.25");
+			break;
+				
+			case DCMMediumQuality:
+				if( _columns <= 600 || _rows <= 600)
+					strcpy( optstr, "rate=0.16");
+				else
+					strcpy( optstr, "rate=0.12");
+			break;
+				
+			case DCMLowQuality:
+				strcpy( optstr, "rate=0.0625");
+			break;
+				
+			default:
+				NSLog( @"****** warning unknown compression rate -> lossless : %d", quality);
+			break;
+		}
+		
+		long theLength = [data length];
+		unsigned char *outBuffer = (unsigned char *) malloc( theLength);
+		jas_stream_t *outS = jas_stream_memopen((char *)outBuffer, theLength);
+		jpc_encode(image, outS , optstr);
+		jas_stream_flush( outS);
+		long compressedLength = jas_stream_tell(outS);
+		jas_stream_close( outS);
+		
+		jpeg2000Data = [NSMutableData dataWithBytesNoCopy: outBuffer length: compressedLength freeWhenDone: YES];
+		
+		for (cmptno = 0; cmptno < spp; ++cmptno)
+		{
+			if (jasData[cmptno])
+				jas_matrix_destroy(jasData[cmptno]);
+		}
+		
+		jas_image_destroy(image);
+	//	jas_image_clearfmts();
 		
 		char zero = 0;
 		if ([jpeg2000Data length] % 2) 
 			[jpeg2000Data appendBytes:&zero length:1];
 		
+//		if( [data length] / [jpeg2000Data length] > 30 && quality != DCMLosslessQuality)
+//		{
+//			NSLog( @"****** warning compress ratio is very high : %d?? Problem during compression? -> will use jp2k lossless", [data length] / [jpeg2000Data length]);
+//			return [self encodeJPEG2000: data quality: DCMLosslessQuality];
+//		}
+		
 		return jpeg2000Data;
 	}
-//	else
-//	{
-//		opj_cparameters_t parameters;
-//		opj_event_mgr_t event_mgr;
-//		opj_image_t *image = NULL;
-//		
-//		memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
-//		event_mgr.error_handler = error_callback;
-//		event_mgr.warning_handler = warning_callback;
-//		event_mgr.info_handler = info_callback;
-//
-//		memset(&parameters, 0, sizeof(parameters));
-//		opj_set_default_encoder_parameters(&parameters);
-//		
-//		parameters.tcp_numlayers = 1;
-//		parameters.cp_disto_alloc = 1;
-//		
-//		switch( quality)
-//		{
-//			case DCMLosslessQuality:
-//				parameters.tcp_rates[0] = 0;
-//				
-//			break;
-//			
-//			case DCMHighQuality:
-//				parameters.tcp_rates[0] = 4;
-//			break;
-//			
-//			case DCMMediumQuality:
-//				if( _columns <= 600 || _rows <= 600)
-//					parameters.tcp_rates[0] = 6;
-//				else
-//					parameters.tcp_rates[0] = 8;
-//			break;
-//			
-//			case DCMLowQuality:
-//				parameters.tcp_rates[0] = 16;
-//			break;
-//			
-//			default:
-//				NSLog( @"****** warning unknown compression rate -> lossless : %d", quality);
-//				parameters.tcp_rates[0] = 0;
-//			break;
-//		}
-//		
-//		int image_width = _columns;
-//		int image_height = _rows;
-//		int sample_pixel = _samplesPerPixel;
-//		
-//		DCMAttributeTag *tag = [DCMAttributeTag tagWithName: @"PhotometricInterpretation"];
-//		DCMAttribute *attr = [[_dcmObject attributes] objectForKey:[tag stringValue]];
-//		NSString *photometricInterpretation = [attr value];
-//		
-//		if ([photometricInterpretation isEqualToString:@"MONOCHROME1"] || [photometricInterpretation isEqualToString:@"MONOCHROME2"])
-//		{
-//		
-//		}
-//		else
-//		{
-//			if( sample_pixel != 3)
-//				NSLog( @"*** RGB Photometric?, but... SamplesPerPixel != 3 ?");
-//			sample_pixel = 3;
-//		}
-//		
-//		int bitsallocated = [[_dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
-//		int bitsstored = bitsallocated;
-//		
-//		if( bitsallocated >= 16)
-//		{
-//			[self findMinAndMax: data];
-//			
-//			int amplitude = _max;
-//			
-//			if( _min < 0)
-//				amplitude -= _min;
-//			
-//			int bits = 1, value = 2;
-//			
-//			while( value < amplitude && bits <= 16))
-//			{
-//				value *= 2;
-//				bits++;
-//			}
-//			
-//			if( _min < 0)
-//			{
-//				[_dcmObject setAttributeValues: [NSMutableArray arrayWithObject: [NSNumber numberWithBool: YES]] forName:@"PixelRepresentation"];
-//				bits++;  // For the sign
-//			}
-//			else
-//				[_dcmObject setAttributeValues: [NSMutableArray arrayWithObject: [NSNumber numberWithBool: NO]] forName:@"PixelRepresentation"];
-//			
-//			if( bits < 9) bits = 9;
-//			
-//			// avoid the artifacts... switch to lossless
-//			if( (_max >= 32000 && _min <= -32000) || _max >= 65000 || bits > 16)
-//			{
-//				parameters.tcp_rates[0] = 0;
-//				parameters.tcp_numlayers = 1;
-//				parameters.cp_disto_alloc = 1;
-//			}
-//			
-//			if( bits > 16) bits = 16;
-//			
-//			bitsstored = bits;
-//		}
-//		
-//		DCMAttribute *signedAttr = [[_dcmObject attributes] objectForKey:[[DCMAttributeTag tagWithName:@"PixelRepresentation"] stringValue]];
-//		BOOL sign = [[signedAttr value] boolValue];
-//		
-//		image = rawtoimage( (char*) [data bytes], &parameters,  static_cast<int>( [data length]),  image_width, image_height, sample_pixel, bitsallocated, bitsstored, sign, quality, 0);
-//		
-//		parameters.cod_format = 0; /* J2K format output */
-//		int codestream_length;
-//		opj_cio_t *cio = NULL;
-//		
-//		opj_cinfo_t* cinfo = opj_create_compress(CODEC_J2K);
-//
-//		/* catch events using our callbacks and give a local context */
-//		opj_set_event_mgr((opj_common_ptr)cinfo, &event_mgr, stderr);
-//
-//		/* setup the encoder parameters using the current image and using user parameters */
-//		opj_setup_encoder(cinfo, &parameters, image);
-//
-//		/* open a byte stream for writing */
-//		/* allocate memory for all tiles */
-//		cio = opj_cio_open((opj_common_ptr)cinfo, NULL, 0);
-//
-//		/* encode the image */
-//		BOOL bSuccess = opj_encode(cinfo, cio, image, NULL);
-//		if (!bSuccess) {
-//		  opj_cio_close(cio);
-//		  fprintf(stderr, "failed to encode image\n");
-//		  return nil;
-//		}
-//		codestream_length = cio_tell(cio);
-//		
-//		NSMutableData *jpeg2000Data = [NSMutableData dataWithBytes: cio->buffer length: codestream_length];
-//		
-//		 /* close and free the byte stream */
-//		opj_cio_close(cio);
-//		
-//		/* free remaining compression structures */
-//		opj_destroy_compress(cinfo);
-//		
-//		opj_image_destroy(image);
-//		
-//		char zero = 0;
-//		if ([jpeg2000Data length] % 2) 
-//			[jpeg2000Data appendBytes:&zero length:1];
-//		
-////		NSLog( @"%d", [data length] / [jpeg2000Data length]);
-//		
-////		if( [data length] / [jpeg2000Data length] > 30 && quality != DCMLosslessQuality)
-////		{
-////			NSLog( @"****** warning compress ratio is very high : %d?? Problem during compression? -> will use jp2k lossless", [data length] / [jpeg2000Data length]);
-////			return [self encodeJPEG2000: data quality: DCMLosslessQuality];
-////		}
-//		
-//		return jpeg2000Data;
-//	}
-//	else
-//	{
-//		NSMutableData *jpeg2000Data;
-//
-//		jas_image_t *image;
-//		jas_image_cmptparm_t cmptparms[3];
-//		jas_image_cmptparm_t *cmptparm;
-//		int i;
-//		int width = _columns;
-//		int height = _rows;
-//		int spp = _samplesPerPixel;
-//		int prec = [[_dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
-//		
-//		DCMAttributeTag *tag = [DCMAttributeTag tagWithName: @"PhotometricInterpretation"];
-//		DCMAttribute *attr = [[_dcmObject attributes] objectForKey:[tag stringValue]];
-//		NSString *photometricInterpretation = [attr value];
-//		
-//		if ([photometricInterpretation isEqualToString:@"MONOCHROME1"] || [photometricInterpretation isEqualToString:@"MONOCHROME2"])
-//		{
-//		
-//		}
-//		else
-//		{
-//			if( spp != 3)
-//				NSLog( @"*** RGB Photometric?, but... spp != 3 ?");
-//			spp = 3;
-//		}
-//		
-//		if( prec >= 16)
-//		{
-//			[self findMinAndMax: data];
-//			
-//			int amplitude = _max;
-//			
-//			if( _min < 0)
-//				amplitude -= _min;
-//			
-//			int bits = 1, value = 2;
-//			
-//			while( value < amplitude && bits <= 16))
-//			{
-//				value *= 2;
-//				bits++;
-//			}
-//			
-//			if( _min < 0)
-//			{
-//				[_dcmObject setAttributeValues: [NSMutableArray arrayWithObject: [NSNumber numberWithBool:YES]] forName:@"PixelRepresentation"];
-//				bits++;  // For the sign
-//			}
-//			else
-//				[_dcmObject setAttributeValues: [NSMutableArray arrayWithObject: [NSNumber numberWithBool:NO]] forName:@"PixelRepresentation"];
-//			
-//			if( bits < 9) bits = 9;
-//			
-//			// avoid the artifacts... switch to lossless
-//			if( (_max >= 32000 && _min <= -32000) || _max >= 65000 || bits > 16)
-//			{
-//				quality = DCMLosslessQuality;
-//			}
-//			
-//			if( bits > 16) bits = 16;
-//			
-//			prec = bits;
-//		}
-//		
-//		DCMAttribute *signedAttr = [[_dcmObject attributes] objectForKey:[[DCMAttributeTag tagWithName:@"PixelRepresentation"] stringValue]];
-//		BOOL sgnd = [[signedAttr value] boolValue];
-//		
-//		//set up component parameters
-//		for (i = 0, cmptparm = cmptparms; i < spp; ++i, ++cmptparm)
-//		{
-//			cmptparm->tlx = 0;
-//			cmptparm->tly = 0;
-//			cmptparm->hstep = 1;
-//			cmptparm->vstep = 1;
-//			cmptparm->width = width;
-//			cmptparm->height = height;
-//			cmptparm->prec = prec;
-//			cmptparm->sgnd = sgnd;
-//		}
-//		
-//		//create jasper image
-//		if (!(image = jas_image_create(spp, cmptparms, JAS_CLRSPC_UNKNOWN)))
-//		{
-//			return nil;
-//		}
-//		
-//		//int jasColorSpace = JAS_CLRSPC_UNKNOWN;
-//		if ([photometricInterpretation isEqualToString:@"MONOCHROME1"] || [photometricInterpretation isEqualToString:@"MONOCHROME2"])
-//		{
-//			jas_image_setclrspc(image, JAS_CLRSPC_SGRAY);
-//			jas_image_setcmpttype(image, 0,JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_GRAY_Y));
-//		}
-//		else if ([photometricInterpretation isEqualToString:@"RGB"] || [photometricInterpretation isEqualToString:@"ARGB"])
-//		{
-//			jas_image_setclrspc(image, JAS_CLRSPC_SRGB);
-//			jas_image_setcmpttype(image, 0,
-//			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_RGB_R));
-//			jas_image_setcmpttype(image, 1,
-//			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_RGB_G));
-//			jas_image_setcmpttype(image, 2,
-//			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_RGB_B));
-//		}
-//		else if ([photometricInterpretation isEqualToString:@"YBR_FULL_422"] || [photometricInterpretation isEqualToString:@"YBR_PARTIAL_422"] || [photometricInterpretation isEqualToString:@"YBR_FULL"]) {
-//			jas_image_setclrspc(image, JAS_CLRSPC_FAM_YCBCR);
-//			jas_image_setcmpttype(image, 0,
-//			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_YCBCR_Y));
-//			jas_image_setcmpttype(image, 1,
-//			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_YCBCR_CB));
-//			jas_image_setcmpttype(image, 2,
-//			  JAS_IMAGE_CT_COLOR(JAS_CLRSPC_CHANIND_YCBCR_CR));
-//			
-//		}
-//			/*
-//		if ([photometricInterpretation isEqualToString:@"CMYK"])
-//			jasColorSpace = JCS_CMYK;
-//			*/
-//			
-//		//component data
-//		int cmptno;	
-//		int x,y;
-//		jas_matrix_t *jasData[3];
-//		//int_fast64_t v;
-//		long long v;
-//		jasData[0] = 0;
-//		jasData[1] = 0;
-//		jasData[2] = 0;	
-//		for (cmptno = 0; cmptno < spp; ++cmptno)
-//		{
-//			if (!(jasData[cmptno] = jas_matrix_create( 1, width)))
-//			{
-//				return nil;
-//			}
-//		}
-//		
-//		unsigned char *dataPointer = (unsigned char*) [data bytes];
-//		
-//		for (y = 0; y < height; ++y)
-//		{
-//			for (x = 0; x < width; ++x)
-//			{
-//				for (cmptno = 0; cmptno < spp; ++cmptno)
-//				{
-//					if (_bitsAllocated <= 8)
-//					{
-//						unsigned char s;
-//						s = *(unsigned char*) dataPointer;
-//						dataPointer++;
-//						v = s;
-//					}
-//					else if (sgnd)
-//					{
-//						signed short s;
-//						s = *(signed short*) dataPointer;
-//						dataPointer+=2;
-//						v = s;
-//
-//					}
-//					else
-//					{
-//						unsigned short s;
-//						s = *(unsigned short*) dataPointer;
-//						dataPointer+=2;
-//						v = s;
-//					}
-//					jas_matrix_setv(jasData[cmptno], x, v);
-//				} //cmpt
-//			}	// x
-//			
-//			for (cmptno = 0; cmptno < spp; ++cmptno)
-//			{
-//				if (jas_image_writecmpt(image, cmptno, 0, y, width, 1, jasData[cmptno]))
-//				{
-//					NSLog( @"err");
-//				}
-//			} // for
-//		}  // y
-//		//done  reading data	
-//		
-//		char optstr[ 128] = "";
-//		
-//		switch( quality)
-//		{
-//			case DCMLosslessQuality:
-//			break;
-//				
-//			case DCMHighQuality:
-//				strcpy( optstr, "rate=0.25");
-//			break;
-//				
-//			case DCMMediumQuality:
-//				if( _columns <= 600 || _rows <= 600)
-//					strcpy( optstr, "rate=0.16");
-//				else
-//					strcpy( optstr, "rate=0.12");
-//			break;
-//				
-//			case DCMLowQuality:
-//				strcpy( optstr, "rate=0.0625");
-//			break;
-//				
-//			default:
-//				NSLog( @"****** warning unknown compression rate -> lossless : %d", quality);
-//			break;
-//		}
-//		
-//		long theLength = [data length];
-//		unsigned char *outBuffer = (unsigned char *) malloc( theLength);
-//		jas_stream_t *outS = jas_stream_memopen((char *)outBuffer, theLength);
-//		jpc_encode(image, outS , optstr);
-//		jas_stream_flush( outS);
-//		long compressedLength = jas_stream_tell(outS);
-//		jas_stream_close( outS);
-//		
-//		jpeg2000Data = [NSMutableData dataWithBytesNoCopy: outBuffer length: compressedLength freeWhenDone: YES];
-//		
-//		for (cmptno = 0; cmptno < spp; ++cmptno)
-//		{
-//			if (jasData[cmptno])
-//				jas_matrix_destroy(jasData[cmptno]);
-//		}
-//		
-//		jas_image_destroy(image);
-//	//	jas_image_clearfmts();
-//		
-//		char zero = 0;
-//		if ([jpeg2000Data length] % 2) 
-//			[jpeg2000Data appendBytes:&zero length:1];
-//		
-////		if( [data length] / [jpeg2000Data length] > 30 && quality != DCMLosslessQuality)
-////		{
-////			NSLog( @"****** warning compress ratio is very high : %d?? Problem during compression? -> will use jp2k lossless", [data length] / [jpeg2000Data length]);
-////			return [self encodeJPEG2000: data quality: DCMLosslessQuality];
-////		}
-//		
-//		return jpeg2000Data;
-//	}
+#endif // Jasper
 	
 	return nil;
 }

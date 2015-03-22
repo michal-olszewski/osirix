@@ -131,7 +131,7 @@ void DcmQueryRetrieveStoreContext::saveImageToDB(
 {
     OFCondition dbcond = EC_Normal;
     DcmQueryRetrieveDatabaseStatus dbStatus(STATUS_Success);
-    
+
     /* Store image */
     if (options_.ignoreStoreData_) {
         rsp->DimseStatus = STATUS_Success;

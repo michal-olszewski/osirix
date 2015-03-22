@@ -60,37 +60,42 @@
 #include "kdu_OsiriXSupport.h"
 extern short Use_kdu_IfAvailable;
 
+#include "OPJSupport.h"
+#include "../Binaries/openjpeg/openjpeg.h"
+
+#include "options.h"
+
+//#include "DCM.h" // for DCMLosslessQuality
+
 // use 16K blocks for temporary storage of compressed JPEG data
 #define IJGE12_BLOCKSIZE 16384
 
-//#include "openjpeg.h"
-/**
-sample error callback expecting a FILE* client object
-*/
-static void error_callback(const char *msg, void *a)
-{
-	printf( "%s", msg);
-}
-/**
-sample warning callback expecting a FILE* client object
-*/
-static void warning_callback(const char *msg, void *a)
-{
-	printf( "%s", msg);
-}
-/**
-sample debug callback expecting no client object
-*/
-static void info_callback(const char *msg, void *a)
-{
-//	NSLog( @"%s", msg);
-}
+///**
+//sample error callback expecting a FILE* client object
+//*/
+//static void error_callback(const char *msg, void *a)
+//{
+//	printf( "%s", msg);
+//}
+///**
+//sample warning callback expecting a FILE* client object
+//*/
+//static void warning_callback(const char *msg, void *a)
+//{
+//	printf( "%s", msg);
+//}
+///**
+//sample debug callback expecting no client object
+//*/
+//static void info_callback(const char *msg, void *a)
+//{
+//    printf( "%s", msg);
+//}
 
 static inline int int_ceildivpow2(int a, int b)
 {
 	return (a + (1 << b) - 1) >> b;
 }
-
 
 DJCompressJP2K::DJCompressJP2K(const DJCodecParameter& cp, EJ_Mode mode, Uint8 theQuality, Uint8 theBitsPerSample)
 : DJEncoder()
@@ -106,141 +111,6 @@ DJCompressJP2K::~DJCompressJP2K()
 {
 
 }
-
-//template<typename T>
-//static void rawtoimage_fill(T *inputbuffer, int w, int h, int numcomps, opj_image_t *image, int pc)
-//{
-//  T *p = inputbuffer;
-//  if( pc )
-//    {
-//    for(int compno = 0; compno < numcomps; compno++)
-//      {
-//      for (int i = 0; i < w * h; i++)
-//        {
-//        /* compno : 0 = GREY, (0, 1, 2) = (R, G, B) */
-//        image->comps[compno].data[i] = *p;
-//        ++p;
-//        }
-//      }
-//    }
-//  else
-//    {
-//    for (int i = 0; i < w * h; i++)
-//      {
-//      for(int compno = 0; compno < numcomps; compno++)
-//        {
-//        /* compno : 0 = GREY, (0, 1, 2) = (R, G, B) */
-//        image->comps[compno].data[i] = *p;
-//        ++p;
-//        }
-//      }
-//    }
-//}
-//
-//
-//static opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
-//  int fragment_size, int image_width, int image_height, int sample_pixel,
-//  int bitsallocated, int bitsstored, int sign, int pc)
-//{
-//  int w, h;
-//  int numcomps;
-//  OPJ_COLOR_SPACE color_space;
-//  opj_image_cmptparm_t cmptparm[3]; /* maximum of 3 components */
-//  opj_image_t * image = NULL;
-//
-//  assert( sample_pixel == 1 || sample_pixel == 3 );
-//  if( sample_pixel == 1 )
-//    {
-//    numcomps = 1;
-//    color_space = CLRSPC_GRAY;
-//    }
-//  else // sample_pixel == 3
-//    {
-//    numcomps = 3;
-//    color_space = CLRSPC_SRGB;
-//    /* Does OpenJPEg support: CLRSPC_SYCC ?? */
-//    }
-//  if( bitsallocated % 8 != 0 )
-//    {
-//    return 0;
-//    }
-//  assert( bitsallocated % 8 == 0 );
-//  // eg. fragment_size == 63532 and 181 * 117 * 3 * 8 == 63531 ...
-//  assert( ((fragment_size + 1)/2 ) * 2 == ((image_height * image_width * numcomps * (bitsallocated/8) + 1)/ 2 )* 2 );
-//  int subsampling_dx = parameters->subsampling_dx;
-//  int subsampling_dy = parameters->subsampling_dy;
-//
-//  // FIXME
-//  w = image_width;
-//  h = image_height;
-//
-//  /* initialize image components */
-//  memset(&cmptparm[0], 0, 3 * sizeof(opj_image_cmptparm_t));
-//  //assert( bitsallocated == 8 );
-//  for(int i = 0; i < numcomps; i++) {
-//    cmptparm[i].prec = bitsstored;
-//    cmptparm[i].bpp = bitsallocated;
-//    cmptparm[i].sgnd = sign;
-//    cmptparm[i].dx = subsampling_dx;
-//    cmptparm[i].dy = subsampling_dy;
-//    cmptparm[i].w = w;
-//    cmptparm[i].h = h;
-//  }
-//
-//  /* create the image */
-//  image = opj_image_create(numcomps, &cmptparm[0], color_space);
-//  if(!image) {
-//    return NULL;
-//  }
-//  /* set image offset and reference grid */
-//  image->x0 = parameters->image_offset_x0;
-//  image->y0 = parameters->image_offset_y0;
-//  image->x1 = parameters->image_offset_x0 + (w - 1) * subsampling_dx + 1;
-//  image->y1 = parameters->image_offset_y0 + (h - 1) * subsampling_dy + 1;
-//
-//  /* set image data */
-//
-//  //assert( fragment_size == numcomps*w*h*(bitsallocated/8) );
-//  if (bitsallocated <= 8)
-//    {
-//    if( sign )
-//      {
-//      rawtoimage_fill<int8_t>((int8_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    else
-//      {
-//      rawtoimage_fill<uint8_t>((uint8_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    }
-//  else if (bitsallocated <= 16)
-//    {
-//    if( sign )
-//      {
-//      rawtoimage_fill<int16_t>((int16_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    else
-//      {
-//      rawtoimage_fill<uint16_t>((uint16_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    }
-//  else if (bitsallocated <= 32)
-//    {
-//    if( sign )
-//      {
-//      rawtoimage_fill<int32_t>((int32_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    else
-//      {
-//      rawtoimage_fill<uint32_t>((uint32_t*)inputbuffer,w,h,numcomps,image,pc);
-//      }
-//    }
-//  else
-//    {
-//    return NULL;
-//    }
-//
-//  return image;
-//}
 
 void DJCompressJP2K::findMinMax( int &_min, int &_max, char *bytes, long length, OFBool isSigned, int rows, int columns, int bitsAllocated)
 {
@@ -284,18 +154,18 @@ void DJCompressJP2K::findMinMax( int &_min, int &_max, char *bytes, long length,
 		vDSP_minv( fBuffer, 1, &min, length);
 		vDSP_maxv( fBuffer, 1, &max, length);
 		
-        //        if( min < _min || max > _max)
-        //        {
-        //            float fmin = _min;
-        //            float fmax = _max;
-        //
-        //            vDSP_vclip( fBuffer, nil, &fmin, &fmax, fBuffer, nil, columns * rows);
-        //
-        //            if( isSigned)
-        //				vImageConvert_FTo16S( &dstf, &src, 0, 1, 0);
-        //			else
-        //				vImageConvert_FTo16U( &dstf, &src, 0, 1, 0);
-        //        }
+//        if( min < _min || max > _max)
+//        {
+//            float fmin = _min;
+//            float fmax = _max;
+//
+//            vDSP_vclip( fBuffer, nil, &fmin, &fmax, fBuffer, nil, columns * rows);
+//
+//            if( isSigned)
+//				vImageConvert_FTo16S( &dstf, &src, 0, 1, 0);
+//			else
+//				vImageConvert_FTo16U( &dstf, &src, 0, 1, 0);
+//        }
 
         
 		_min = min;
@@ -392,7 +262,7 @@ OFCondition DJCompressJP2K::encode(
   double minUsed, double maxUsed)
 {
 	int bitsstored = bitsAllocated;
-	
+
     if( samplesPerPixel > 1)
         bitsstored = bitsAllocated = 8;
     
@@ -433,170 +303,129 @@ OFCondition DJCompressJP2K::encode(
 		
 		// avoid the artifacts... switch to lossless
 		if( (maxUsed >= 32000 && minUsed <= -32000) || maxUsed >= 65000 || bits > 16)
-			quality = 0;
+			quality = 0; // DCMLosslessQuality
 		
 		if( bits > 16) bits = 16;
 		
 		bitsstored = bits;
 	}
-	
-	if( Use_kdu_IfAvailable && kdu_available())
-	{
-//		printf( "JP2K KDU-DCMTK-Encode ");
-		
-//		int precision = bitsstored;
-		int rate = 0;
-		
-		switch( quality)
-		{
-			case 0: //DCMLosslessQuality:
-				rate = 0;
-				break;
-				
-			case 1: //DCMHighQuality:
-				rate = 5;
-				break;
-				
-			case 2: //DCMMediumQuality:
-				if( columns <= 600 || rows <= 600) rate = 6;
-				else rate = 8;
-				break;
-				
-			case 3: //DCMLowQuality:
-				rate = 16;
-				break;
-				
-			default:
-				printf( "****** warning unknown compression rate -> lossless : %d", quality);
-				rate = 0;
-				break;
-		}
-		
-		long compressedLength = 0;
-		
-		int processors = 0;
-		
-		if( rows*columns > 256*1024) // 512 * 512
-        {
-            int mib[2] = {CTL_HW, HW_NCPU};
-            size_t dataLen = sizeof(int); // 'num' is an 'int'
-            int result = sysctl(mib, 2, &processors, &dataLen, NULL, 0);
-            if (result == -1)
-                processors = 1;
-            if( processors > 8)
-                processors = 8;
-        }
-		
-		void *outBuffer = kdu_compressJPEG2K( (void*) image_buffer, samplesPerPixel, rows, columns, bitsstored, false, rate, &compressedLength, processors);
-		
-		if( outBuffer)
-		{
-			to = new Uint8[ compressedLength];
-			memcpy( to, outBuffer, compressedLength);
-			length = compressedLength;
-		
-			free( outBuffer);
-		}
-	}
-//	else
+
+    int rate = 0;
+
+#ifdef WITH_KDU_JP2K
+//	if( Use_kdu_IfAvailable && kdu_available())
 //	{
-//		opj_cparameters_t parameters;
-//		opj_event_mgr_t event_mgr;
-//		opj_image_t *image = NULL;
+////		printf( "JP2K KDU-DCMTK-Encode ");
 //		
-////		printf( "JP2K OPJ-DCMTK-Encode ");
-//		
-//		memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
-//		event_mgr.error_handler = error_callback;
-//		event_mgr.warning_handler = warning_callback;
-//		event_mgr.info_handler = info_callback;
-//
-//		memset(&parameters, 0, sizeof(parameters));
-//		opj_set_default_encoder_parameters(&parameters);
-//		
-//		parameters.tcp_numlayers = 1;
-//		parameters.cp_disto_alloc = 1;
+////		int precision = bitsstored;
 //		
 //		switch( quality)
 //		{
-//			case 0: // DCMLosslessQuality
-//				parameters.tcp_rates[0] = 0;
-//			break;
-//			
-//			case 1: // DCMHighQuality
-//				parameters.tcp_rates[0] = 4;
-//			break;
-//			
-//			case 2: // DCMMediumQuality
-//				if( columns <= 600 || rows <= 600)
-//					parameters.tcp_rates[0] = 6;
-//				else
-//					parameters.tcp_rates[0] = 8;
-//			break;
-//			
-//			case 3: // DCMLowQuality
-//				parameters.tcp_rates[0] = 16;
-//			break;
-//			
+//			case DCMLosslessQuality:
+//				rate = 0;
+//				break;
+//				
+//			case DCMHighQuality:
+//				rate = 5;
+//				break;
+//				
+//			case DCMMediumQuality:
+//				if( columns <= 600 || rows <= 600) rate = 6;
+//				else rate = 8;
+//				break;
+//				
+//			case DCMLowQuality:
+//				rate = 16;
+//				break;
+//				
 //			default:
 //				printf( "****** warning unknown compression rate -> lossless : %d", quality);
-//				parameters.tcp_rates[0] = 0;
-//			break;
+//				rate = 0;
+//				break;
 //		}
 //		
-//		int image_width = columns;
-//		int image_height = rows;
-//		int sample_pixel = samplesPerPixel;
+//		long compressedLength = 0;
 //		
-//		if (colorSpace == EPI_Monochrome1 || colorSpace == EPI_Monochrome2)
+//		int processors = 0;
+//		
+//		if( rows*columns > 256*1024) // 512 * 512
+//        {
+//            int mib[2] = {CTL_HW, HW_NCPU};
+//            size_t dataLen = sizeof(int); // 'num' is an 'int'
+//            int result = sysctl(mib, 2, &processors, &dataLen, NULL, 0);
+//            if (result == -1)
+//                processors = 1;
+//            if( processors > 8)
+//                processors = 8;
+//        }
+//		
+//		void *outBuffer = kdu_compressJPEG2K( (void*) image_buffer, samplesPerPixel, rows, columns, bitsstored, false, rate, &compressedLength, processors);
+//		
+//		if( outBuffer)
 //		{
+//			to = new Uint8[ compressedLength];
+//			memcpy( to, outBuffer, compressedLength);
+//			length = compressedLength;
 //		
+//			free( outBuffer);
 //		}
-//		else
-//		{
-//			if( sample_pixel != 3)
-//				printf( "*** RGB Photometric?, but... SamplesPerPixel != 3 ?");
-//			sample_pixel = 3;
-//		}
-//		
-//		image = rawtoimage( (char*) image_buffer, &parameters,  static_cast<int>( columns*rows*samplesPerPixel*bitsAllocated/8),  image_width, image_height, sample_pixel, bitsAllocated, bitsstored, isSigned, 0);
-//		
-//		parameters.cod_format = 0; /* J2K format output */
-//		int codestream_length;
-//		opj_cio_t *cio = NULL;
-//		
-//		opj_cinfo_t* cinfo = opj_create_compress(CODEC_J2K);
-//
-//		/* catch events using our callbacks and give a local context */
-//		opj_set_event_mgr((opj_common_ptr)cinfo, &event_mgr, stderr);
-//
-//		/* setup the encoder parameters using the current image and using user parameters */
-//		opj_setup_encoder(cinfo, &parameters, image);
-//
-//		/* open a byte stream for writing */
-//		/* allocate memory for all tiles */
-//		cio = opj_cio_open((opj_common_ptr)cinfo, NULL, 0);
-//
-//		/* encode the image */
-//		int bSuccess = opj_encode(cinfo, cio, image, NULL);
-//		if (!bSuccess) {
-//		  opj_cio_close(cio);
-//		  fprintf(stderr, "failed to encode image\n");
-//		  return false;
-//		}
-//		codestream_length = cio_tell(cio);
-//		
-//		to = new Uint8[ codestream_length];
-//		memcpy( to, cio->buffer, codestream_length);
-//		length = codestream_length;
-//		
-//		 /* close and free the byte stream */
-//		opj_cio_close(cio);
-//		
-//		/* free remaining compression structures */
-//		opj_destroy_compress(cinfo);
-//		
-//		opj_image_destroy(image);
 //	}
+//	else
+#endif
+	{
+        switch (quality)
+        {
+            case 0://DCMLosslessQuality:
+                rate = 0;
+                break;
+                
+            case 1://DCMHighQuality:
+                rate = 4;
+                break;
+                
+            case 2://DCMMediumQuality:
+                if( columns <= 600 || rows <= 600)
+                    rate = 6;
+                else
+                    rate = 8;
+                break;
+                
+            case 3://DCMLowQuality:
+                rate = 16;
+                break;
+                
+            default:
+                printf( "****** warning unknown compression rate -> lossless : %d", quality);
+                rate = 0;
+                break;
+        }
+        
+        int image_width = columns;
+        int image_height = rows;
+        int sample_pixel = samplesPerPixel;
+        
+        if (colorSpace != EPI_Monochrome1 &&
+            colorSpace != EPI_Monochrome2)
+        {
+            if( sample_pixel != 3)
+            {
+                printf( "*** RGB Photometric?, but... SamplesPerPixel != 3 ?");
+                sample_pixel = 3;
+            }
+        }
+        
+        long compressedLength = 0;
+        OPJSupport opj;
+        to = (Uint8 *)opj.compressJPEG2K( (void*) image_buffer,
+                                         samplesPerPixel,
+                                         rows, columns,
+                                         bitsstored,
+                                         bitsAllocated,
+                                         false, // sign
+                                         rate,
+                                         &compressedLength);
+        length = compressedLength;
+	}
+    
 	return EC_Normal;
 }

@@ -14,8 +14,8 @@
 
 #import <OsiriX/DCMObject.h>
 #import "OSIAutoroutingPreferencePanePref.h"
-#import <OsiriXAPI/NSPreferencePane+OsiriX.h>
-#import <OsiriXAPI/AppController.h>
+#import <NSPreferencePane+OsiriX.h>
+#import <AppController.h>
 
 #define CURRENTVERSION 1
 
@@ -84,11 +84,20 @@
 		BOOL found = NO;
 		for( int x = 0; x < [serversArray count]; x++)
 		{
-			if( [[[serversArray objectAtIndex: x] valueForKey:@"Activated"] boolValue] && [[[serversArray objectAtIndex: x] valueForKey:@"Description"] isEqualToString: [[routesArray objectAtIndex:i] valueForKey:@"server"]]) found = YES;
+			if( [[[serversArray objectAtIndex: x] valueForKey:@"Activated"] boolValue] &&
+                [[[serversArray objectAtIndex: x] valueForKey:@"Description"] isEqualToString: [[routesArray objectAtIndex:i] valueForKey:@"server"]])
+            {
+                found = YES;
+            }
 		}
 		
 		if( found == NO)
-			NSRunCriticalAlertPanel(NSLocalizedString(@"Unknown Server", nil), NSLocalizedString( @"This server doesn't exist in the Locations list: %@", nil),NSLocalizedString( @"OK", nil), nil, nil, [[routesArray objectAtIndex: i] valueForKey:@"server"]);
+			NSRunCriticalAlertPanel(NSLocalizedString(@"Unknown Server", nil),
+                                    NSLocalizedString(@"This server doesn't exist in the Locations list: %@", nil),
+                                    NSLocalizedString(@"OK", nil),
+                                    nil,
+                                    nil,
+                                    [[routesArray objectAtIndex: i] valueForKey:@"server"]);
 	}
 }
 
@@ -216,7 +225,12 @@ static BOOL newRouteMode = NO;
             
             if( count > 1)
             {
-                NSRunCriticalAlertPanel(NSLocalizedString(@"Multiples Servers", nil), NSLocalizedString( @"Warning, multiples destination servers have the same name: %@. Each destination should have a unique name.", nil),NSLocalizedString( @"OK", nil), nil, nil, [selectedRoute valueForKey: @"server"]);
+                NSRunCriticalAlertPanel(NSLocalizedString(@"Multiples Servers", nil),
+                                        NSLocalizedString(@"Warning, multiples destination servers have the same name: %@. Each destination should have a unique name.", nil),
+                                        NSLocalizedString(@"OK", nil),
+                                        nil,
+                                        nil,
+                                        [selectedRoute valueForKey: @"server"]);
             }
             
             [self selectServer: serverPopup];

@@ -39,7 +39,7 @@ BEGIN_EXTERN_C
 #undef const
 #endif
 
-
+#if 0
 //#include "openjpeg.h"
 /**
 sample error callback expecting a FILE* client object
@@ -67,7 +67,7 @@ static void info_callback(const char *msg, void *a)
 static inline int int_ceildivpow2(int a, int b) {
 	return (a + (1 << b) - 1) >> b;
 }
-
+#endif
 
 
 DJDecompressJP2k::DJDecompressJP2k(const DJCodecParameter& cp, OFBool isYBR)
@@ -124,7 +124,11 @@ OFCondition DJDecompressJP2k::decode(
 		int colorModel;
 		
         OPJSupport opj;
-        opj.decompressJPEG2KWithBuffer( uncompressedFrameBuffer, compressedFrameBuffer, compressedFrameBufferSize, &decompressedBufferSize, &colorModel);
+        opj.decompressJPEG2KWithBuffer( uncompressedFrameBuffer,
+                                        compressedFrameBuffer,
+                                        compressedFrameBufferSize,
+                                        &decompressedBufferSize,
+                                        &colorModel);
         
 		if( colorModel == 1)
 			decompressedColorModel = (EP_Interpretation) EPI_RGB;

@@ -108,7 +108,7 @@ static DCMNetServiceDelegate *_netServiceDelegate = nil;
 
 - (void)netServiceBrowser:(NSNetServiceBrowser *)aNetServiceBrowser didFindService:(NSNetService *)aNetService moreComing:(BOOL)moreComing
 {
-	if( aNetService == publisher || [[aNetService name] isEqualToString: [publisher name]] == YES)
+	if( aNetService == publisher || [[aNetService name] isEqualToString: [publisher name]])
 	{
 	
 	}
