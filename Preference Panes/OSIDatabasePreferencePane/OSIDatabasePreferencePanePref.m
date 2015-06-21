@@ -15,6 +15,7 @@
 #import "OSIDatabasePreferencePanePref.h"
 #import <PluginManager.h>
 #import <BrowserController.h>
+#import "BrowserControllerDCMTKCategory.h"
 #import <PreferencesWindowController+DCMTK.h>
 #import <OsiriX/DCMAbstractSyntaxUID.h>
 //#import <BrowserControllerDCMTKCategory.h>

@@ -686,7 +686,7 @@
                         [stringBuffer appendString: @"0x"];
                         const unsigned char *dataBuffer = [value bytes];
                         for (long x=0; x<[value length]; x++) {
-                            [stringBuffer appendFormat:@"%02X", (NSUInteger)dataBuffer[x]];
+                            [stringBuffer appendFormat:@"%02X", (unsigned int)dataBuffer[x]];
                         }
                         string = stringBuffer;
                     }

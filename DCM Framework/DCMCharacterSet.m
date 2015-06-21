@@ -47,7 +47,7 @@ char* DCMreplaceInvalidCharacter( char* str ) {
 	[mutable replaceOccurrencesOfString:@"\n" withString:@"" options:0 range:NSMakeRange(0, [mutable length])]; 
 	[mutable replaceOccurrencesOfString:@"\"" withString:@"'" options:0 range:NSMakeRange(0, [mutable length])];
 	
-	int i = [mutable length];
+	NSUInteger i = [mutable length];
 	while( --i > 0)
 	{
 		if( [mutable characterAtIndex: i]==' ') [mutable deleteCharactersInRange: NSMakeRange( i, 1)];
@@ -226,10 +226,10 @@ char* DCMreplaceInvalidCharacter( char* str ) {
 	
     // convert any remaining characters from the input string
     {
-        int convertLength = currentChar - firstChar;
+        NSInteger convertLength = currentChar - firstChar;
         if (convertLength > 0)
         {
-            int convertLength = currentChar - firstChar;
+            NSInteger convertLength = currentChar - firstChar;
             
             if( firstChar + convertLength <= str + fromLength && ( convertLength - (escLength+1) >= 0))
             {

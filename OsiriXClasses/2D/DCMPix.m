@@ -1178,6 +1178,8 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 }
 @end
 
+#pragma mark - PixThread
+
 @implementation PixThread
 
 - (void) computeMax:(float*) fResult pos:(int) pos threads:(int) threads object: (DCMPix*) o
@@ -1318,6 +1320,7 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 
 @end
 
+#pragma mark - DCMPix
 
 @implementation DCMPix
 
@@ -1354,6 +1357,57 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 @synthesize isLUT12Bit;
 
 @synthesize referencedSOPInstanceUID;
+
+#pragma mark - Non-synthesized accessors
+
+- (void)setSourceFile:(NSString*)s {
+    if (![srcFile isEqualToString:s]) {
+        [srcFile release];
+        srcFile = [s retain];
+    }
+}
+
+-(NSString*) sourceFile {
+    return srcFile;
+}
+
+- (void)setBaseAddr: (char*) ptr
+{
+    if( baseAddr) free( baseAddr);
+    baseAddr = ptr;
+}
+
+- (char*)baseAddr
+{
+    [self CheckLoad];
+    
+    if( baseAddr == nil)
+        [self allocate8bitRepresentation];
+    
+    if( needToCompute8bitRepresentation)
+        [self compute8bitRepresentation];
+    
+    return baseAddr;
+}
+
+- (void)setLUT12baseAddr: (unsigned char*) ptr
+{
+    if( ptr != LUT12baseAddr)
+    {
+        if(LUT12baseAddr) free(LUT12baseAddr);
+        LUT12baseAddr = ptr;
+    }
+}
+
+- (unsigned char*)LUT12baseAddr;
+{
+    [self CheckLoad];
+    if( LUT12baseAddr == nil)
+        [self allocate8bitRepresentation];
+    return LUT12baseAddr;
+}
+
+#pragma mark -
 
 - (DicomImage*) imageObj
 {
@@ -5534,14 +5588,21 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 {
     // Group 0x0028
     
-    if( [dcmObject attributeValueWithName:@"PixelRepresentation"]) fIsSigned = [[dcmObject attributeValueWithName:@"PixelRepresentation"] intValue];
-    if( [dcmObject attributeValueWithName:@"BitsAllocated"]) bitsAllocated = [[dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
+    if( [dcmObject attributeValueWithName:@"PixelRepresentation"])
+        fIsSigned = [[dcmObject attributeValueWithName:@"PixelRepresentation"] intValue];
     
-    bitsStored = [[dcmObject attributeValueWithName:@"BitsStored"] intValue];
+    if( [dcmObject attributeValueWithName:@"BitsAllocated"])
+        bitsAllocated = [[dcmObject attributeValueWithName:@"BitsAllocated"] intValue];
+    
+    if( [dcmObject attributeValueWithName:@"BitsStored"])
+        bitsStored = [[dcmObject attributeValueWithName:@"BitsStored"] intValue];
+    
     if( bitsStored == 8 && bitsAllocated == 16 && [[dcmObject attributeValueWithName:@"PhotometricInterpretation"] isEqualToString:@"RGB"])
         bitsAllocated = 8;
     
-    if ([dcmObject attributeValueWithName:@"RescaleIntercept"]) offset = [[dcmObject attributeValueWithName:@"RescaleIntercept"] floatValue];
+    if ([dcmObject attributeValueWithName:@"RescaleIntercept"])
+        offset = [[dcmObject attributeValueWithName:@"RescaleIntercept"] floatValue];
+    
     if ([dcmObject attributeValueWithName:@"RescaleSlope"])
     {
         slope = [[dcmObject attributeValueWithName:@"RescaleSlope"] floatValue];
@@ -5596,8 +5657,12 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     if( shutterRect.size.height == 0) shutterRect.size.height = height;
     
     //window level & width
-    if ([dcmObject attributeValueWithName:@"WindowCenter"] && isRGB == NO) savedWL = (int)[[dcmObject attributeValueWithName:@"WindowCenter"] floatValue];
-    if ([dcmObject attributeValueWithName:@"WindowWidth"] && isRGB == NO) savedWW =  (int) [[dcmObject attributeValueWithName:@"WindowWidth"] floatValue];
+    if ([dcmObject attributeValueWithName:@"WindowCenter"] && isRGB == NO)
+        savedWL = (int)[[dcmObject attributeValueWithName:@"WindowCenter"] floatValue];
+    
+    if ([dcmObject attributeValueWithName:@"WindowWidth"] && isRGB == NO)
+        savedWW =  (int) [[dcmObject attributeValueWithName:@"WindowWidth"] floatValue];
+    
     if(  savedWW < 0) savedWW =-savedWW;
     
     if( [[dcmObject attributeValueWithName:@"RescaleType"] isEqualToString: @"US"] == NO)
@@ -8024,42 +8089,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
     }
 }
 
-- (void)setBaseAddr: (char*) ptr
-{
-	if( baseAddr) free( baseAddr);
-	baseAddr = ptr;
-}
-
-- (char*)baseAddr
-{
-    [self CheckLoad];
-	
-	if( baseAddr == nil)
-		[self allocate8bitRepresentation];
-    
-	if( needToCompute8bitRepresentation)
-		[self compute8bitRepresentation];
-	
-	return baseAddr;
-}
-
-- (void)setLUT12baseAddr: (unsigned char*) ptr
-{
-	if( ptr != LUT12baseAddr)
-	{
-		if(LUT12baseAddr) free(LUT12baseAddr);
-		LUT12baseAddr = ptr;
-	}
-}
-
-- (unsigned char*)LUT12baseAddr;
-{
-    [self CheckLoad];
-	if( LUT12baseAddr == nil)
-		[self allocate8bitRepresentation];
-    return LUT12baseAddr;
-}
-
 # pragma mark-
 
 + (NSPoint) rotatePoint:(NSPoint)pt aroundPoint:(NSPoint)c angle:(float)a;
@@ -8845,17 +8874,6 @@ void erase_outside_circle(char *buf, int width, int height, int cx, int cy, int 
 	
 	updateToBeApplied = YES;
 	needToCompute8bitRepresentation = YES;
-}
-
-- (void)setSourceFile:(NSString*)s
-{
-    [srcFile release];
-    srcFile = [s retain];
-}
-
--(NSString*) sourceFile
-{
-    return srcFile;
 }
 
 - (void) ConvertToBW:(long) mode

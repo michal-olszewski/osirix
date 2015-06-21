@@ -811,7 +811,7 @@ void signal_EXC(int sig_num)
 - (void)addString:(NSString *)string{
 	NSData *data = [string dataUsingEncoding:stringEncoding];
 	[dicomData appendData:data];
-	int length = [data length];
+	NSUInteger length = [data length];
 	if (length%2)
 		[self addUnsignedChar: ' '];
 	
@@ -820,7 +820,7 @@ void signal_EXC(int sig_num)
 - (void)addStringWithZeroPadding:(NSString *)string{
 	NSData *data = [string dataUsingEncoding:stringEncoding];
 	[dicomData appendData:data];
-	int length = [data length];
+	NSUInteger length = [data length];
 	if (length%2)
 		[self addUnsignedChar: 0x00];
 }
@@ -862,7 +862,7 @@ void signal_EXC(int sig_num)
 	
 	NSData *data = [string dataUsingEncoding:encodings[ 0]];
 	[dicomData appendData:data];
-	int length = [data length];
+	NSUInteger length = [data length];
 	if (length%2)
 		[self addUnsignedChar:' '];
 }
@@ -871,7 +871,7 @@ void signal_EXC(int sig_num)
 {
 	NSData *data = [string dataUsingEncoding:encoding];
 	[dicomData appendData:data];
-	int length = [data length];
+	NSUInteger length = [data length];
 	if (length%2)
 		[self addUnsignedChar:' '];	
 }

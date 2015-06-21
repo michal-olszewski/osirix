@@ -212,6 +212,7 @@ extern XYZ ArbitraryRotate(XYZ p,double theta,XYZ r);
 @property (nonatomic) float minValueOfSeries, maxValueOfSeries, factorPET2SUV;
 
 @property(retain) NSString* imageType, *modalityString, *referencedSOPInstanceUID, *yearOld, *yearOldAcquisition;
+@property(retain) NSString* sourceFile;
 
 // Dimensions in pixels
 @property (nonatomic) long pwidth, pheight;
